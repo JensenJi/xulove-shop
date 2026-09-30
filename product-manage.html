@@ -701,6 +701,75 @@
         }
         .btn-upload:hover { box-shadow: 0 5px 14px rgba(207,48,36,0.4); transform: translateY(-1px); }
 
+        .head-btns { display: flex; gap: 12px; align-items: center; }
+        .btn-quick-add {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 20px; background: #fff; color: #4a7eb8;
+            border: 1px solid #4a7eb8; border-radius: 4px;
+            font-size: 15px; font-weight: 600; transition: all .2s;
+        }
+        .btn-quick-add:hover { background: #f0f6ff; transform: translateY(-1px); }
+
+        /* ============ 新增/编辑商品弹窗 ============ */
+        .pm-mask {
+            display: none; position: fixed; inset: 0; z-index: 400;
+            background: rgba(0,0,0,0.45);
+            justify-content: center; align-items: center;
+        }
+        .pm-mask.show { display: flex; }
+        .pm-dialog {
+            background: #fff; border-radius: 10px; width: 560px; max-width: 92vw;
+            max-height: 88vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            animation: pmPop .18s ease;
+        }
+        @keyframes pmPop { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .pm-head {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 24px; border-bottom: 1px solid #eee;
+            position: sticky; top: 0; background: #fff; z-index: 1;
+        }
+        .pm-head h3 { font-size: 19px; font-weight: 700; }
+        .pm-close { font-size: 26px; color: #999; cursor: pointer; line-height: 1; }
+        .pm-close:hover { color: #333; }
+        .pm-body { padding: 24px; }
+        .pm-field { margin-bottom: 18px; }
+        .pm-field label { display: block; font-size: 14px; color: #555; margin-bottom: 7px; }
+        .pm-field label .req { color: #cf3024; margin-left: 2px; }
+        .pm-field input, .pm-field select {
+            width: 100%; padding: 10px 12px; border: 1px solid #ccc;
+            border-radius: 4px; font-size: 15px; font-family: inherit; box-sizing: border-box;
+        }
+        .pm-field input:focus, .pm-field select:focus { border-color: #4a7eb8; outline: none; }
+        .pm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .pm-tip {
+            background: #fff8e1; border-left: 3px solid #b8860b;
+            padding: 10px 14px; font-size: 13px; color: #7a5a10; line-height: 1.7;
+            border-radius: 0 4px 4px 0; margin-bottom: 20px;
+        }
+        .pm-foot {
+            display: flex; justify-content: flex-end; gap: 12px;
+            padding: 16px 24px; border-top: 1px solid #eee;
+            position: sticky; bottom: 0; background: #fff;
+        }
+        .pm-btn { padding: 9px 24px; border-radius: 4px; font-size: 15px; cursor: pointer; border: 1px solid #ccc; background: #fff; color: #555; }
+        .pm-btn:hover { border-color: #999; }
+        .pm-btn-primary { background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%); color: #fff; border: none; font-weight: 600; }
+        .pm-btn-primary:hover { box-shadow: 0 4px 12px rgba(207,48,36,0.35); }
+
+        /* ============ Toast 提示 ============ */
+        .pm-toast {
+            position: fixed; top: 28px; left: 50%; transform: translateX(-50%) translateY(-20px);
+            background: rgba(30,30,30,0.9); color: #fff; padding: 11px 24px;
+            border-radius: 6px; font-size: 14px; z-index: 500;
+            opacity: 0; pointer-events: none; transition: all .25s;
+        }
+        .pm-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .pm-toast.success { background: rgba(40,140,60,0.92); }
+        .pm-toast.error { background: rgba(207,48,36,0.92); }
+
+        .empty-row td { text-align: center; color: #999; padding: 48px 0 !important; font-size: 14px; }
+
         /* ============ 页脚（与首页一致） ============ */
         footer {
             background: #fff;
@@ -857,44 +926,47 @@
         <div>
             <h1>商品管理</h1>
         </div>
-        <a href="product-upload.html" class="btn-upload">＋ 上传新产品</a>
+        <div class="head-btns">
+            <button class="btn-quick-add" id="quickAddBtn">⚡ 快速新增草稿</button>
+            <a href="product-upload.html" class="btn-upload">＋ 上传新产品（提审）</a>
+        </div>
     </div>
 
     <!-- 状态汇总条 -->
     <div class="status-bar">
-        <div class="status-tab active" data-status="all">全部 <span class="count">34</span></div>
-        <div class="status-tab" data-status="onsale">在售 <span class="count">28</span></div>
-        <div class="status-tab" data-status="pending">待审核 <span class="count">2</span></div>
-        <div class="status-tab warning" data-status="warning">预警 <span class="count">1</span></div>
-        <div class="status-tab off" data-status="offshelf">平台下架 <span class="count">0</span></div>
-        <div class="status-tab" data-status="draft">草稿 <span class="count">3</span></div>
+        <div class="status-tab active" data-status="all">全部 <span class="count" id="cnt-all">0</span></div>
+        <div class="status-tab" data-status="onsale">在售 <span class="count" id="cnt-onsale">0</span></div>
+        <div class="status-tab" data-status="pending">待审核 <span class="count" id="cnt-pending">0</span></div>
+        <div class="status-tab warning" data-status="warning">预警 <span class="count" id="cnt-warning">0</span></div>
+        <div class="status-tab off" data-status="offshelf">已下架 <span class="count" id="cnt-offshelf">0</span></div>
+        <div class="status-tab" data-status="draft">草稿 <span class="count" id="cnt-draft">0</span></div>
     </div>
 
     <!-- 筛选条 -->
     <div class="filter-bar">
-        <input type="text" class="form-input" placeholder="搜索商品名称">
-        <select class="form-select">
-            <option>全部分类</option>
-            <option>鞋履</option>
-            <option>服饰</option>
-            <option>箱包</option>
-            <option>饰品</option>
-            <option>运动装备</option>
+        <input type="text" class="form-input" id="pmSearch" placeholder="搜索商品名称 / 型号">
+        <select class="form-select" id="pmCat">
+            <option value="">全部分类</option>
+            <option value="鞋履">鞋履</option>
+            <option value="服饰">服饰</option>
+            <option value="箱包">箱包</option>
+            <option value="饰品">饰品</option>
+            <option value="运动装备">运动装备</option>
         </select>
-        <select class="form-select">
-            <option>全部状态</option>
-            <option>在售</option>
-            <option>待审核</option>
-            <option>预警</option>
-            <option>平台下架</option>
-            <option>草稿</option>
+        <select class="form-select" id="pmStatus">
+            <option value="">全部状态</option>
+            <option value="onsale">在售</option>
+            <option value="pending">待审核</option>
+            <option value="warning">预警</option>
+            <option value="offshelf">已下架</option>
+            <option value="draft">草稿</option>
         </select>
         <label>更新时间</label>
-        <input type="date" class="form-input" style="min-width:auto">
+        <input type="date" class="form-input" id="pmDateStart" style="min-width:auto">
         <span style="color:#ccc">至</span>
-        <input type="date" class="form-input" style="min-width:auto">
-        <button class="btn-sm btn-search">🔍 搜索</button>
-        <button class="btn-sm btn-reset">重置</button>
+        <input type="date" class="form-input" id="pmDateEnd" style="min-width:auto">
+        <button class="btn-sm btn-search" id="pmSearchBtn">🔍 搜索</button>
+        <button class="btn-sm btn-reset" id="pmResetBtn">重置</button>
     </div>
 
     <!-- 表格 -->
@@ -924,144 +996,96 @@
                     <th>操作</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td><input type="checkbox" class="row-check"></td>
-                    <td><div class="prod-img c1">👟</div></td>
-                    <td><div class="prod-name">云踏轻量跑鞋</div><div class="prod-model">CT-R001</div></td>
-                    <td>鞋履&gt;跑步鞋</td>
-                    <td><span class="price">¥299</span></td>
-                    <td>580</td>
-                    <td>126</td>
-                    <td><span class="badge badge-green">在售</span></td>
-                    <td><div class="supervision normal"><span class="sup-icon">✅</span>正常</div></td>
-                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-check"></td>
-                    <td><div class="prod-img c2">👟</div></td>
-                    <td><div class="prod-name">云踏休闲板鞋</div><div class="prod-model">CT-C003</div></td>
-                    <td>鞋履&gt;休闲鞋</td>
-                    <td><span class="price">¥259</span></td>
-                    <td>320</td>
-                    <td>89</td>
-                    <td><span class="badge badge-green">在售</span></td>
-                    <td><div class="supervision normal"><span class="sup-icon">✅</span>正常</div></td>
-                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-check"></td>
-                    <td><div class="prod-img c3">🏀</div></td>
-                    <td><div class="prod-name">云踏篮球鞋</div><div class="prod-model">CT-B002</div></td>
-                    <td>鞋履&gt;篮球鞋</td>
-                    <td><span class="price">¥459</span></td>
-                    <td>150</td>
-                    <td>45</td>
-                    <td><span class="badge badge-green">在售</span></td>
-                    <td><div class="supervision normal"><span class="sup-icon">✅</span>正常</div></td>
-                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-check"></td>
-                    <td><div class="prod-img c4">👟</div></td>
-                    <td><div class="prod-name">云踏透气跑鞋</div><div class="prod-model">CT-R002</div></td>
-                    <td>鞋履&gt;跑步鞋</td>
-                    <td><span class="price">¥329</span></td>
-                    <td>280</td>
-                    <td>67</td>
-                    <td><span class="badge badge-green">在售</span></td>
-                    <td><div class="supervision warn"><span class="sup-icon tooltip" data-tip="图片不清晰，3天内修改">⚠️</span>图片预警</div></td>
-                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-check"></td>
-                    <td><div class="prod-img c5">🥾</div></td>
-                    <td><div class="prod-name">云踏户外鞋</div><div class="prod-model">CT-O001</div></td>
-                    <td>鞋履&gt;户外鞋</td>
-                    <td><span class="price">¥399</span></td>
-                    <td>90</td>
-                    <td>23</td>
-                    <td><span class="badge badge-green">在售</span></td>
-                    <td><div class="supervision normal"><span class="sup-icon">✅</span>正常</div></td>
-                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-check"></td>
-                    <td><div class="prod-img c1">👟</div></td>
-                    <td><div class="prod-name">云踏复古板鞋</div><div class="prod-model">CT-C005</div></td>
-                    <td>鞋履&gt;休闲鞋</td>
-                    <td><span class="price">¥279</span></td>
-                    <td class="stock-zero">0</td>
-                    <td>0</td>
-                    <td><span class="badge badge-orange">待审核</span></td>
-                    <td><div class="supervision review"><span class="sup-icon">⏳</span>审核中</div></td>
-                    <td><div class="row-actions"><button class="act-btn view">查看</button></div></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-check"></td>
-                    <td><div class="prod-img c3">👟</div></td>
-                    <td><div class="prod-name">云踏训练鞋</div><div class="prod-model">CT-T001</div></td>
-                    <td>鞋履&gt;训练鞋</td>
-                    <td><span class="price">¥349</span></td>
-                    <td class="stock-zero">0</td>
-                    <td>0</td>
-                    <td><span class="badge badge-orange">待审核</span></td>
-                    <td><div class="supervision review"><span class="sup-icon">⏳</span>审核中</div></td>
-                    <td><div class="row-actions"><button class="act-btn view">查看</button></div></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-check"></td>
-                    <td><div class="prod-img c4">🩴</div></td>
-                    <td><div class="prod-name">云踏凉鞋</div><div class="prod-model">CT-S001</div></td>
-                    <td>鞋履&gt;凉鞋</td>
-                    <td><span class="price">¥199</span></td>
-                    <td>120</td>
-                    <td>15</td>
-                    <td><span class="badge badge-gray">草稿</span></td>
-                    <td><div class="supervision none">-</div></td>
-                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn del">删除</button></div></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-check"></td>
-                    <td><div class="prod-img c5">🥾</div></td>
-                    <td><div class="prod-name">云踏棉鞋</div><div class="prod-model">CT-W001</div></td>
-                    <td>鞋履&gt;棉鞋</td>
-                    <td><span class="price">¥329</span></td>
-                    <td>60</td>
-                    <td>0</td>
-                    <td><span class="badge badge-gray">草稿</span></td>
-                    <td><div class="supervision none">-</div></td>
-                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn del">删除</button></div></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="row-check"></td>
-                    <td><div class="prod-img c2">🩴</div></td>
-                    <td><div class="prod-name">云踏拖鞋</div><div class="prod-model">CT-F001</div></td>
-                    <td>鞋履&gt;拖鞋</td>
-                    <td><span class="price">¥99</span></td>
-                    <td>200</td>
-                    <td>8</td>
-                    <td><span class="badge badge-green">在售</span></td>
-                    <td><div class="supervision normal"><span class="sup-icon">✅</span>正常</div></td>
-                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
-                </tr>
+            <tbody id="prodTbody">
+                <!-- 由商品管理脚本动态渲染 -->
             </tbody>
         </table>
 
         <!-- 分页 -->
         <div class="pagination">
-            <div class="page-info">共 34 条 · 每页 10 条</div>
-            <div class="page-numbers">
-                <span class="page-num">‹</span>
-                <span class="page-num active">1</span>
-                <span class="page-num">2</span>
-                <span class="page-num">3</span>
-                <span class="page-num">4</span>
-                <span class="page-num">›</span>
-            </div>
+            <div class="page-info" id="pmPageInfo">共 0 条 · 每页 10 条</div>
+            <div class="page-numbers" id="pmPageNums"></div>
         </div>
     </div>
 </div>
+
+<!-- 新增 / 编辑商品弹窗 -->
+<div class="pm-mask" id="prodModal">
+    <div class="pm-dialog">
+        <div class="pm-head">
+            <h3 id="pmTitle">新增商品（草稿）</h3>
+            <span class="pm-close" id="pmClose">×</span>
+        </div>
+        <div class="pm-body">
+            <div class="pm-tip">
+                快速录入仅生成<b>草稿</b>；材质、工艺、溯源等品质档案请在「上传新产品」页补充完整后提交平台审核。
+                在售商品修改基础信息后仍保持在售；修改品质信息需重新提审。
+            </div>
+            <div class="pm-field">
+                <label>商品名称<span class="req">*</span></label>
+                <input type="text" id="fName" placeholder="如 云踏轻量跑鞋" maxlength="30">
+            </div>
+            <div class="pm-row">
+                <div class="pm-field">
+                    <label>型号<span class="req">*</span></label>
+                    <input type="text" id="fModel" placeholder="如 CT-R001" maxlength="20">
+                </div>
+                <div class="pm-field">
+                    <label>分类<span class="req">*</span></label>
+                    <select id="fCat">
+                        <option value="鞋履>跑步鞋">鞋履&gt;跑步鞋</option>
+                        <option value="鞋履>休闲鞋">鞋履&gt;休闲鞋</option>
+                        <option value="鞋履>篮球鞋">鞋履&gt;篮球鞋</option>
+                        <option value="鞋履>户外鞋">鞋履&gt;户外鞋</option>
+                        <option value="鞋履>训练鞋">鞋履&gt;训练鞋</option>
+                        <option value="鞋履>凉鞋">鞋履&gt;凉鞋</option>
+                        <option value="鞋履>棉鞋">鞋履&gt;棉鞋</option>
+                        <option value="鞋履>拖鞋">鞋履&gt;拖鞋</option>
+                        <option value="服饰>上衣">服饰&gt;上衣</option>
+                        <option value="服饰>裤装">服饰&gt;裤装</option>
+                        <option value="箱包>手提包">箱包&gt;手提包</option>
+                        <option value="箱包>双肩包">箱包&gt;双肩包</option>
+                        <option value="饰品>项链">饰品&gt;项链</option>
+                        <option value="饰品>耳饰">饰品&gt;耳饰</option>
+                    </select>
+                </div>
+            </div>
+            <div class="pm-row">
+                <div class="pm-field">
+                    <label>售价（元，单一固定价）<span class="req">*</span></label>
+                    <input type="number" id="fPrice" placeholder="如 299" min="0" step="1">
+                </div>
+                <div class="pm-field">
+                    <label>库存数量<span class="req">*</span></label>
+                    <input type="number" id="fStock" placeholder="如 100" min="0" step="1">
+                </div>
+            </div>
+            <div class="pm-row">
+                <div class="pm-field">
+                    <label>列表图标（Emoji）</label>
+                    <input type="text" id="fIcon" placeholder="👟" maxlength="4">
+                </div>
+                <div class="pm-field">
+                    <label>图片底色</label>
+                    <select id="fColor">
+                        <option value="c1">蓝色</option>
+                        <option value="c2">红色</option>
+                        <option value="c3">绿色</option>
+                        <option value="c4">黄色</option>
+                        <option value="c5">紫色</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="pm-foot">
+            <button class="pm-btn" id="pmCancel">取消</button>
+            <button class="pm-btn pm-btn-primary" id="pmSave">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="pm-toast" id="pmToast"></div>
 
 <footer>
     <div class="social-icons">
@@ -1216,128 +1240,411 @@
 </div>
 
 <script>
-    // 状态 Tab 切换
-    document.querySelectorAll('.status-tab').forEach(function(tab) {
-        tab.addEventListener('click', function() {
-            document.querySelectorAll('.status-tab').forEach(function(t) { t.classList.remove('active'); });
-            tab.classList.add('active');
-            // 演示：根据状态过滤行
-            var status = tab.getAttribute('data-status');
-            var rows = document.querySelectorAll('tbody tr');
-            rows.forEach(function(row) {
-                var badge = row.querySelector('.badge');
-                if (!badge) { row.style.display = ''; return; }
-                var text = badge.textContent.trim();
-                var show = false;
-                if (status === 'all') { show = true; }
-                else if (status === 'onsale') { show = text === '在售'; }
-                else if (status === 'pending') { show = text === '待审核'; }
-                else if (status === 'warning') {
-                    var sup = row.querySelector('.supervision');
-                    show = sup && sup.classList.contains('warn');
-                }
-                else if (status === 'offshelf') { show = text === '平台下架'; }
-                else if (status === 'draft') { show = text === '草稿'; }
-                row.style.display = show ? '' : 'none';
-            });
-        });
-    });
+/* ============================================================
+ * 商品管理（数据驱动 + localStorage 持久化）
+ * 数据键：xulove_products_v1（与 seller.html 工作台共享）
+ * ========================================================== */
+(function () {
+    'use strict';
 
-    // 全选 / 反选
-    var selectAll = document.getElementById('selectAll');
-    var rowChecks = document.querySelectorAll('.row-check');
-    var selectedCount = document.getElementById('selectedCount');
+    var STORE_KEY = 'xulove_products_v1';
+    var PER_PAGE = 10;
 
-    function updateSelectedCount() {
-        var n = 0;
-        rowChecks.forEach(function(c) { if (c.checked) n++; });
-        selectedCount.textContent = n;
+    /* ---------- 初始种子数据 ---------- */
+    var SEED = [
+        { id: 'p001', icon: '👟', color: 'c1', name: '云踏轻量跑鞋', model: 'CT-R001', category: '鞋履>跑步鞋', price: 299, stock: 580, sales: 126, status: 'onsale',  sup: 'normal', supNote: '', updated: '2026-09-28' },
+        { id: 'p002', icon: '👟', color: 'c2', name: '云踏休闲板鞋', model: 'CT-C003', category: '鞋履>休闲鞋', price: 259, stock: 320, sales: 89,  status: 'onsale',  sup: 'normal', supNote: '', updated: '2026-09-27' },
+        { id: 'p003', icon: '🏀', color: 'c3', name: '云踏篮球鞋',   model: 'CT-B002', category: '鞋履>篮球鞋', price: 459, stock: 150, sales: 45,  status: 'onsale',  sup: 'normal', supNote: '', updated: '2026-09-26' },
+        { id: 'p004', icon: '👟', color: 'c4', name: '云踏透气跑鞋', model: 'CT-R002', category: '鞋履>跑步鞋', price: 329, stock: 280, sales: 67,  status: 'onsale',  sup: 'warn',   supNote: '图片不清晰，请在3天内修改', updated: '2026-09-25' },
+        { id: 'p005', icon: '🥾', color: 'c5', name: '云踏户外鞋',   model: 'CT-O001', category: '鞋履>户外鞋', price: 399, stock: 90,  sales: 23,  status: 'onsale',  sup: 'normal', supNote: '', updated: '2026-09-24' },
+        { id: 'p006', icon: '👟', color: 'c1', name: '云踏复古板鞋', model: 'CT-C005', category: '鞋履>休闲鞋', price: 279, stock: 0,   sales: 0,   status: 'pending', sup: 'review', supNote: '', updated: '2026-09-23' },
+        { id: 'p007', icon: '👟', color: 'c3', name: '云踏训练鞋',   model: 'CT-T001', category: '鞋履>训练鞋', price: 349, stock: 0,   sales: 0,   status: 'pending', sup: 'review', supNote: '', updated: '2026-09-22' },
+        { id: 'p008', icon: '🩴', color: 'c4', name: '云踏凉鞋',     model: 'CT-S001', category: '鞋履>凉鞋',   price: 199, stock: 120, sales: 15,  status: 'draft',   sup: 'none',   supNote: '', updated: '2026-09-20' },
+        { id: 'p009', icon: '🥾', color: 'c5', name: '云踏棉鞋',     model: 'CT-W001', category: '鞋履>棉鞋',   price: 329, stock: 60,  sales: 0,   status: 'draft',   sup: 'none',   supNote: '', updated: '2026-09-18' },
+        { id: 'p010', icon: '🩴', color: 'c2', name: '云踏拖鞋',     model: 'CT-F001', category: '鞋履>拖鞋',   price: 99,  stock: 200, sales: 8,   status: 'onsale',  sup: 'normal', supNote: '', updated: '2026-09-15' }
+    ];
+
+    var STATUS_META = {
+        onsale:  { label: '在售',   badge: 'badge-green' },
+        pending: { label: '待审核', badge: 'badge-orange' },
+        offshelf:{ label: '已下架', badge: 'badge-gray' },
+        draft:   { label: '草稿',   badge: 'badge-gray' }
+    };
+
+    function supHTML(p) {
+        if (p.sup === 'normal') return '<div class="supervision normal"><span>✅</span>正常</div>';
+        if (p.sup === 'warn')   return '<div class="supervision warn"><span class="tooltip" data-tip="' + esc(p.supNote || '平台预警') + '">⚠️</span>图片预警</div>';
+        if (p.sup === 'review') return '<div class="supervision review"><span>⏳</span>审核中</div>';
+        if (p.sup === 'off')    return '<div class="supervision off"><span>🔴</span>已下架</div>';
+        return '<div class="supervision none">-</div>';
     }
 
-    selectAll.addEventListener('change', function() {
-        rowChecks.forEach(function(c) {
-            // 只勾选可见行
-            if (c.closest('tr').style.display !== 'none') {
-                c.checked = selectAll.checked;
+    /* ---------- 存储 ---------- */
+    function load() {
+        try {
+            var raw = localStorage.getItem(STORE_KEY);
+            if (raw) {
+                var arr = JSON.parse(raw);
+                if (Array.isArray(arr)) return arr;
             }
+        } catch (e) { /* 忽略损坏数据，回退种子 */ }
+        return SEED.map(function (p) { return Object.assign({}, p); });
+    }
+    function save() {
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(products)); } catch (e) {}
+    }
+    function today() {
+        var d = new Date();
+        var m = ('0' + (d.getMonth() + 1)).slice(-2);
+        var day = ('0' + d.getDate()).slice(-2);
+        return d.getFullYear() + '-' + m + '-' + day;
+    }
+    function esc(s) {
+        return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    var products = load();
+
+    /* ---------- 界面状态 ---------- */
+    var statusFilter = 'all';   // 状态 tab / 下拉共用
+    var page = 1;
+    var editingId = null;
+
+    var tbody = document.getElementById('prodTbody');
+    var pageInfo = document.getElementById('pmPageInfo');
+    var pageNums = document.getElementById('pmPageNums');
+    var selectAll = document.getElementById('selectAll');
+    var selectedCount = document.getElementById('selectedCount');
+    var searchInput = document.getElementById('pmSearch');
+    var catSel = document.getElementById('pmCat');
+    var statusSel = document.getElementById('pmStatus');
+    var dateStart = document.getElementById('pmDateStart');
+    var dateEnd = document.getElementById('pmDateEnd');
+
+    /* ---------- Toast ---------- */
+    var toastEl = document.getElementById('pmToast'), toastTimer = null;
+    function toast(msg, type) {
+        toastEl.textContent = msg;
+        toastEl.className = 'pm-toast show' + (type ? ' ' + type : '');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toastEl.className = 'pm-toast'; }, 2200);
+    }
+
+    /* ---------- 筛选 ---------- */
+    function getFiltered() {
+        var kw = searchInput.value.trim().toLowerCase();
+        var cat = catSel.value;
+        var ds = dateStart.value, de = dateEnd.value;
+
+        return products.filter(function (p) {
+            if (kw && p.name.toLowerCase().indexOf(kw) === -1 && p.model.toLowerCase().indexOf(kw) === -1) return false;
+            if (cat && p.category.indexOf(cat) !== 0) return false;
+            if (statusFilter === 'warning') { if (p.sup !== 'warn') return false; }
+            else if (statusFilter !== 'all' && p.status !== statusFilter) return false;
+            if (ds && p.updated < ds) return false;
+            if (de && p.updated > de) return false;
+            return true;
         });
+    }
+
+    /* ---------- 状态计数 ---------- */
+    function renderCounts() {
+        var c = { all: products.length, onsale: 0, pending: 0, warning: 0, offshelf: 0, draft: 0 };
+        products.forEach(function (p) {
+            if (p.sup === 'warn') c.warning++;
+            if (STATUS_META[p.status]) c[p.status]++;
+        });
+        document.getElementById('cnt-all').textContent = c.all;
+        document.getElementById('cnt-onsale').textContent = c.onsale;
+        document.getElementById('cnt-pending').textContent = c.pending;
+        document.getElementById('cnt-warning').textContent = c.warning;
+        document.getElementById('cnt-offshelf').textContent = c.offshelf;
+        document.getElementById('cnt-draft').textContent = c.draft;
+    }
+
+    /* ---------- 行操作按钮 ---------- */
+    function actionsHTML(p) {
+        if (p.status === 'pending') {
+            return '<div class="row-actions"><button class="act-btn view" data-act="view">查看</button></div>';
+        }
+        var btns = '<button class="act-btn edit" data-act="edit">编辑</button>';
+        if (p.status === 'draft') {
+            btns += '<button class="act-btn submit" data-act="submit">提交审核</button>';
+        } else if (p.status === 'onsale') {
+            btns += '<button class="act-btn off" data-act="offshelf">下架</button>';
+        } else if (p.status === 'offshelf') {
+            btns += '<button class="act-btn onsale" data-act="onsale">上架</button>';
+        }
+        btns += '<button class="act-btn del" data-act="del">删除</button>';
+        return '<div class="row-actions">' + btns + '</div>';
+    }
+
+    /* ---------- 渲染表格 ---------- */
+    function renderTable() {
+        var list = getFiltered();
+        var totalPages = Math.max(1, Math.ceil(list.length / PER_PAGE));
+        if (page > totalPages) page = totalPages;
+        var start = (page - 1) * PER_PAGE;
+        var pageRows = list.slice(start, start + PER_PAGE);
+
+        if (!pageRows.length) {
+            tbody.innerHTML = '<tr class="empty-row"><td colspan="10">没有符合条件的商品，试试调整筛选条件，或点击右上角「快速新增草稿」</td></tr>';
+        } else {
+            tbody.innerHTML = pageRows.map(function (p) {
+                var stockCls = p.stock === 0 ? ' class="stock-zero"' : '';
+                var meta = STATUS_META[p.status] || STATUS_META.draft;
+                return '<tr data-id="' + p.id + '">' +
+                    '<td><input type="checkbox" class="row-check"></td>' +
+                    '<td><div class="prod-img ' + p.color + '">' + esc(p.icon || '📦') + '</div></td>' +
+                    '<td><div class="prod-name">' + esc(p.name) + '</div><div class="prod-model">' + esc(p.model) + '</div></td>' +
+                    '<td>' + esc(p.category) + '</td>' +
+                    '<td><span class="price">¥' + p.price + '</span></td>' +
+                    '<td' + stockCls + '>' + p.stock + '</td>' +
+                    '<td>' + p.sales + '</td>' +
+                    '<td><span class="badge ' + meta.badge + '">' + meta.label + '</span></td>' +
+                    '<td>' + supHTML(p) + '</td>' +
+                    '<td>' + actionsHTML(p) + '</td>' +
+                '</tr>';
+            }).join('');
+        }
+
+        pageInfo.textContent = '共 ' + list.length + ' 条 · 每页 ' + PER_PAGE + ' 条';
+        renderPagination(totalPages);
+        selectAll.checked = false;
+        updateSelectedCount();
+    }
+
+    function renderPagination(totalPages) {
+        var html = '<span class="page-num" data-page="prev">‹</span>';
+        for (var i = 1; i <= totalPages; i++) {
+            html += '<span class="page-num' + (i === page ? ' active' : '') + '" data-page="' + i + '">' + i + '</span>';
+        }
+        html += '<span class="page-num" data-page="next">›</span>';
+        pageNums.innerHTML = html;
+    }
+
+    function updateSelectedCount() {
+        selectedCount.textContent = tbody.querySelectorAll('.row-check:checked').length;
+    }
+
+    function renderAll() { renderCounts(); renderTable(); }
+
+    /* ---------- 单条操作 ---------- */
+    function findById(id) {
+        for (var i = 0; i < products.length; i++) if (products[i].id === id) return products[i];
+        return null;
+    }
+
+    tbody.addEventListener('click', function (e) {
+        var btn = e.target.closest('.act-btn');
+        if (btn) {
+            e.stopPropagation();
+            var tr = btn.closest('tr');
+            var p = findById(tr.getAttribute('data-id'));
+            if (!p) return;
+            var act = btn.getAttribute('data-act');
+            if (act === 'edit') { openModal(p); }
+            else if (act === 'view') {
+                toast('「' + p.name + '」正在平台审核中，预计 2 个工作日内出结果');
+            } else if (act === 'submit') {
+                if (!confirm('确认将「' + p.name + '」提交平台审核？提交后商品进入待审核状态，审核通过后自动上架。')) return;
+                p.status = 'pending'; p.sup = 'review'; p.updated = today();
+                save(); renderAll(); toast('已提交审核，请等待平台匠人组审核', 'success');
+            } else if (act === 'offshelf') {
+                if (!confirm('确认下架「' + p.name + '」？下架后商品将不在前台展示。')) return;
+                p.status = 'offshelf'; p.updated = today();
+                save(); renderAll(); toast('商品已下架');
+            } else if (act === 'onsale') {
+                p.status = 'onsale'; p.sup = 'normal'; p.updated = today();
+                save(); renderAll(); toast('商品已重新上架', 'success');
+            } else if (act === 'del') {
+                if (!confirm('确认删除商品「' + p.name + '」？此操作不可恢复。')) return;
+                products = products.filter(function (x) { return x.id !== p.id; });
+                save(); renderAll(); toast('商品已删除');
+            }
+            return;
+        }
+
+        // 点击行勾选
+        if (e.target.tagName !== 'INPUT' && !e.target.closest('.supervision')) {
+            var cb = e.target.closest('tr') && e.target.closest('tr').querySelector('.row-check');
+            if (cb) { cb.checked = !cb.checked; updateSelectedCount(); }
+        }
+    });
+
+    /* ---------- 全选 ---------- */
+    selectAll.addEventListener('change', function () {
+        tbody.querySelectorAll('.row-check').forEach(function (c) { c.checked = selectAll.checked; });
         updateSelectedCount();
     });
 
-    rowChecks.forEach(function(c) {
-        c.addEventListener('change', updateSelectedCount);
+    /* ---------- 分页 ---------- */
+    pageNums.addEventListener('click', function (e) {
+        var el = e.target.closest('.page-num');
+        if (!el) return;
+        var v = el.getAttribute('data-page');
+        var totalPages = Math.max(1, Math.ceil(getFiltered().length / PER_PAGE));
+        if (v === 'prev') page = Math.max(1, page - 1);
+        else if (v === 'next') page = Math.min(totalPages, page + 1);
+        else page = parseInt(v, 10);
+        renderTable();
     });
 
-    // 行点击高亮
-    rowChecks.forEach(function(c) {
-        c.addEventListener('click', function(e) { e.stopPropagation(); });
-    });
-
-    // 分页点击
-    document.querySelectorAll('.page-num').forEach(function(pg) {
-        pg.addEventListener('click', function() {
-            if (pg.textContent === '‹' || pg.textContent === '›') return;
-            document.querySelectorAll('.page-num').forEach(function(p) { p.classList.remove('active'); });
-            pg.classList.add('active');
+    /* ---------- 状态 tab + 下拉联动 ---------- */
+    document.querySelectorAll('.status-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.status-tab').forEach(function (t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+            statusFilter = tab.getAttribute('data-status');
+            statusSel.value = (statusFilter === 'all' || statusFilter === 'warning') ? '' : statusFilter;
+            page = 1;
+            renderTable();
         });
     });
-
-    // 表格行 hover 效果由 CSS 处理，这里补充点击行勾选
-    document.querySelectorAll('tbody tr').forEach(function(row) {
-        row.addEventListener('click', function(e) {
-            // 避免点击操作按钮时触发
-            if (e.target.closest('.row-actions') || e.target.tagName === 'INPUT') return;
-            var cb = row.querySelector('.row-check');
-            if (cb) { cb.checked = !cb.checked; updateSelectedCount(); }
+    statusSel.addEventListener('change', function () {
+        statusFilter = statusSel.value || 'all';
+        document.querySelectorAll('.status-tab').forEach(function (t) {
+            t.classList.toggle('active', t.getAttribute('data-status') === statusFilter);
         });
+        page = 1;
+        renderTable();
     });
 
-    // 操作按钮提示
-    document.querySelectorAll('.act-btn').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
+    /* ---------- 搜索 / 筛选 ---------- */
+    var searchTimer = null;
+    searchInput.addEventListener('input', function () {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(function () { page = 1; renderTable(); }, 250);
+    });
+    catSel.addEventListener('change', function () { page = 1; renderTable(); });
+    dateStart.addEventListener('change', function () { page = 1; renderTable(); });
+    dateEnd.addEventListener('change', function () { page = 1; renderTable(); });
+    document.getElementById('pmSearchBtn').addEventListener('click', function () { page = 1; renderTable(); });
+    document.getElementById('pmResetBtn').addEventListener('click', function () {
+        searchInput.value = ''; catSel.value = ''; statusSel.value = '';
+        dateStart.value = ''; dateEnd.value = '';
+        statusFilter = 'all';
+        document.querySelectorAll('.status-tab').forEach(function (t) {
+            t.classList.toggle('active', t.getAttribute('data-status') === 'all');
+        });
+        page = 1; renderTable(); toast('筛选条件已重置');
+    });
+
+    /* ---------- 批量操作 ---------- */
+    document.querySelectorAll('.batch-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
             var action = btn.textContent.trim();
-            var row = btn.closest('tr');
-            var name = row.querySelector('.prod-name').textContent;
-            if (action === '删除') {
-                if (confirm('确认删除商品「' + name + '」？此操作不可恢复。')) {
-                    row.style.opacity = '0.4';
-                }
-            } else if (action === '下架') {
-                if (confirm('确认下架商品「' + name + '」？下架后商品将不在前台展示。')) {
-                    var badge = row.querySelector('.badge');
-                    if (badge) {
-                        badge.className = 'badge badge-gray';
-                        badge.textContent = '已下架';
-                    }
-                }
-            } else if (action === '编辑') {
-                window.location.href = 'product-upload.html';
-            } else if (action === '查看') {
-                alert('商品「' + name + '」正在审核中，预计2个工作日内出结果。');
-            }
-        });
-    });
+            var checked = Array.prototype.slice.call(tbody.querySelectorAll('.row-check:checked'));
+            var n = checked.length;
+            if (n === 0) { toast('请先勾选要操作的商品', 'error'); return; }
+            var ids = checked.map(function (c) { return c.closest('tr').getAttribute('data-id'); });
 
-    // 批量按钮
-    document.querySelectorAll('.batch-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            var action = btn.textContent.trim();
-            var n = parseInt(selectedCount.textContent, 10);
-            if (n === 0) {
-                alert('请先勾选要操作的商品');
-                return;
-            }
             if (action.indexOf('删除') !== -1) {
                 if (!confirm('确认批量删除 ' + n + ' 个商品？此操作不可恢复。')) return;
-                rowChecks.forEach(function(c) {
-                    if (c.checked) c.closest('tr').style.opacity = '0.4';
+                products = products.filter(function (p) { return ids.indexOf(p.id) === -1; });
+                save(); renderAll(); toast('已删除 ' + n + ' 个商品');
+            } else if (action.indexOf('下架') !== -1) {
+                if (!confirm('确认批量下架 ' + n + ' 个商品？')) return;
+                var changed = 0;
+                ids.forEach(function (id) {
+                    var p = findById(id);
+                    if (p && p.status === 'onsale') { p.status = 'offshelf'; p.updated = today(); changed++; }
                 });
-            } else {
-                alert('已对 ' + n + ' 个商品执行「' + action + '」操作');
+                save(); renderAll(); toast('已下架 ' + changed + ' 个商品（其余商品状态不可下架）');
+            } else if (action.indexOf('导出') !== -1) {
+                exportCSV(getFiltered());
             }
         });
     });
+
+    function exportCSV(list) {
+        var header = ['商品名称', '型号', '分类', '售价(元)', '库存', '销量', '状态', '平台监管', '更新时间'];
+        var supLabel = { normal: '正常', warn: '图片预警', review: '审核中', off: '已下架', none: '-' };
+        var lines = [header.join(',')];
+        list.forEach(function (p) {
+            lines.push([p.name, p.model, p.category, p.price, p.stock, p.sales,
+                STATUS_META[p.status].label, supLabel[p.sup] || '-', p.updated].join(','));
+        });
+        var blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'xulove-商品列表-' + today() + '.csv';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        toast('已导出 ' + list.length + ' 条商品数据', 'success');
+    }
+
+    /* ---------- 新增 / 编辑弹窗 ---------- */
+    var modal = document.getElementById('prodModal');
+    var fName = document.getElementById('fName'), fModel = document.getElementById('fModel'),
+        fCat = document.getElementById('fCat'), fPrice = document.getElementById('fPrice'),
+        fStock = document.getElementById('fStock'), fIcon = document.getElementById('fIcon'),
+        fColor = document.getElementById('fColor');
+
+    function openModal(p) {
+        editingId = p ? p.id : null;
+        document.getElementById('pmTitle').textContent = p ? '编辑商品' : '新增商品（草稿）';
+        fName.value = p ? p.name : '';
+        fModel.value = p ? p.model : '';
+        fCat.value = p ? p.category : '鞋履>跑步鞋';
+        fPrice.value = p ? p.price : '';
+        fStock.value = p ? p.stock : '';
+        fIcon.value = p ? (p.icon || '') : '';
+        fColor.value = p ? p.color : 'c1';
+        modal.classList.add('show');
+        setTimeout(function () { fName.focus(); }, 50);
+    }
+    function closeModal() { modal.classList.remove('show'); editingId = null; }
+
+    document.getElementById('quickAddBtn').addEventListener('click', function () { openModal(null); });
+    document.getElementById('pmClose').addEventListener('click', closeModal);
+    document.getElementById('pmCancel').addEventListener('click', closeModal);
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+    });
+
+    document.getElementById('pmSave').addEventListener('click', function () {
+        var name = fName.value.trim(), model = fModel.value.trim();
+        var price = parseInt(fPrice.value, 10), stock = parseInt(fStock.value, 10);
+
+        if (!name) { toast('请填写商品名称', 'error'); fName.focus(); return; }
+        if (!model) { toast('请填写商品型号', 'error'); fModel.focus(); return; }
+        if (isNaN(price) || price < 0) { toast('请填写正确的售价', 'error'); fPrice.focus(); return; }
+        if (isNaN(stock) || stock < 0) { toast('请填写正确的库存数量', 'error'); fStock.focus(); return; }
+
+        var data = {
+            name: name, model: model, category: fCat.value, price: price, stock: stock,
+            icon: fIcon.value.trim() || '📦', color: fColor.value, updated: today()
+        };
+
+        if (editingId) {
+            var p = findById(editingId);
+            if (p) {
+                Object.assign(p, data);
+                save(); renderAll();
+                toast('商品「' + name + '」已保存', 'success');
+            }
+        } else {
+            var id = 'p' + Date.now();
+            products.unshift({
+                id: id, icon: data.icon, color: data.color, name: data.name, model: data.model,
+                category: data.category, price: data.price, stock: data.stock, sales: 0,
+                status: 'draft', sup: 'none', supNote: '', updated: today()
+            });
+            save();
+            statusFilter = 'all'; statusSel.value = '';
+            document.querySelectorAll('.status-tab').forEach(function (t) {
+                t.classList.toggle('active', t.getAttribute('data-status') === 'all');
+            });
+            page = 1; renderAll();
+            toast('草稿已保存，完善品质信息后可提交平台审核', 'success');
+        }
+        closeModal();
+    });
+
+    /* ---------- 初始化 ---------- */
+    renderAll();
+})();
 </script>
 
 <script>

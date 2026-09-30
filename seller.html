@@ -830,6 +830,32 @@
         .table-action:hover {
             text-decoration: underline;
         }
+        .table-action.danger { color: #f5222d; }
+        .table-action.warn { color: #fa8c16; }
+
+        /* ============ 工作台商品管理速览 ============ */
+        .dash-prod-img {
+            width: 42px; height: 42px; border-radius: 6px;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 20px; vertical-align: middle;
+        }
+        .dash-prod-img.c1 { background: linear-gradient(135deg, #d6e8ff 0%, #a8c8eb 100%); }
+        .dash-prod-img.c2 { background: linear-gradient(135deg, #ffd6d6 0%, #e8a8a8 100%); }
+        .dash-prod-img.c3 { background: linear-gradient(135deg, #d6f5d6 0%, #a8e0a8 100%); }
+        .dash-prod-img.c4 { background: linear-gradient(135deg, #fff5d6 0%, #e8d8a8 100%); }
+        .dash-prod-img.c5 { background: linear-gradient(135deg, #e8d6ff 0%, #b8a0e0 100%); }
+        .dash-prod-name { font-size: 14px; font-weight: 500; }
+        .dash-prod-model { font-size: 12px; color: #999; }
+        .prod-note { font-size: 12px; color: #999; margin-top: 12px; }
+        .prod-note a { color: #4a7eb8; }
+        .dash-toast {
+            position: fixed; top: 28px; left: 50%; transform: translateX(-50%) translateY(-20px);
+            background: rgba(30,30,30,0.9); color: #fff; padding: 11px 24px;
+            border-radius: 6px; font-size: 14px; z-index: 500;
+            opacity: 0; pointer-events: none; transition: all .25s;
+        }
+        .dash-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .dash-toast.success { background: rgba(40,140,60,0.92); }
 
         /* ============ Product Status Bar ============ */
         .status-bars {
@@ -1303,6 +1329,34 @@
                     <div class="quick-text">查看品牌主页</div>
                 </a>
             </div>
+        </div>
+
+        <!-- 商品管理速览（与商品管理页共享本地数据 xulove_products_v1） -->
+        <div class="panel" style="margin-bottom:24px;">
+            <div class="panel-header">
+                <h3>商品管理</h3>
+                <div style="display:flex; gap:24px; align-items:center;">
+                    <a href="product-upload.html" class="panel-link">＋ 上传新产品</a>
+                    <a href="product-manage.html" class="panel-link">全部商品 →</a>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>图片</th>
+                        <th>商品名称/型号</th>
+                        <th>分类</th>
+                        <th>售价</th>
+                        <th>库存</th>
+                        <th>状态</th>
+                        <th>快捷操作</th>
+                    </tr>
+                </thead>
+                <tbody id="dashProdBody">
+                    <!-- 由工作台脚本动态渲染最近更新的 5 件商品 -->
+                </tbody>
+            </table>
+            <div class="prod-note">仅展示最近更新的 5 件商品，完整的新增、编辑、筛选、批量操作与平台监管状态请进入 <a href="product-manage.html">商品管理</a>。</div>
         </div>
 
         <!-- 5 & 6. Recent Orders + Product Status Summary -->
@@ -1804,6 +1858,141 @@
                 }, 100);
             });
         });
+    </script>
+
+    <!-- ============ 工作台商品管理速览脚本（与 product-manage.html 共享数据） ============ -->
+    <div class="dash-toast" id="dashToast"></div>
+    <script>
+    (function () {
+        'use strict';
+        var STORE_KEY = 'xulove_products_v1';
+
+        var SEED = [
+            { id: 'p001', icon: '👟', color: 'c1', name: '云踏轻量跑鞋', model: 'CT-R001', category: '鞋履>跑步鞋', price: 299, stock: 580, status: 'onsale',  sup: 'normal', updated: '2026-09-28' },
+            { id: 'p002', icon: '👟', color: 'c2', name: '云踏休闲板鞋', model: 'CT-C003', category: '鞋履>休闲鞋', price: 259, stock: 320, status: 'onsale',  sup: 'normal', updated: '2026-09-27' },
+            { id: 'p003', icon: '🏀', color: 'c3', name: '云踏篮球鞋',   model: 'CT-B002', category: '鞋履>篮球鞋', price: 459, stock: 150, status: 'onsale',  sup: 'normal', updated: '2026-09-26' },
+            { id: 'p004', icon: '👟', color: 'c4', name: '云踏透气跑鞋', model: 'CT-R002', category: '鞋履>跑步鞋', price: 329, stock: 280, status: 'onsale',  sup: 'warn',   updated: '2026-09-25' },
+            { id: 'p005', icon: '🥾', color: 'c5', name: '云踏户外鞋',   model: 'CT-O001', category: '鞋履>户外鞋', price: 399, stock: 90,  status: 'onsale',  sup: 'normal', updated: '2026-09-24' },
+            { id: 'p006', icon: '👟', color: 'c1', name: '云踏复古板鞋', model: 'CT-C005', category: '鞋履>休闲鞋', price: 279, stock: 0,   status: 'pending', sup: 'review', updated: '2026-09-23' },
+            { id: 'p007', icon: '👟', color: 'c3', name: '云踏训练鞋',   model: 'CT-T001', category: '鞋履>训练鞋', price: 349, stock: 0,   status: 'pending', sup: 'review', updated: '2026-09-22' },
+            { id: 'p008', icon: '🩴', color: 'c4', name: '云踏凉鞋',     model: 'CT-S001', category: '鞋履>凉鞋',   price: 199, stock: 120, status: 'draft',   sup: 'none',   updated: '2026-09-20' },
+            { id: 'p009', icon: '🥾', color: 'c5', name: '云踏棉鞋',     model: 'CT-W001', category: '鞋履>棉鞋',   price: 329, stock: 60,  status: 'draft',   sup: 'none',   updated: '2026-09-18' },
+            { id: 'p010', icon: '🩴', color: 'c2', name: '云踏拖鞋',     model: 'CT-F001', category: '鞋履>拖鞋',   price: 99,  stock: 200, status: 'onsale',  sup: 'normal', updated: '2026-09-15' }
+        ];
+
+        var STATUS_META = {
+            onsale:  { label: '在售',   cls: 'status-green' },
+            pending: { label: '待审核', cls: 'status-orange' },
+            offshelf:{ label: '已下架', cls: 'status-gray' },
+            draft:   { label: '草稿',   cls: 'status-gray' }
+        };
+
+        function load() {
+            try {
+                var raw = localStorage.getItem(STORE_KEY);
+                if (raw) {
+                    var arr = JSON.parse(raw);
+                    if (Array.isArray(arr)) return arr;
+                }
+            } catch (e) {}
+            return SEED.map(function (p) { return Object.assign({}, p); });
+        }
+        function save() {
+            try { localStorage.setItem(STORE_KEY, JSON.stringify(products)); } catch (e) {}
+        }
+        function today() {
+            var d = new Date();
+            return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+        }
+        function esc(s) {
+            return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        var products = load();
+        var tbody = document.getElementById('dashProdBody');
+        var toastEl = document.getElementById('dashToast'), toastTimer = null;
+
+        function toast(msg, ok) {
+            toastEl.textContent = msg;
+            toastEl.className = 'dash-toast show' + (ok ? ' success' : '');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () { toastEl.className = 'dash-toast'; }, 2200);
+        }
+        function findById(id) {
+            for (var i = 0; i < products.length; i++) if (products[i].id === id) return products[i];
+            return null;
+        }
+
+        function actions(p) {
+            var edit = '<span class="table-action" data-act="edit">编辑</span>';
+            if (p.status === 'onsale') {
+                return edit + '<span class="table-action warn" data-act="offshelf">下架</span>';
+            }
+            if (p.status === 'pending') {
+                return '<span class="table-action" data-act="view">查看审核</span>';
+            }
+            if (p.status === 'draft') {
+                return edit + '<span class="table-action" data-act="submit">提交审核</span>';
+            }
+            if (p.status === 'offshelf') {
+                return edit + '<span class="table-action" data-act="onsale">重新上架</span>';
+            }
+            return edit;
+        }
+
+        function render() {
+            var list = products.slice().sort(function (a, b) {
+                return (b.updated || '').localeCompare(a.updated || '');
+            }).slice(0, 5);
+
+            if (!list.length) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#999;padding:32px;">暂无商品，点击右上角「上传新产品」或到商品管理页快速新增</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = list.map(function (p) {
+                var meta = STATUS_META[p.status] || STATUS_META.draft;
+                var stockStyle = p.stock === 0 ? ' style="color:#bfbfbf;"' : '';
+                return '<tr data-id="' + p.id + '">' +
+                    '<td><span class="dash-prod-img ' + p.color + '">' + esc(p.icon || '📦') + '</span></td>' +
+                    '<td><div class="dash-prod-name">' + esc(p.name) + '</div><div class="dash-prod-model">' + esc(p.model) + '</div></td>' +
+                    '<td>' + esc(p.category) + '</td>' +
+                    '<td>¥' + p.price + '</td>' +
+                    '<td' + stockStyle + '>' + p.stock + '</td>' +
+                    '<td><span class="status-badge ' + meta.cls + '">' + meta.label + '</span></td>' +
+                    '<td>' + actions(p) + '</td>' +
+                '</tr>';
+            }).join('');
+        }
+
+        tbody.addEventListener('click', function (e) {
+            var el = e.target.closest('.table-action');
+            if (!el) return;
+            e.stopPropagation();
+            var p = findById(el.closest('tr').getAttribute('data-id'));
+            if (!p) return;
+            var act = el.getAttribute('data-act');
+
+            if (act === 'edit') {
+                window.location.href = 'product-manage.html';
+            } else if (act === 'view') {
+                toast('「' + p.name + '」正在平台审核中，预计 2 个工作日内出结果');
+            } else if (act === 'submit') {
+                if (!confirm('确认将「' + p.name + '」提交平台审核？审核通过后自动上架。')) return;
+                p.status = 'pending'; p.updated = today();
+                save(); render(); toast('已提交平台审核', true);
+            } else if (act === 'offshelf') {
+                if (!confirm('确认下架「' + p.name + '」？')) return;
+                p.status = 'offshelf'; p.updated = today();
+                save(); render(); toast('商品已下架');
+            } else if (act === 'onsale') {
+                p.status = 'onsale'; p.updated = today();
+                save(); render(); toast('商品已重新上架', true);
+            }
+        });
+
+        render();
+    })();
     </script>
 </body>
 </html>
