@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于许乐 | 平台介绍·共创匠人·行业承诺·加入我们 - 许乐 XULOVE</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft Yahei", Arial, sans-serif; }
+        body { background: #fff; color: #000; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        header { padding: 24px 40px; }
+        .header-top { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
+        .logo { line-height: 1; }
+        .logo-mark {
+            display: inline-flex;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(207,48,36,0.22), 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 12%;
+            bottom: 12%;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #fff 0 3px, transparent 3px 5px);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .logo-xu {
+            color: #fff;
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo-le {
+            color: #fff;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo .sub {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #888;
+            margin-top: 10px;
+        }
+        .logo .sub-url { color: #cf3024; font-weight: 700; }
+        .logo .sub-sep { color: #ccc; margin: 0 5px; }
+        .logo .sub-tag { color: #659ee3; font-weight: 600; }
+        .search-wrap { flex: 1; display: flex; }
+        .search-wrap input { flex: 1; padding: 14px 16px; border: 1px solid #ccc; border-right: none; font-size: 18px; }
+        .search-wrap button { padding: 14px 28px; border: 1px solid #ccc; background: #fff; font-weight: bold; font-size: 18px; cursor: pointer; }
+        .header-icons { display: flex; gap: 24px; font-size: 32px; }
+        nav ul { display: flex; gap: 48px; list-style: none; font-size: 24px; font-weight: 500; align-items: center; }
+        nav ul li { cursor: pointer; }
+        /* 导航下拉菜单 */
+        nav ul li.has-dropdown { position: relative; }
+        nav ul li.has-dropdown > ul.dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 140px;
+            padding: 8px 0;
+            z-index: 100;
+            flex-direction: column;
+            gap: 0;
+        }
+        nav ul li.has-dropdown:hover > ul.dropdown { display: flex; }
+        nav ul li.has-dropdown > ul.dropdown li {
+            font-size: 15px;
+            padding: 8px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        nav ul li.has-dropdown > ul.dropdown li:hover { background: #fafafa; color: #b8860b; }
+        nav ul li.has-dropdown > ul.dropdown li a { display: block; }
+
+        /* 二级导航 */
+        .sub-nav { background: #fafafa; border-bottom: 1px solid #eee; padding: 16px 40px; position: sticky; top: 0; z-index: 10; }
+        .sub-nav ul { display: flex; gap: 40px; }
+        .sub-nav li { font-size: 16px; cursor: pointer; padding: 4px 0; }
+        .sub-nav li:hover { color: #b8860b; border-bottom: 2px solid #b8860b; }
+
+        /* 页面容器 */
+        .page { padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
+        .page h1 { font-size: 40px; margin-bottom: 12px; }
+        .page .lead { font-size: 18px; color: #666; margin-bottom: 40px; line-height: 1.7; }
+        .page h2 { font-size: 28px; margin: 48px 0 20px; padding-left: 16px; border-left: 4px solid #000; }
+        .page h3 { font-size: 20px; margin: 24px 0 12px; }
+        .page p { font-size: 15px; line-height: 1.9; color: #333; margin-bottom: 16px; }
+        .page ul.bullet { margin: 0 0 24px 24px; }
+        .page ul.bullet li { font-size: 15px; line-height: 1.9; color: #333; list-style: disc; margin-bottom: 6px; }
+
+        /* 章节块 */
+        .section-block { margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
+        .section-block:last-child { border-bottom: none; }
+
+        /* 创始团队卡片 */
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 24px; }
+        .team-card { background: #fafafa; padding: 24px; border: 1px solid #eee; }
+        .team-card .avatar { width: 64px; height: 64px; background: #ddd; border-radius: 50%; margin-bottom: 12px; }
+        .team-card .name { font-size: 18px; font-weight: bold; margin-bottom: 4px; }
+        .team-card .role { font-size: 13px; color: #b8860b; margin-bottom: 8px; }
+        .team-card p { font-size: 13px; line-height: 1.7; color: #555; }
+
+        /* 工艺标准表格 */
+        .standard-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .standard-table th, .standard-table td { border: 1px solid #ddd; padding: 12px 16px; font-size: 14px; text-align: left; }
+        .standard-table th { background: #000; color: #fff; }
+        .standard-table tr:nth-child(even) td { background: #fafafa; }
+
+        /* 品控流程 */
+        .flow-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+        .flow-item { display: flex; gap: 16px; align-items: flex-start; padding: 20px; background: #fafafa; border-left: 4px solid #b8860b; }
+        .flow-num { font-size: 28px; font-weight: 900; color: #b8860b; min-width: 40px; }
+        .flow-body h4 { font-size: 16px; margin-bottom: 6px; }
+        .flow-body p { font-size: 14px; color: #555; line-height: 1.7; margin: 0; }
+
+        /* 加入我们岗位 */
+        .job-list { margin-top: 24px; }
+        .job-item { border: 1px solid #eee; padding: 20px; margin-bottom: 16px; }
+        .job-item h4 { font-size: 18px; margin-bottom: 6px; }
+        .job-meta { font-size: 13px; color: #888; margin-bottom: 12px; }
+        .job-meta span { margin-right: 16px; }
+        .job-item p { font-size: 14px; color: #555; line-height: 1.7; margin-bottom: 12px; }
+        .apply-btn { display: inline-block; padding: 8px 20px; background: #000; color: #fff; font-size: 14px; cursor: pointer; }
+
+        /* APP 下载 */
+        .app-block { display: flex; gap: 48px; align-items: center; margin-top: 24px; }
+        .app-qr { width: 200px; height: 200px; background: #eee; display: flex; align-items: center; justify-content: center; color: #888; font-size: 14px; }
+        .app-info h3 { font-size: 24px; margin-bottom: 12px; }
+        .app-info p { font-size: 15px; color: #555; line-height: 1.8; margin-bottom: 12px; }
+        .app-store-btns { display: flex; gap: 12px; margin-top: 16px; }
+        .app-store-btns span { display: inline-block; padding: 12px 24px; background: #000; color: #fff; font-size: 14px; cursor: pointer; }
+
+        /* 优惠券 */
+        .coupon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+        .coupon-card { border: 1px dashed #b8860b; padding: 20px; text-align: center; background: #fff8e1; }
+        .coupon-card .amount { font-size: 28px; color: #c00; font-weight: bold; margin-bottom: 4px; }
+        .coupon-card .cond { font-size: 13px; color: #5d4037; margin-bottom: 12px; }
+        .coupon-card .claim { display: inline-block; padding: 6px 16px; background: #b8860b; color: #fff; font-size: 13px; cursor: pointer; }
+
+        footer { background: #fff; border-top: 1px solid #eee; padding: 40px; }
+        .footer-bottom { border-top: 1px solid #ddd; padding-top: 20px; font-size: 14px; line-height: 1.8; color: #444; }
+        .back-home { display: inline-block; margin-top: 20px; padding: 10px 24px; background: #000; color: #fff; font-size: 14px; }
+
+        /* 全站统一两栏布局 */
+        .main-wrap { display: flex; gap: 24px; padding: 40px 40px 60px; align-items: flex-start; }
+        .side-filter { width: 220px; flex-shrink: 0; border: 1px solid #eee; background: #fff; padding: 20px 16px; position: sticky; top: 80px; }
+        .side-filter .side-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; color: #000; border-left: 3px solid #b8860b; padding-left: 8px; }
+        .side-filter .side-group { border-bottom: 1px solid #f0f0f0; padding-bottom: 18px; margin-bottom: 18px; }
+        .side-filter .side-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .az-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+        .az-grid a { display: block; text-align: center; padding: 6px 0; font-size: 13px; border: 1px solid #eee; color: #333; background: #fff; transition: all .15s; }
+        .az-grid a:hover { border-color: #b8860b; color: #b8860b; background: #fff8e1; }
+        .az-grid a.disabled { color: #ccc; background: #fafafa; cursor: not-allowed; pointer-events: none; }
+        .price-tags { display: flex; flex-direction: column; gap: 6px; }
+        .price-tags label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; cursor: pointer; padding: 4px 0; }
+        .price-tags label:hover { color: #b8860b; }
+        .price-tags input { margin: 0; }
+        .page { flex: 1; min-width: 0; max-width: 1000px; margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-top">
+        <div class="logo">
+            <div class="logo-mark">
+                <span class="logo-xu">许</span><span class="logo-le">乐</span>
+            </div>
+            <span class="sub"><span class="sub-url">https://xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服饰 箱包 饰品</span></span>
+        </div>
+        <div class="search-wrap">
+            <input placeholder="搜索鞋履、服饰、箱包、饰品、品牌…">
+            <button>搜索</button>
+        </div>
+        <div class="header-icons">
+            <span>👤</span>
+            <span>🛒</span>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li class="has-dropdown">女士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">裙装</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">男士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">外套</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">儿童专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">童鞋</a></li>
+                    <li><a href="category.html?cat=clothing">童装</a></li>
+                    <li><a href="category.html?cat=accessories">配饰</a></li>
+                </ul>
+            </li>
+            <li><a href="brands.html">品牌集合</a></li>
+            <li class="has-dropdown"><a href="category.html?cat=shoes">运动鞋款</a>
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">跑步鞋</a></li>
+                    <li><a href="category.html?cat=shoes">篮球鞋</a></li>
+                    <li><a href="category.html?cat=shoes">板鞋</a></li>
+                    <li><a href="category.html?cat=shoes">休闲鞋</a></li>
+                    <li><a href="category.html?cat=shoes">户外鞋</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">运动装备
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=clothing">运动上衣</a></li>
+                    <li><a href="category.html?cat=clothing">运动裤</a></li>
+                    <li><a href="category.html?cat=bags">运动包</a></li>
+                    <li><a href="category.html?cat=accessories">运动配件</a></li>
+                </ul>
+            </li>
+            <li style="margin-left:auto;"><a href="faq.html">帮助与客服</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="sub-nav">
+    <ul>
+        <li><a href="#intro">平台介绍</a></li>
+        <li><a href="#creators">共创人构成</a></li>
+        <li><a href="#craftsman">共创匠人</a></li>
+        <li><a href="#standard">工艺标准</a></li>
+        <li><a href="#qc">品控流程</a></li>
+        <li><a href="#promise">行业承诺</a></li>
+        <li><a href="#join">加入我们</a></li>
+        <li><a href="#app">下载 APP</a></li>
+    </ul>
+</div>
+
+<!-- 全站统一两栏布局：左侧品牌+价格筛选，右侧主内容 -->
+<div class="main-wrap">
+<aside class="side-filter">
+    <div class="side-group">
+        <div class="side-title">品牌</div>
+        <div class="az-grid">
+            <a href="brands.html#A">A</a><a href="brands.html#B">B</a><a href="brands.html#C">C</a><a href="brands.html#D">D</a><a href="brands.html#E">E</a>
+            <a href="brands.html#F">F</a><a href="brands.html#G">G</a><a href="brands.html#H">H</a><a href="brands.html#I">I</a><a href="brands.html#J">J</a>
+            <a href="brands.html#K">K</a><a href="brands.html#L">L</a><a href="brands.html#M">M</a><a href="brands.html#N">N</a><a href="brands.html#O">O</a>
+            <a href="brands.html#P">P</a><a href="brands.html#Q">Q</a><a href="brands.html#R">R</a><a href="brands.html#S">S</a><a href="brands.html#T">T</a>
+            <a href="brands.html#U">U</a><a href="brands.html#V">V</a><a href="brands.html#W">W</a><a class="disabled" title="暂无品牌">X</a><a href="brands.html#Y">Y</a>
+            <a href="brands.html#Z">Z</a><a class="disabled" title="暂无品牌">#</a><a class="disabled" title="暂无品牌">0-9</a><a class="disabled" title="暂无品牌">★</a><a class="disabled" title="中文名">中</a>
+        </div>
+    </div>
+    <div class="side-group">
+        <div class="side-title">价格区间</div>
+        <div class="price-tags">
+            <label><input type="checkbox" value="0-300"> ¥0 - 300</label>
+            <label><input type="checkbox" value="300-800"> ¥300 - 800</label>
+            <label><input type="checkbox" value="800-1500"> ¥800 - 1500</label>
+            <label><input type="checkbox" value="1500-3000"> ¥1500 - 3000</label>
+            <label><input type="checkbox" value="3000+"> ¥3000 以上</label>
+        </div>
+    </div>
+    <div class="side-group" style="font-size:12px;color:#999;line-height:1.7;">
+        内容页同样保留左侧品牌与价格筛选，保持全站统一。点击字母跳转品牌大全页。
+    </div>
+</aside>
+
+<div class="page">
+    <h1>关于许乐</h1>
+    <p class="lead">许乐（xulove.com）是由鞋履、服饰、箱包、饰品行业的资深从业者共同创建的品质商城。因为我们本身就是从产业里走出来的，所以更懂工艺、更懂参数、更懂设计 —— 也正因如此，品质才有所保证。</p>
+
+    <!-- 平台介绍 -->
+    <div class="section-block" id="intro">
+        <h2>平台介绍</h2>
+        <p>市面上不缺卖货的商城，缺的是「懂行」的商城。许乐的创始团队由四类行业资深从业者构成：制鞋工艺师、皮具设计师、面料供应链经理、饰品工艺工程师。每位创始成员在各自领域从业均超过 10 年。</p>
+        <p>我们创立许乐，是因为看到太多消费者被「参数模糊」「材质不清」「工艺不透明」困扰 —— 同样标「头层牛皮」，却有黄牛皮、水牛皮、修面皮的巨大差异；同样标「精梳棉」，却有 30 支、40 支、60 支的区别。这些差异，普通消费者难以分辨，但行业人一眼就能看穿。</p>
+        <p>许乐的使命，是把行业人「看穿品质」的能力，变成消费者「看见品质」的服务。每一件商品都标注主材、辅料、克重、工艺、批次，每一件商品都有可溯源的匠人。我们卖的不是品牌溢价，是可验证的品质。</p>
+    </div>
+
+    <!-- 共创人构成 -->
+    <div class="section-block" id="creators">
+        <h2>共创人构成</h2>
+        <p>许乐的共创匠人来自四大产业带，平均从业年限 12 年：</p>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="avatar"></div>
+                <div class="name">鞋类匠人组</div>
+                <div class="role">8 位 · 平均 14 年制鞋经验</div>
+                <p>来自福建晋江、广东东莞两大鞋业产业带，擅长运动鞋楦型设计、中底配方调校、帮面车缝工艺。</p>
+            </div>
+            <div class="team-card">
+                <div class="avatar"></div>
+                <div class="name">皮具匠人组</div>
+                <div class="role">5 位 · 平均 11 年箱包经验</div>
+                <p>来自广州花都、河北白沟皮具产业带，精通头层牛皮鉴别、手工油边、车线工艺与版型设计。</p>
+            </div>
+            <div class="team-card">
+                <div class="avatar"></div>
+                <div class="name">服饰匠人组</div>
+                <div class="role">6 位 · 平均 10 年成衣经验</div>
+                <p>来自浙江绍兴、广东佛山的面料与成衣产业带，熟悉从纱线、织造、染整到成衣的全链路工艺。</p>
+            </div>
+        </div>
+        <div class="team-grid" style="margin-top:16px;">
+            <div class="team-card">
+                <div class="avatar"></div>
+                <div class="name">饰品匠人组</div>
+                <div class="role">4 位 · 平均 9 年饰品经验</div>
+                <p>来自广东番禺、深圳水贝饰品产业带，精通 925 银、316L 钢、电镀工艺与镶嵌结构设计。</p>
+            </div>
+            <div class="team-card">
+                <div class="avatar"></div>
+                <div class="name">品控工程师组</div>
+                <div class="role">3 位 · 第三方检测机构出身</div>
+                <p>分别来自 SGS、CTTC 等第三方检测机构，负责按国标 GB/T 对每批商品进行物理与化学指标抽检。</p>
+            </div>
+            <div class="team-card">
+                <div class="avatar"></div>
+                <div class="name">设计师组</div>
+                <div class="role">4 位 · 平均 8 年设计经验</div>
+                <p>负责产品外观与版型设计，确保「参数合格」的同时也「设计耐看」，避免工艺品的丑陋化。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 工艺标准 -->
+    <div class="section-block" id="standard">
+        <h2>工艺标准</h2>
+        <p>每件商品上架前，必须通过许乐六大维度的工艺标准标注。以下为部分核心标准：</p>
+        <table class="standard-table">
+            <thead>
+                <tr>
+                    <th>品类</th>
+                    <th>必标参数</th>
+                    <th>许乐内控标准（高于国标）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>运动鞋</td>
+                    <td>楦型 / 鞋面材质 / 大底配方 / 重量 / 帮底结合工艺</td>
+                    <td>帮底剥离强度 ≥ 80 N/cm（国标 ≥ 40）；耐折 ≥ 6 万次（国标 4 万）</td>
+                </tr>
+                <tr>
+                    <td>皮具包袋</td>
+                    <td>皮料种类 / 等级 / 厚度 / 里料 / 油边工艺 / 车线密度</td>
+                    <td>车线密度 ≥ 9 针/2.5cm（国标 ≥ 7）；五金盐雾测试 ≥ 24h（国标 ≥ 12）</td>
+                </tr>
+                <tr>
+                    <td>服饰</td>
+                    <td>面料成分 / 支数 / 克重 / 染整工艺 / 缝制工艺</td>
+                    <td>色牢度 ≥ 4 级（国标 ≥ 3）；甲醛 ≤ 30 mg/kg（国标 ≤ 75，A 类婴幼儿 ≤ 20）</td>
+                </tr>
+                <tr>
+                    <td>饰品</td>
+                    <td>主材 / 含量 / 链长 / 电镀层厚度 / 镶嵌方式</td>
+                    <td>925 银含银量 ≥ 92.5%；镀金层厚度 ≥ 3μm（行业 1-2μm）</td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="margin-top:16px;">所有检测报告在商品页可下载，每件商品附唯一溯源码，扫码可查批次、工厂、匠人、检测报告。</p>
+    </div>
+
+    <!-- 品控流程 -->
+    <div class="section-block" id="qc">
+        <h2>品控流程</h2>
+        <p>每件商品从选品到出库，须经过「四审三抽」全流程：</p>
+        <div class="flow-list">
+            <div class="flow-item">
+                <div class="flow-num">01</div>
+                <div class="flow-body">
+                    <h4>选品初审 · 匠人主导</h4>
+                    <p>由对应类目的匠人组从供应链选品，初筛掉参数虚标、工艺缺陷商品。初审通过率约 35%。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">02</div>
+                <div class="flow-body">
+                    <h4>样品复审 · 实验室检测</h4>
+                    <p>样品送第三方检测机构按国标 GB/T 全项检测，出具报告。不达标直接淘汰，复审通过率约 60%。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">03</div>
+                <div class="flow-body">
+                    <h4>工厂终审 · 首件封样</h4>
+                    <p>品控工程师赴工厂做首件封样，明确大货工艺基线。后续大货以此封样为对照标准。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">04</div>
+                <div class="flow-body">
+                    <h4>大货抽检 · 批次留档</h4>
+                    <p>大货按 AQL 2.5 抽检，每批留影像与样品档案，发现不合格批全批退回工厂。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">05</div>
+                <div class="flow-body">
+                    <h4>出库全检 · 逐件扫码</h4>
+                    <p>出库前逐件扫码绑定溯源码，外观二次复检，确保送到您手中的每件都是合格品。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">06</div>
+                <div class="flow-body">
+                    <h4>售后反馈 · 反哺工艺改进</h4>
+                    <p>每季度汇总售后数据，反馈给共创匠人改进工艺，形成品质正循环。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加入我们 -->
+    <div class="section-block" id="join">
+        <h2>加入我们</h2>
+        <p>许乐正在招募以下岗位，欢迎认同「品质透明」理念的行业人加入：</p>
+        <div class="job-list">
+            <div class="job-item">
+                <h4>鞋类匠人 · 选品官</h4>
+                <div class="job-meta"><span>晋江/东莞</span><span>全职</span><span>8 年以上制鞋经验</span></div>
+                <p>负责鞋类商品的选品初审与工艺标准制定，需要熟悉运动鞋楦型、中底配方与帮面工艺。能与工厂沟通工艺改进。</p>
+                <span class="apply-btn">投递简历 →</span>
+            </div>
+            <div class="job-item">
+                <h4>皮具设计师</h4>
+                <div class="job-meta"><span>广州花都</span><span>全职</span><span>5 年以上箱包设计经验</span></div>
+                <p>负责许乐自有品牌箱包的版型设计与工艺跟进，需要熟悉头层牛皮特性、手工油边与车线工艺。</p>
+                <span class="apply-btn">投递简历 →</span>
+            </div>
+            <div class="job-item">
+                <h4>品控工程师</h4>
+                <div class="job-meta"><span>杭州/广州</span><span>全职</span><span>第三方检测机构 3 年以上</span></div>
+                <p>负责按 GB/T 国标进行商品物理化学指标检测，与第三方检测机构对接，建立批次档案。</p>
+                <span class="apply-btn">投递简历 →</span>
+            </div>
+            <div class="job-item">
+                <h4>内容运营 · 工艺编辑</h4>
+                <div class="job-meta"><span>杭州</span><span>全职</span><span>服饰/鞋类行业背景优先</span></div>
+                <p>负责把匠人的工艺语言翻译成消费者看得懂的内容，撰写商品工艺说明、溯源故事、品控报告解读。</p>
+                <span class="apply-btn">投递简历 →</span>
+            </div>
+        </div>
+        <p style="margin-top:16px;font-size:14px;color:#888;">投递邮箱：hr@xulove.com · 邮件标题请注明「应聘岗位 + 姓名 + 来源渠道」</p>
+    </div>
+
+    <!-- 下载 APP -->
+    <div class="section-block" id="app">
+        <h2>下载 APP</h2>
+        <div class="app-block">
+            <div class="app-qr">APP 下载二维码（测试占位）</div>
+            <div class="app-info">
+                <h3>许乐 APP</h3>
+                <p>扫码下载许乐官方 APP，享受以下专属功能：</p>
+                <p>· 扫商品溯源码，查看完整工艺档案与检测报告<br>
+                · 关注匠人，第一时间收到该匠人新作上架通知<br>
+                · 订单管理与售后一键直达<br>
+                · AR 试穿/试戴（部分商品支持）</p>
+                <div class="app-store-btns">
+                    <span>iOS 下载</span>
+                    <span>Android 下载</span>
+                </div>
+                <p style="font-size:13px;color:#888;margin-top:12px;">提示：APP 当前为测试版，部分功能在网页端可同等使用。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 共创匠人代表 -->
+    <div class="section-block" id="craftsman">
+        <h2>共创匠人</h2>
+        <p>许乐的选品人不是买手，是从业 10 年以上的行业人。每件商品背后都有一位可溯源的匠人。以下为部分匠人代表：</p>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="avatar"></div>
+                <div class="name">陈师傅</div>
+                <div class="role">鞋类匠人 / 15 年制鞋经验</div>
+                <p>曾任某国际品牌研发负责人，擅长运动鞋楦型设计与中底配方调校。在许乐，每双运动鞋的楦型由他终审。</p>
+            </div>
+            <div class="team-card">
+                <div class="avatar"></div>
+                <div class="name">李工</div>
+                <div class="role">皮具匠人 / 12 年箱包经验</div>
+                <p>广州花都皮具产业带出身，精通头层牛皮鉴别与手工油边工艺。所有皮质商品须经他做皮料评级。</p>
+            </div>
+            <div class="team-card">
+                <div class="avatar"></div>
+                <div class="name">王师傅</div>
+                <div class="role">服饰匠人 / 10 年成衣经验</div>
+                <p>深耕面料供应链 10 年，熟悉从纱线、织造到成衣的全链路工艺。为许乐建立面料溯源档案。</p>
+            </div>
+        </div>
+        <p style="margin-top:16px;">每位匠人都有独立的工艺档案，商品页可查看该商品对应匠人的从业经历、参与款式与工艺专长。个人创作者也可在许乐上传自己的产品，并标注产品的版型设计师、图案设计师、特殊工艺、印刷/刺绣技术、材质来源与材质特性等完整设计信息。</p>
+    </div>
+
+    <!-- 行业人的四项承诺 -->
+    <div class="section-block" id="promise">
+        <h2>行业人的四项承诺</h2>
+        <p>许乐的行业人共同向消费者做出四项承诺，作为品质透明的底线：</p>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="role">🔍 用料溯源</div>
+                <p>每件商品标注主材、辅料、克重、工艺，可查批次与工厂。</p>
+            </div>
+            <div class="team-card">
+                <div class="role">🧪 参数透明</div>
+                <p>鞋类标注楦型/重量/大底配方，包袋标注皮料等级/油边工艺。</p>
+            </div>
+            <div class="team-card">
+                <div class="role">🛡️ 品控三审</div>
+                <p>工厂自检 + 匠人复审 + 出库抽检，每环节留存影像档案。</p>
+            </div>
+            <div class="team-card">
+                <div class="role">↩️ 无忧售后</div>
+                <p>7 天无理由退换，质量问题 30 天包换，终身成本价维修。</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-home">← 返回首页</a>
+</div>
+</div>
+<!-- /main-wrap -->
+
+<footer>
+    <div class="footer-bottom">
+        <p>©2026 许乐有限公司 版权所有 · xulove.com</p>
+        <p>营业执照：XXXXXXXXXXXXXXXXXX | ICP 备案号：鲁ICP备XXXXXXXX号</p>
+        <p>《用户服务协议》｜《隐私政策》｜《消费者权益保障》｜《7 天无理由退换货规则》</p>
+        <p>温馨提示：本平台商品支持 7 天无理由退换（贴身商品除外），保护消费者合法权益</p>
+    </div>
+</footer>
+</body>
+</html>

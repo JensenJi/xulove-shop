@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>尺码对照表 - 鞋履/服饰/箱包 | 许乐 XULOVE</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft Yahei", Arial, sans-serif; }
+        body { background: #fff; color: #000; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        header { padding: 24px 40px; }
+        .header-top { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
+        .logo { line-height: 1; }
+        .logo-mark {
+            display: inline-flex;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(207,48,36,0.22), 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 12%;
+            bottom: 12%;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #fff 0 3px, transparent 3px 5px);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .logo-xu {
+            color: #fff;
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo-le {
+            color: #fff;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo .sub {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #888;
+            margin-top: 10px;
+        }
+        .logo .sub-url { color: #cf3024; font-weight: 700; }
+        .logo .sub-sep { color: #ccc; margin: 0 5px; }
+        .logo .sub-tag { color: #659ee3; font-weight: 600; }
+        .search-wrap { flex: 1; display: flex; }
+        .search-wrap input { flex: 1; padding: 14px 16px; border: 1px solid #ccc; border-right: none; font-size: 18px; }
+        .search-wrap button { padding: 14px 28px; border: 1px solid #ccc; background: #fff; font-weight: bold; font-size: 18px; cursor: pointer; }
+        .header-icons { display: flex; gap: 24px; font-size: 32px; }
+        nav ul { display: flex; gap: 48px; list-style: none; font-size: 24px; font-weight: 500; align-items: center; }
+        nav ul li { cursor: pointer; }
+        /* 导航下拉菜单 */
+        nav ul li.has-dropdown { position: relative; }
+        nav ul li.has-dropdown > ul.dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 140px;
+            padding: 8px 0;
+            z-index: 100;
+            flex-direction: column;
+            gap: 0;
+        }
+        nav ul li.has-dropdown:hover > ul.dropdown { display: flex; }
+        nav ul li.has-dropdown > ul.dropdown li {
+            font-size: 15px;
+            padding: 8px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        nav ul li.has-dropdown > ul.dropdown li:hover { background: #fafafa; color: #b8860b; }
+        nav ul li.has-dropdown > ul.dropdown li a { display: block; }
+
+        .sub-nav { background: #fafafa; border-bottom: 1px solid #eee; padding: 16px 40px; position: sticky; top: 0; z-index: 10; }
+        .sub-nav ul { display: flex; gap: 40px; }
+        .sub-nav li { font-size: 16px; cursor: pointer; padding: 4px 0; }
+        .sub-nav li:hover, .sub-nav li.active { color: #b8860b; border-bottom: 2px solid #b8860b; }
+
+        /* 全站统一两栏布局 */
+        .main-wrap { display: flex; gap: 24px; padding: 40px 40px 60px; align-items: flex-start; }
+        .side-filter { width: 220px; flex-shrink: 0; border: 1px solid #eee; background: #fff; padding: 20px 16px; position: sticky; top: 80px; }
+        .side-filter .side-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; color: #000; border-left: 3px solid #b8860b; padding-left: 8px; }
+        .side-filter .side-group { border-bottom: 1px solid #f0f0f0; padding-bottom: 18px; margin-bottom: 18px; }
+        .side-filter .side-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .az-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+        .az-grid a { display: block; text-align: center; padding: 6px 0; font-size: 13px; border: 1px solid #eee; color: #333; background: #fff; transition: all .15s; }
+        .az-grid a:hover { border-color: #b8860b; color: #b8860b; background: #fff8e1; }
+        .az-grid a.disabled { color: #ccc; background: #fafafa; cursor: not-allowed; pointer-events: none; }
+        .price-tags { display: flex; flex-direction: column; gap: 6px; }
+        .price-tags label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; cursor: pointer; padding: 4px 0; }
+        .price-tags label:hover { color: #b8860b; }
+        .price-tags input { margin: 0; }
+        .page { flex: 1; min-width: 0; max-width: 1000px; margin: 0; padding: 0; }
+        .page h1 { font-size: 40px; margin-bottom: 12px; }
+        .page .lead { font-size: 18px; color: #666; margin-bottom: 40px; line-height: 1.7; }
+        .page h2 { font-size: 28px; margin: 48px 0 20px; padding-left: 16px; border-left: 4px solid #000; }
+        .page h3 { font-size: 20px; margin: 24px 0 12px; }
+        .page p { font-size: 15px; line-height: 1.9; color: #333; margin-bottom: 16px; }
+        .section-block { margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
+        .section-block:last-child { border-bottom: none; }
+
+        .size-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .size-table th, .size-table td { border: 1px solid #ddd; padding: 10px 12px; font-size: 13px; text-align: center; }
+        .size-table th { background: #000; color: #fff; }
+        .size-table tr:nth-child(even) td { background: #fafafa; }
+        .size-table .your-size { background: #fff8e1 !important; font-weight: bold; color: #b8860b; }
+
+        /* 测量方法图示 */
+        .measure-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 24px; }
+        .measure-card { border: 1px solid #eee; padding: 24px; }
+        .measure-card .svg-box { width: 100%; height: 200px; background: #fafafa; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; border: 1px dashed #ddd; }
+        .measure-card .svg-box svg { max-width: 100%; max-height: 100%; }
+        .measure-card h4 { font-size: 16px; margin-bottom: 8px; text-align: center; }
+        .measure-card p { font-size: 13px; color: #555; line-height: 1.7; margin: 0 0 8px; }
+        .measure-card ul { margin: 4px 0 0 18px; font-size: 12px; color: #666; line-height: 1.7; }
+        .measure-card ul li { list-style: disc; margin-bottom: 2px; }
+
+        /* 码数自查小工具 */
+        .calc-tool { background: #fafafa; border: 1px solid #eee; padding: 24px; margin: 24px 0; }
+        .calc-tool h3 { font-size: 18px; margin-bottom: 12px; }
+        .calc-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+        .calc-row label { font-size: 14px; color: #555; min-width: 80px; }
+        .calc-row select, .calc-row input { padding: 8px 12px; border: 1px solid #ccc; font-size: 14px; }
+        .calc-result { font-size: 16px; color: #b8860b; font-weight: bold; margin-top: 8px; }
+        .calc-btn { padding: 8px 24px; background: #000; color: #fff; border: none; font-size: 14px; cursor: pointer; }
+
+        .notice { background: #fff8e1; border-left: 4px solid #b8860b; padding: 16px 20px; margin: 16px 0; font-size: 14px; line-height: 1.8; color: #5d4037; }
+        .notice strong { color: #b8860b; }
+
+        footer { background: #fff; border-top: 1px solid #eee; padding: 40px; }
+        .footer-bottom { border-top: 1px solid #ddd; padding-top: 20px; font-size: 14px; line-height: 1.8; color: #444; }
+        .back-home { display: inline-block; margin-top: 20px; padding: 10px 24px; background: #000; color: #fff; font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .measure-grid { grid-template-columns: 1fr; }
+            .size-table { font-size: 12px; }
+            .size-table th, .size-table td { padding: 6px 4px; }
+            nav ul { flex-wrap: wrap; gap: 20px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-top">
+        <div class="logo">
+            <div class="logo-mark">
+                <span class="logo-xu">许</span><span class="logo-le">乐</span>
+            </div>
+            <span class="sub"><span class="sub-url">https://xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服饰 箱包 饰品</span></span>
+        </div>
+        <div class="search-wrap">
+            <input placeholder="搜索鞋履、服饰、箱包、饰品、品牌…">
+            <button>搜索</button>
+        </div>
+        <div class="header-icons">
+            <span>👤</span>
+            <span>🛒</span>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li class="has-dropdown">女士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">裙装</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">男士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">外套</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">儿童专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">童鞋</a></li>
+                    <li><a href="category.html?cat=clothing">童装</a></li>
+                    <li><a href="category.html?cat=accessories">配饰</a></li>
+                </ul>
+            </li>
+            <li><a href="brands.html">品牌集合</a></li>
+            <li class="has-dropdown"><a href="category.html?cat=shoes">运动鞋款</a>
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">跑步鞋</a></li>
+                    <li><a href="category.html?cat=shoes">篮球鞋</a></li>
+                    <li><a href="category.html?cat=shoes">板鞋</a></li>
+                    <li><a href="category.html?cat=shoes">休闲鞋</a></li>
+                    <li><a href="category.html?cat=shoes">户外鞋</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">运动装备
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=clothing">运动上衣</a></li>
+                    <li><a href="category.html?cat=clothing">运动裤</a></li>
+                    <li><a href="category.html?cat=bags">运动包</a></li>
+                    <li><a href="category.html?cat=accessories">运动配件</a></li>
+                </ul>
+            </li>
+            <li style="margin-left:auto;"><a href="faq.html">帮助与客服</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="sub-nav">
+    <ul>
+        <li class="active"><a href="#shoes">鞋履尺码</a></li>
+        <li><a href="#clothing">服饰尺码</a></li>
+        <li><a href="#bags">箱包尺寸</a></li>
+        <li><a href="#accessories">饰品尺寸</a></li>
+        <li><a href="#measure">测量方法</a></li>
+    </ul>
+</div>
+
+<!-- 全站统一两栏布局：左侧品牌+价格筛选，右侧主内容 -->
+<div class="main-wrap">
+<aside class="side-filter">
+    <div class="side-group">
+        <div class="side-title">品牌</div>
+        <div class="az-grid">
+            <a href="brands.html#A">A</a><a href="brands.html#B">B</a><a href="brands.html#C">C</a><a href="brands.html#D">D</a><a href="brands.html#E">E</a>
+            <a href="brands.html#F">F</a><a href="brands.html#G">G</a><a href="brands.html#H">H</a><a href="brands.html#I">I</a><a href="brands.html#J">J</a>
+            <a href="brands.html#K">K</a><a href="brands.html#L">L</a><a href="brands.html#M">M</a><a href="brands.html#N">N</a><a href="brands.html#O">O</a>
+            <a href="brands.html#P">P</a><a href="brands.html#Q">Q</a><a href="brands.html#R">R</a><a href="brands.html#S">S</a><a href="brands.html#T">T</a>
+            <a href="brands.html#U">U</a><a href="brands.html#V">V</a><a href="brands.html#W">W</a><a class="disabled" title="暂无品牌">X</a><a href="brands.html#Y">Y</a>
+            <a href="brands.html#Z">Z</a><a class="disabled" title="暂无品牌">#</a><a class="disabled" title="暂无品牌">0-9</a><a class="disabled" title="暂无品牌">★</a><a class="disabled" title="中文名">中</a>
+        </div>
+    </div>
+    <div class="side-group">
+        <div class="side-title">价格区间</div>
+        <div class="price-tags">
+            <label><input type="checkbox" value="0-300"> ¥0 - 300</label>
+            <label><input type="checkbox" value="300-800"> ¥300 - 800</label>
+            <label><input type="checkbox" value="800-1500"> ¥800 - 1500</label>
+            <label><input type="checkbox" value="1500-3000"> ¥1500 - 3000</label>
+            <label><input type="checkbox" value="3000+"> ¥3000 以上</label>
+        </div>
+    </div>
+    <div class="side-group" style="font-size:12px;color:#999;line-height:1.7;">
+        尺码对照页同样保留左侧品牌与价格筛选，保持全站统一。点击字母跳转品牌大全页。
+    </div>
+</aside>
+
+<div class="page">
+    <h1>尺码对照表</h1>
+    <p class="lead">许乐商品页均标注基准尺码（如男款 42 码、女款 37 码），并附实物长/宽/高数据。下表为您整理了鞋履、服饰、箱包的通用对照表，下单前可参考。如对尺码有疑问，可使用「码数自查小工具」或联系在线客服。</p>
+
+    <!-- 码数自查小工具 -->
+    <div class="calc-tool">
+        <h3>🧮 码数自查小工具</h3>
+        <div class="calc-row">
+            <label>商品品类</label>
+            <select id="calcType">
+                <option value="shoes">鞋履</option>
+                <option value="clothing">服饰</option>
+            </select>
+        </div>
+        <div class="calc-row" id="shoesRow">
+            <label>脚长（CM）</label>
+            <input type="number" id="footLen" placeholder="如 25.5" step="0.1">
+            <label>性别</label>
+            <select id="gender">
+                <option value="male">男款</option>
+                <option value="female">女款</option>
+            </select>
+            <button class="calc-btn" id="calcShoesBtn">计算鞋码</button>
+        </div>
+        <div class="calc-result" id="calcResult">输入脚长后将自动推荐许乐国码（CN）与常见对应码。</div>
+    </div>
+
+    <!-- 鞋履尺码 -->
+    <div class="section-block" id="shoes">
+        <h2>鞋履尺码对照表</h2>
+        <p>许乐鞋履默认按国码（CN）标注。以下对照表适用于男鞋 / 女鞋 / 童鞋，作为参考依据。鞋楦不同可能略有差异，最终以商品页「楦型说明」为准。</p>
+
+        <h3>男鞋尺码对照</h3>
+        <table class="size-table">
+            <thead>
+                <tr><th>国码 CN</th><th>脚长 CM</th><th>欧码 EU</th><th>美码 US</th><th>英码 UK</th><th>楦宽</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>38</td><td>24.0-24.4</td><td>38</td><td>6.0</td><td>5.5</td><td>2E（标准）</td></tr>
+                <tr><td>39</td><td>24.5-24.9</td><td>39</td><td>6.5</td><td>6.0</td><td>2E</td></tr>
+                <tr><td>40</td><td>25.0-25.4</td><td>40</td><td>7.0</td><td>6.5</td><td>2E</td></tr>
+                <tr><td>41</td><td>25.5-25.9</td><td>41</td><td>7.5</td><td>7.0</td><td>2E</td></tr>
+                <tr><td>42</td><td>26.0-26.4</td><td>42</td><td>8.5</td><td>8.0</td><td>2E（基准码）</td></tr>
+                <tr><td>43</td><td>26.5-26.9</td><td>43</td><td>9.5</td><td>9.0</td><td>2E</td></tr>
+                <tr><td>44</td><td>27.0-27.4</td><td>44</td><td>10.5</td><td>10.0</td><td>2E/3E</td></tr>
+                <tr><td>45</td><td>27.5-27.9</td><td>45</td><td>11.5</td><td>11.0</td><td>3E</td></tr>
+                <tr><td>46</td><td>28.0-28.4</td><td>46</td><td>12.5</td><td>12.0</td><td>3E/4E</td></tr>
+            </tbody>
+        </table>
+
+        <h3>女鞋尺码对照</h3>
+        <table class="size-table">
+            <thead>
+                <tr><th>国码 CN</th><th>脚长 CM</th><th>欧码 EU</th><th>美码 US</th><th>英码 UK</th><th>楦宽</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>34</td><td>21.5-21.9</td><td>34</td><td>4.0</td><td>3.5</td><td>1.5E（窄）</td></tr>
+                <tr><td>35</td><td>22.0-22.4</td><td>35</td><td>4.5</td><td>4.0</td><td>1.5E</td></tr>
+                <tr><td>36</td><td>22.5-22.9</td><td>36</td><td>5.5</td><td>4.5</td><td>1.5E（标准）</td></tr>
+                <tr><td>37</td><td>23.0-23.4</td><td>37</td><td>6.5</td><td>5.5</td><td>1.5E（基准码）</td></tr>
+                <tr><td>38</td><td>23.5-23.9</td><td>38</td><td>7.0</td><td>6.0</td><td>1.5E</td></tr>
+                <tr><td>39</td><td>24.0-24.4</td><td>39</td><td>8.0</td><td>6.5</td><td>2E</td></tr>
+                <tr><td>40</td><td>24.5-24.9</td><td>40</td><td>8.5</td><td>7.0</td><td>2E</td></tr>
+            </tbody>
+        </table>
+
+        <h3>童鞋尺码对照（中小童）</h3>
+        <table class="size-table">
+            <thead>
+                <tr><th>国码 CN</th><th>脚长 CM</th><th>欧码 EU</th><th>美码 US</th><th>年龄段（参考）</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>26</td><td>16.5-17.0</td><td>26</td><td>9.5C</td><td>3-4 岁</td></tr>
+                <tr><td>28</td><td>17.5-18.0</td><td>28</td><td>11C</td><td>4-5 岁</td></tr>
+                <tr><td>30</td><td>18.5-19.0</td><td>30</td><td>13C</td><td>5-6 岁</td></tr>
+                <tr><td>32</td><td>19.5-20.0</td><td>32</td><td>1Y</td><td>6-7 岁</td></tr>
+                <tr><td>34</td><td>20.5-21.4</td><td>34</td><td>3Y</td><td>8-9 岁</td></tr>
+                <tr><td>36</td><td>22.0-22.4</td><td>36</td><td>4Y</td><td>10-12 岁</td></tr>
+            </tbody>
+        </table>
+
+        <div class="notice">
+            <strong>许乐特别提示：</strong>
+            楦宽是鞋类重要参数，许乐商品页标注 1.5E（窄）/ 2E（标准）/ 3E（宽）/ 4E（加宽）。脚掌较宽或扁平足建议选大半码 + 3E 楦宽。脚背高建议选系带款。
+        </div>
+    </div>
+
+    <!-- 服饰尺码 -->
+    <div class="section-block" id="clothing">
+        <h2>服饰尺码对照表</h2>
+        <p>许乐服饰按国标 GB/T 1335 标注号型，并附实物平铺测量数据。号型「170/88A」表示：身高 170cm / 胸围 88cm / 体型 A（标准）。</p>
+
+        <h3>男装上衣号型</h3>
+        <table class="size-table">
+            <thead>
+                <tr><th>号型</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>2XL</th><th>3XL</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>身高</td><td>160-165</td><td>170-175</td><td>175-180</td><td>180-185</td><td>185-190</td><td>190-195</td></tr>
+                <tr><td>胸围</td><td>84</td><td>88</td><td>92</td><td>96</td><td>100</td><td>104</td></tr>
+                <tr><td>胸围（国标）</td><td>160/84A</td><td>170/88A</td><td>175/92A</td><td>180/96A</td><td>185/100B</td><td>190/104B</td></tr>
+                <tr><td>肩宽</td><td>42</td><td>44</td><td>46</td><td>48</td><td>50</td><td>52</td></tr>
+                <tr><td>衣长</td><td>66</td><td>70</td><td>74</td><td>78</td><td>82</td><td>86</td></tr>
+            </tbody>
+        </table>
+
+        <h3>女装上衣号型</h3>
+        <table class="size-table">
+            <thead>
+                <tr><th>号型</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>身高</td><td>150-155</td><td>155-160</td><td>160-165</td><td>165-170</td><td>170-175</td></tr>
+                <tr><td>胸围</td><td>80</td><td>84</td><td>88</td><td>92</td><td>96</td></tr>
+                <tr><td>胸围（国标）</td><td>150/76A</td><td>155/80A</td><td>160/84A</td><td>165/88A</td><td>170/92A</td></tr>
+                <tr><td>腰围</td><td>62</td><td>66</td><td>70</td><td>74</td><td>78</td></tr>
+                <tr><td>衣长</td><td>58</td><td>62</td><td>66</td><td>70</td><td>74</td></tr>
+            </tbody>
+        </table>
+
+        <h3>裤子腰围对照</h3>
+        <table class="size-table">
+            <thead>
+                <tr><th>尺码</th><th>29</th><th>30</th><th>31</th><th>32</th><th>33</th><th>34</th><th>36</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>腰围（CM）</td><td>74</td><td>77</td><td>80</td><td>84</td><td>87</td><td>90</td><td>96</td></tr>
+                <tr><td>腰围（英寸）</td><td>29</td><td>30</td><td>31</td><td>32</td><td>33</td><td>34</td><td>36</td></tr>
+                <tr><td>建议体重（kg）</td><td>55-60</td><td>60-65</td><td>65-70</td><td>70-75</td><td>75-80</td><td>80-85</td><td>85-95</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 箱包尺寸 -->
+    <div class="section-block" id="bags">
+        <h2>箱包尺寸对照表</h2>
+        <p>许乐箱包按「长 × 宽 × 高（CM）」标注实物外尺寸，并附容量与适用场景。</p>
+
+        <h3>女士手提/斜挎包</h3>
+        <table class="size-table">
+            <thead>
+                <tr><th>款式</th><th>尺寸（长宽高）</th><th>容量</th><th>适用场景</th><th>可装</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>迷你斜挎</td><td>18×6×12</td><td>1.3L</td><td>约会/夜场</td><td>手机+口红+钥匙</td></tr>
+                <tr><td>小号手提</td><td>22×8×16</td><td>2.8L</td><td>通勤/日常</td><td>手机+短夹+化妆品+充电宝</td></tr>
+                <tr><td>中号托特</td><td>30×12×25</td><td>9.0L</td><td>通勤/短途</td><td>13" 笔电+文件+雨伞+水杯</td></tr>
+                <tr><td>大号托特</td><td>38×14×30</td><td>16L</td><td>差旅/妈咪包</td><td>15" 笔电+衣物+母婴用品</td></tr>
+            </tbody>
+        </table>
+
+        <h3>男士包</h3>
+        <table class="size-table">
+            <thead>
+                <tr><th>款式</th><th>尺寸（长宽高）</th><th>容量</th><th>适用场景</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>商务公文包</td><td>38×8×28</td><td>8.5L</td><td>正式商务/出差</td></tr>
+                <tr><td>双肩背包</td><td>30×15×45</td><td>20L</td><td>通勤/上学/差旅</td></tr>
+                <tr><td>信使包</td><td>28×8×22</td><td>5.0L</td><td>休闲/骑行</td></tr>
+                <tr><td>钱包/卡包</td><td>11×2×8</td><td>0.2L</td><td>日常</td></tr>
+            </tbody>
+        </table>
+
+        <div class="notice"><strong>提示：</strong>箱包内尺寸通常比外尺寸小 1-2cm（受里衬厚度影响），选购 15" 笔电包建议外尺寸 ≥ 38×28cm。</div>
+    </div>
+
+    <!-- 饰品尺寸 -->
+    <div class="section-block" id="accessories">
+        <h2>饰品尺寸对照表</h2>
+        <p>许乐饰品按周长/直径/链长（CM）标注，并附佩戴部位与可调范围。925 银与钛钢因硬度差异，可调范围不同。</p>
+
+        <h3>项链链长对照</h3>
+        <table class="size-table">
+            <thead>
+                <tr><th>链长（CM）</th><th>佩戴位置</th><th>适合身高</th><th>适用人群</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>35-38</td><td>紧贴颈根（锁骨上方）</td><td>150-165</td><td>女款 / 童款</td></tr>
+                <tr><td>40-42</td><td>锁骨下方（标准女款项链）</td><td>155-170</td><td>女款</td></tr>
+                <tr><td>45-48</td><td>胸前上方</td><td>160-175</td><td>女款长链 / 男款短链</td></tr>
+                <tr><td>50-55</td><td>胸前中部</td><td>165-180</td><td>男款标准链</td></tr>
+                <tr><td>60-70</td><td>胸前下方 / 搭配吊坠</td><td>170-185</td><td>男款长链</td></tr>
+            </tbody>
+        </table>
+
+        <h3>手链 / 脚链长度对照</h3>
+        <table class="size-table">
+            <thead>
+                <tr><th>款式</th><th>周长（CM）</th><th>可调范围</th><th>备注</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>女款手链</td><td>15-17</td><td>±2cm（延长链）</td><td>腕围 14-16cm 适用</td></tr>
+                <tr><td>男款手链</td><td>18-22</td><td>±2cm</td><td>腕围 17-20cm 适用</td></tr>
+                <tr><td>童款手链</td><td>12-15</td><td>±2cm</td><td>3-10 岁适用</td></tr>
+                <tr><td>脚链</td><td>22-26</td><td>±2cm</td><td>踝围 20-24cm 适用</td></tr>
+            </tbody>
+        </table>
+
+        <h3>戒指号数对照（港码 / 国际码）</h3>
+        <table class="size-table">
+            <thead>
+                <tr><th>港码</th><th>国际码</th><th>内径（MM）</th><th>周长（MM）</th><th>适合人群</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>7 号</td><td>US 4</td><td>14.0</td><td>44.0</td><td>女款小指</td></tr>
+                <tr><td>10 号</td><td>US 5</td><td>14.4</td><td>45.0</td><td>女款无名指</td></tr>
+                <tr><td>12 号</td><td>US 6</td><td>15.0</td><td>47.0</td><td>女款标准</td></tr>
+                <tr><td>14 号</td><td>US 7</td><td>15.4</td><td>48.5</td><td>女款大号</td></tr>
+                <tr><td>16 号</td><td>US 8.5</td><td>16.0</td><td>50.3</td><td>男款小指 / 中指</td></tr>
+                <tr><td>18 号</td><td>US 9.5</td><td>16.4</td><td>51.5</td><td>男款标准</td></tr>
+                <tr><td>20 号</td><td>US 10.5</td><td>16.9</td><td>53.1</td><td>男款大号</td></tr>
+                <tr><td>22 号</td><td>US 11.5</td><td>17.5</td><td>55.0</td><td>男款加大</td></tr>
+                <tr><td>24 号</td><td>US 12.5</td><td>18.0</td><td>56.5</td><td>男款超大</td></tr>
+            </tbody>
+        </table>
+        <div class="notice"><strong>许乐特别提示：</strong>许乐戒指多为「开口可调」款，可在 2 号范围内调整；闭合款建议按内径选购。925 银硬度低，请勿频繁大范围开合。</div>
+    </div>
+
+    <!-- 测量方法 -->
+    <div class="section-block" id="measure">
+        <h2>测量方法</h2>
+        <p>下单前建议按以下方法准确测量，可获得最贴近的尺码推荐。下方示意图为许乐自绘 SVG，便于直观理解每个部位的测量起止点。</p>
+
+        <h3>1. 鞋履：脚长 / 脚宽 / 脚围测量</h3>
+        <div class="measure-grid">
+            <div class="measure-card">
+                <div class="svg-box">
+                    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+                        <!-- A4 纸外框 -->
+                        <rect x="20" y="20" width="200" height="140" fill="#fff" stroke="#bbb" stroke-dasharray="4,3"/>
+                        <!-- 墙 -->
+                        <rect x="20" y="20" width="8" height="140" fill="#888"/>
+                        <text x="24" y="15" font-size="9" fill="#888" text-anchor="middle">墙</text>
+                        <!-- 脚轮廓 -->
+                        <path d="M40 130 Q40 80 60 75 Q90 60 130 70 Q160 75 180 95 Q190 110 185 125 Q185 135 175 138 L40 138 Z" fill="#ffe0c0" stroke="#c00" stroke-width="1.5"/>
+                        <!-- 最长脚趾前端标记 -->
+                        <line x1="185" y1="40" x2="185" y2="148" stroke="#b8860b" stroke-dasharray="3,2" stroke-width="1.5"/>
+                        <text x="185" y="50" font-size="10" fill="#b8860b" text-anchor="middle">最长脚趾</text>
+                        <!-- 脚长标尺 -->
+                        <line x1="28" y1="160" x2="185" y2="160" stroke="#000" stroke-width="1.5" marker-end="url(#arr)" marker-start="url(#arr)"/>
+                        <defs>
+                            <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#000"/></marker>
+                        </defs>
+                        <text x="106" y="175" font-size="11" fill="#000" text-anchor="middle">脚长 L</text>
+                        <!-- 脚宽标尺 -->
+                        <line x1="40" y1="105" x2="170" y2="105" stroke="#0a7d2c" stroke-width="1" stroke-dasharray="4,3"/>
+                        <text x="105" y="100" font-size="9" fill="#0a7d2c" text-anchor="middle">脚宽 W</text>
+                    </svg>
+                </div>
+                <h4>脚长 / 脚宽测量</h4>
+                <p><strong>步骤：</strong>赤脚踩 A4 白纸，脚后跟贴墙，最长脚趾前端画一条竖线。脚长 = 墙到线的水平距离；脚宽 = 脚掌最宽处左右两点的水平距离。</p>
+                <ul>
+                    <li>建议下午 4-6 点测量（脚略胀）</li>
+                    <li>双脚分别测，取较大值</li>
+                    <li>穿袜者按袜子厚度 +0.5cm</li>
+                    <li>脚长每差 0.5cm 对应 1 码</li>
+                    <li>脚宽 &gt; 9.5cm 建议选 3E/4E 楦宽</li>
+                </ul>
+            </div>
+            <div class="measure-card">
+                <div class="svg-box">
+                    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 脚背俯视轮廓 -->
+                        <ellipse cx="120" cy="120" rx="70" ry="40" fill="#ffe0c0" stroke="#c00" stroke-width="1.5"/>
+                        <!-- 脚围皮尺 -->
+                        <ellipse cx="120" cy="100" rx="55" ry="22" fill="none" stroke="#b8860b" stroke-width="2" stroke-dasharray="5,3"/>
+                        <text x="120" y="80" font-size="10" fill="#b8860b" text-anchor="middle">皮尺过脚背最宽处环绕一周</text>
+                        <!-- 标注线 -->
+                        <line x1="60" y1="100" x2="60" y2="30" stroke="#000" stroke-width="1" stroke-dasharray="2,2"/>
+                        <line x1="180" y1="100" x2="180" y2="30" stroke="#000" stroke-width="1" stroke-dasharray="2,2"/>
+                        <line x1="60" y1="40" x2="180" y2="40" stroke="#000" stroke-width="1.5" marker-end="url(#arr2)" marker-start="url(#arr2)"/>
+                        <defs><marker id="arr2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#000"/></marker></defs>
+                        <text x="120" y="32" font-size="11" fill="#000" text-anchor="middle">脚围 C</text>
+                    </svg>
+                </div>
+                <h4>脚围（跖围）测量</h4>
+                <p><strong>步骤：</strong>用软皮尺过脚背最宽处（前脚掌骨头下方）水平环绕一周，松紧以贴合皮肤但不勒紧为准。</p>
+                <ul>
+                    <li>脚围 = 前脚掌周长</li>
+                    <li>标准男款脚围 24-26cm，女款 22-23.5cm</li>
+                    <li>脚围偏大建议大半码 + 加宽楦</li>
+                    <li>高脚背者选系带款，避免一脚蹬</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>2. 服饰：胸围 / 腰围 / 臀围 / 肩宽测量</h3>
+        <div class="measure-grid">
+            <div class="measure-card">
+                <div class="svg-box">
+                    <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 人体上半身轮廓 -->
+                        <path d="M100 30 Q82 32 80 50 Q60 60 55 100 Q50 150 60 200 L140 200 Q150 150 145 100 Q140 60 120 50 Q118 32 100 30 Z" fill="#ffe0c0" stroke="#c00" stroke-width="1.5"/>
+                        <!-- 胸围线 -->
+                        <ellipse cx="100" cy="95" rx="50" ry="10" fill="none" stroke="#b8860b" stroke-width="2" stroke-dasharray="5,3"/>
+                        <line x1="40" y1="95" x2="20" y2="95" stroke="#b8860b" stroke-width="1"/>
+                        <text x="18" y="98" font-size="9" fill="#b8860b" text-anchor="end">胸围</text>
+                        <!-- 腰围线 -->
+                        <ellipse cx="100" cy="135" rx="42" ry="8" fill="none" stroke="#0a7d2c" stroke-width="2" stroke-dasharray="5,3"/>
+                        <line x1="58" y1="135" x2="20" y2="135" stroke="#0a7d2c" stroke-width="1"/>
+                        <text x="18" y="138" font-size="9" fill="#0a7d2c" text-anchor="end">腰围</text>
+                        <!-- 臀围线 -->
+                        <ellipse cx="100" cy="175" rx="48" ry="9" fill="none" stroke="#1e88e5" stroke-width="2" stroke-dasharray="5,3"/>
+                        <line x1="52" y1="175" x2="20" y2="175" stroke="#1e88e5" stroke-width="1"/>
+                        <text x="18" y="178" font-size="9" fill="#1e88e5" text-anchor="end">臀围</text>
+                    </svg>
+                </div>
+                <h4>胸围 / 腰围 / 臀围</h4>
+                <p><strong>胸围：</strong>穿薄衫，皮尺过乳头点（BP 点）水平环绕一周，松紧以能插一根手指为宜，呼气末测量，取三次平均。</p>
+                <p><strong>腰围：</strong>站直放松，皮尺过腰部最细处（约肚脐上 2-3cm）水平环绕一周，不要吸气收腹。</p>
+                <p><strong>臀围：</strong>双脚并拢，皮尺过臀部最丰满处（耻骨后 18-20cm）水平环绕一周。</p>
+                <ul>
+                    <li>所有数据单位为 CM</li>
+                    <li>皮尺保持水平，不可前倾后翘</li>
+                    <li>肩宽另测：后背两肩峰点距离</li>
+                </ul>
+            </div>
+            <div class="measure-card">
+                <div class="svg-box">
+                    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 上衣平铺轮廓 -->
+                        <path d="M30 60 L80 40 L160 40 L210 60 L210 100 L180 90 L180 150 L60 150 L60 90 L30 100 Z" fill="#ffe0c0" stroke="#c00" stroke-width="1.5"/>
+                        <!-- 衣长线 -->
+                        <line x1="120" y1="40" x2="120" y2="150" stroke="#b8860b" stroke-width="1.5" stroke-dasharray="3,2"/>
+                        <text x="120" y="32" font-size="10" fill="#b8860b" text-anchor="middle">衣长</text>
+                        <!-- 肩宽线 -->
+                        <line x1="80" y1="40" x2="160" y2="40" stroke="#000" stroke-width="1.5" marker-end="url(#arr3)" marker-start="url(#arr3)"/>
+                        <defs><marker id="arr3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#000"/></marker></defs>
+                        <text x="120" y="55" font-size="10" fill="#000" text-anchor="middle">肩宽</text>
+                        <!-- 胸围平铺线 -->
+                        <line x1="35" y1="80" x2="205" y2="80" stroke="#0a7d2c" stroke-width="1.5" stroke-dasharray="3,2"/>
+                        <text x="220" y="84" font-size="9" fill="#0a7d2c">胸围÷2</text>
+                    </svg>
+                </div>
+                <h4>平铺测量（参考成衣）</h4>
+                <p><strong>步骤：</strong>将衣服平铺桌面，量以下数据：肩宽（两肩缝线间距离）、胸围平铺（腋下 2cm 处左右两点距离，×2 即胸围）、衣长（肩缝中点到下摆）。</p>
+                <ul>
+                    <li>平铺数据更接近成衣实测</li>
+                    <li>弹性面料拉伸后测</li>
+                    <li>裤长 = 腰头到裤脚外缝</li>
+                    <li>袖长 = 肩缝到袖口</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>3. 箱包：长 / 宽 / 高 / 容量测量</h3>
+        <div class="measure-grid">
+            <div class="measure-card">
+                <div class="svg-box">
+                    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 立体包轮廓 -->
+                        <path d="M60 50 L180 50 L180 130 L60 130 Z" fill="#ffe0c0" stroke="#c00" stroke-width="1.5"/>
+                        <path d="M180 50 L200 40 L200 120 L180 130" fill="#ffd0a0" stroke="#c00" stroke-width="1.5"/>
+                        <path d="M60 50 L80 40 L200 40 L180 50" fill="#fff5e0" stroke="#c00" stroke-width="1.5"/>
+                        <!-- 长 L -->
+                        <line x1="60" y1="148" x2="180" y2="148" stroke="#000" stroke-width="1.5" marker-end="url(#arr4)" marker-start="url(#arr4)"/>
+                        <defs><marker id="arr4" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#000"/></marker></defs>
+                        <text x="120" y="162" font-size="10" fill="#000" text-anchor="middle">长 L</text>
+                        <!-- 高 H -->
+                        <line x1="40" y1="50" x2="40" y2="130" stroke="#b8860b" stroke-width="1.5" marker-end="url(#arr5)" marker-start="url(#arr5)"/>
+                        <defs><marker id="arr5" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#b8860b"/></marker></defs>
+                        <text x="35" y="95" font-size="10" fill="#b8860b" text-anchor="end">高 H</text>
+                        <!-- 宽 W -->
+                        <line x1="200" y1="40" x2="220" y2="30" stroke="#0a7d2c" stroke-width="1.5" marker-end="url(#arr6)" marker-start="url(#arr6)"/>
+                        <defs><marker id="arr6" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#0a7d2c"/></marker></defs>
+                        <text x="220" y="22" font-size="10" fill="#0a7d2c" text-anchor="middle">宽 W</text>
+                    </svg>
+                </div>
+                <h4>外尺寸长 × 宽 × 高</h4>
+                <p><strong>步骤：</strong>将包放平，量最长边为「长」，前后厚度为「宽」，上下为「高」。许乐商品页均标注「外尺寸」，选购电脑包需留 1-2cm 余量。</p>
+                <ul>
+                    <li>单位 CM，按外轮廓量</li>
+                    <li>含提手高度另标</li>
+                    <li>容量（L）= 长×宽×高÷1000（近似）</li>
+                    <li>笔电包需 ≥ 笔电 + 2cm</li>
+                </ul>
+            </div>
+            <div class="measure-card">
+                <div class="svg-box">
+                    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 背带长度示意：包+背带 -->
+                        <path d="M80 100 L160 100 L160 160 L80 160 Z" fill="#ffe0c0" stroke="#c00" stroke-width="1.5"/>
+                        <path d="M80 100 Q120 30 160 100" fill="none" stroke="#b8860b" stroke-width="2" stroke-dasharray="5,3"/>
+                        <text x="120" y="50" font-size="10" fill="#b8860b" text-anchor="middle">背带长 S</text>
+                        <!-- 背带标尺 -->
+                        <line x1="175" y1="100" x2="175" y2="50" stroke="#000" stroke-width="1" stroke-dasharray="2,2"/>
+                        <line x1="175" y1="50" x2="190" y2="50" stroke="#000" stroke-width="1"/>
+                        <line x1="120" y1="50" x2="190" y2="50" stroke="#000" stroke-width="1.5" marker-end="url(#arr7)" marker-start="url(#arr7)"/>
+                        <defs><marker id="arr7" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#000"/></marker></defs>
+                        <!-- 可调范围 -->
+                        <text x="120" y="180" font-size="10" fill="#0a7d2c" text-anchor="middle">可调范围 50-120cm</text>
+                    </svg>
+                </div>
+                <h4>背带 / 提手长度</h4>
+                <p><strong>步骤：</strong>背带从五金扣一端沿带身量到另一端，含可调范围。提手则量两五金扣之间直线距离。单肩背负建议肩高 30-40cm，斜挎建议 60-100cm。</p>
+                <ul>
+                    <li>背带可调范围标注最大值</li>
+                    <li>双肩背负需肩带 70cm 以上</li>
+                    <li>提手高度影响手提舒适度</li>
+                    <li>挂件负重后背带会延伸 1-2cm</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>4. 饰品：项链 / 手链 / 戒指测量</h3>
+        <div class="measure-grid">
+            <div class="measure-card">
+                <div class="svg-box">
+                    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 项链链长对照 -->
+                        <!-- 人体上半身轮廓 -->
+                        <path d="M120 30 Q108 30 105 45 Q90 55 90 100 Q90 150 100 175 L140 175 Q150 150 150 100 Q150 55 135 45 Q132 30 120 30 Z" fill="#fff5e0" stroke="#999" stroke-width="1"/>
+                        <!-- 锁骨线 -->
+                        <line x1="90" y1="60" x2="150" y2="60" stroke="#bbb" stroke-width="1" stroke-dasharray="3,2"/>
+                        <!-- 链长 35-38 -->
+                        <ellipse cx="120" cy="62" rx="28" ry="5" fill="none" stroke="#1e88e5" stroke-width="1.5"/>
+                        <text x="200" y="62" font-size="9" fill="#1e88e5">35-38cm 锁骨</text>
+                        <!-- 链长 40-42 -->
+                        <ellipse cx="120" cy="78" rx="32" ry="6" fill="none" stroke="#0a7d2c" stroke-width="1.5"/>
+                        <text x="200" y="78" font-size="9" fill="#0a7d2c">40-42cm 标准</text>
+                        <!-- 链长 45-48 -->
+                        <ellipse cx="120" cy="95" rx="36" ry="7" fill="none" stroke="#b8860b" stroke-width="1.5"/>
+                        <text x="200" y="95" font-size="9" fill="#b8860b">45-48cm 胸上</text>
+                        <!-- 链长 50-55 -->
+                        <ellipse cx="120" cy="115" rx="40" ry="8" fill="none" stroke="#c00" stroke-width="1.5"/>
+                        <text x="200" y="115" font-size="9" fill="#c00">50-55cm 胸中</text>
+                    </svg>
+                </div>
+                <h4>项链链长选择</h4>
+                <p><strong>步骤：</strong>用软皮尺从颈后第七颈椎（脖子后部凸起骨）为起点，沿前胸下垂到目标位置，长度即所需链长。</p>
+                <ul>
+                    <li>锁骨链 35-38cm，紧贴颈根</li>
+                    <li>标准女款 40-42cm，落锁骨下</li>
+                    <li>毛衣链 50-55cm，过胸前</li>
+                    <li>挂坠款建议 +2-3cm</li>
+                </ul>
+            </div>
+            <div class="measure-card">
+                <div class="svg-box">
+                    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 戒指内径测量示意 -->
+                        <circle cx="100" cy="90" r="35" fill="none" stroke="#b8860b" stroke-width="6"/>
+                        <circle cx="100" cy="90" r="35" fill="none" stroke="#c00" stroke-width="1" stroke-dasharray="3,2"/>
+                        <!-- 内径标尺 -->
+                        <line x1="65" y1="90" x2="135" y2="90" stroke="#000" stroke-width="1.5" marker-end="url(#arr8)" marker-start="url(#arr8)"/>
+                        <defs><marker id="arr8" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#000"/></marker></defs>
+                        <text x="100" y="80" font-size="10" fill="#000" text-anchor="middle">内径 Ø</text>
+                        <!-- 周长标尺 -->
+                        <line x1="180" y1="55" x2="180" y2="125" stroke="#0a7d2c" stroke-width="1.5" marker-end="url(#arr9)" marker-start="url(#arr9)"/>
+                        <defs><marker id="arr9" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#0a7d2c"/></marker></defs>
+                        <text x="200" y="93" font-size="10" fill="#0a7d2c" text-anchor="middle">周长 C</text>
+                        <!-- 说明 -->
+                        <text x="120" y="160" font-size="10" fill="#000" text-anchor="middle">C = Ø × π ≈ Ø × 3.14</text>
+                    </svg>
+                </div>
+                <h4>戒指内径 / 周长</h4>
+                <p><strong>方法一（纸条法）：</strong>用细纸条绕手指根部一圈，标记后量长度即周长（C）。</p>
+                <p><strong>方法二（直尺法）：</strong>用直尺量现有戒指内圈直径（Ø），周长 C = Ø × 3.14。</p>
+                <ul>
+                    <li>建议晚上测量（手指略胀）</li>
+                    <li>关节比指根粗需按关节量</li>
+                    <li>925 银开口款可调 2 号</li>
+                    <li>对照表见上方「戒指号数对照」</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="notice" style="margin-top:24px;">
+            <strong>许乐的承诺：</strong>
+            若按本表选购后仍出现尺码不合，首次换货运费由许乐承担。详见 <a href="shipping.html#return7" style="color:#b8860b;text-decoration:underline;">7 天无理由退换说明</a>。
+        </div>
+    </div>
+
+    <a href="index.html" class="back-home">← 返回首页</a>
+</div>
+</div>
+<!-- /main-wrap -->
+
+<footer>
+    <div class="footer-bottom">
+        <p>©2026 许乐有限公司 版权所有 · xulove.com</p>
+        <p>营业执照：XXXXXXXXXXXXXXXXXX | ICP 备案号：鲁ICP备XXXXXXXX号</p>
+        <p>《用户服务协议》｜《隐私政策》｜《消费者权益保障》｜《7 天无理由退换货规则》</p>
+    </div>
+</footer>
+
+<script>
+    // 码数自查小工具
+    document.getElementById('calcShoesBtn').addEventListener('click', function(){
+        var foot = parseFloat(document.getElementById('footLen').value);
+        if (!foot || foot < 15 || foot > 32) {
+            document.getElementById('calcResult').textContent = '请输入 15-32 之间的有效脚长（CM）';
+            return;
+        }
+        var gender = document.getElementById('gender').value;
+        // 国码 CN 大致 = 脚长 × 2 - 10 (男)，女 = 脚长 × 2 - 9
+        var cn = gender === 'male' ? Math.round(foot * 2 - 10) : Math.round(foot * 2 - 9);
+        var eu = cn;
+        var us = gender === 'male' ? (cn - 33.5).toFixed(1) : (cn - 31).toFixed(1);
+        document.getElementById('calcResult').innerHTML =
+            '推荐许乐国码：<strong>CN ' + cn + '</strong>（欧码 EU ' + eu + '，美码 US ' + us + '）。' +
+            '脚长 ' + foot + ' CM 介于 ' + (cn - 0.5).toFixed(1) + '-' + (cn + 0.4).toFixed(1) + ' CM 区间，' +
+            '建议楦宽：脚掌较宽请选 3E 楦宽并大半码。';
+    });
+    document.getElementById('calcType').addEventListener('change', function(){
+        if (this.value === 'clothing') {
+            document.getElementById('shoesRow').style.display = 'none';
+            document.getElementById('calcResult').innerHTML = '服饰尺码请直接参考 <a href="#clothing" style="color:#b8860b;text-decoration:underline;">服饰尺码对照表</a>，按身高 + 胸围选号型。';
+        } else {
+            document.getElementById('shoesRow').style.display = 'flex';
+            document.getElementById('calcResult').innerHTML = '输入脚长后将自动推荐许乐国码（CN）与常见对应码。';
+        }
+    });
+</script>
+</body>
+</html>

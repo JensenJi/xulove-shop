@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电子礼品卡 - 鞋履服饰箱包饰品 - 许乐 XULOVE</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft Yahei", Arial, sans-serif; }
+        body { background: #fff; color: #000; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        header { padding: 24px 40px; }
+        .header-top { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
+        .logo { line-height: 1; }
+        .logo-mark {
+            display: inline-flex;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(207,48,36,0.22), 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 12%;
+            bottom: 12%;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #fff 0 3px, transparent 3px 5px);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .logo-xu {
+            color: #fff;
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo-le {
+            color: #fff;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo .sub {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #888;
+            margin-top: 10px;
+        }
+        .logo .sub-url { color: #cf3024; font-weight: 700; }
+        .logo .sub-sep { color: #ccc; margin: 0 5px; }
+        .logo .sub-tag { color: #659ee3; font-weight: 600; }
+        .search-wrap { flex: 1; display: flex; }
+        .search-wrap input { flex: 1; padding: 14px 16px; border: 1px solid #ccc; border-right: none; font-size: 18px; }
+        .search-wrap button { padding: 14px 28px; border: 1px solid #ccc; background: #fff; font-weight: bold; font-size: 18px; cursor: pointer; }
+        .header-icons { display: flex; gap: 24px; font-size: 32px; }
+        nav ul { display: flex; gap: 48px; list-style: none; font-size: 24px; font-weight: 500; align-items: center; }
+        nav ul li { cursor: pointer; }
+        /* 导航下拉菜单 */
+        nav ul li.has-dropdown { position: relative; }
+        nav ul li.has-dropdown > ul.dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 140px;
+            padding: 8px 0;
+            z-index: 100;
+            flex-direction: column;
+            gap: 0;
+        }
+        nav ul li.has-dropdown:hover > ul.dropdown { display: flex; }
+        nav ul li.has-dropdown > ul.dropdown li {
+            font-size: 15px;
+            padding: 8px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        nav ul li.has-dropdown > ul.dropdown li:hover { background: #fafafa; color: #b8860b; }
+        nav ul li.has-dropdown > ul.dropdown li a { display: block; }
+
+        .sub-nav { background: #fafafa; border-bottom: 1px solid #eee; padding: 16px 40px; position: sticky; top: 0; z-index: 10; }
+        .sub-nav ul { display: flex; gap: 40px; }
+        .sub-nav li { font-size: 16px; cursor: pointer; padding: 4px 0; }
+        .sub-nav li:hover { color: #b8860b; border-bottom: 2px solid #b8860b; }
+
+        .page { padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
+        .page h1 { font-size: 40px; margin-bottom: 12px; }
+        .page .lead { font-size: 18px; color: #666; margin-bottom: 40px; line-height: 1.7; }
+        .page h2 { font-size: 28px; margin: 48px 0 20px; padding-left: 16px; border-left: 4px solid #000; }
+        .page h3 { font-size: 20px; margin: 24px 0 12px; }
+        .page p { font-size: 15px; line-height: 1.9; color: #333; margin-bottom: 16px; }
+        .page ul.bullet { margin: 0 0 24px 24px; }
+        .page ul.bullet li { font-size: 15px; line-height: 1.9; color: #333; list-style: disc; margin-bottom: 6px; }
+        .section-block { margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
+        .section-block:last-child { border-bottom: none; }
+
+        /* 面额卡 */
+        .amount-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 16px; }
+        .amount-card { border: 2px solid #ddd; padding: 24px 12px; text-align: center; cursor: pointer; font-size: 22px; font-weight: bold; transition: all .2s; background: #fff; }
+        .amount-card:hover, .amount-card.active { border-color: #b8860b; background: #fff8e1; color: #b8860b; }
+        .custom-amount { border: 2px dashed #bbb; padding: 16px; margin-top: 16px; display: flex; align-items: center; gap: 12px; }
+        .custom-amount input { flex: 1; padding: 10px; border: 1px solid #ccc; font-size: 16px; }
+        .custom-amount span { color: #888; font-size: 14px; }
+
+        /* 主题模板 */
+        .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 16px; }
+        .theme-card { border: 1px solid #eee; padding: 16px; cursor: pointer; transition: all .2s; }
+        .theme-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .theme-card.active { border-color: #b8860b; background: #fff8e1; }
+        .theme-preview { width: 100%; height: 160px; background: linear-gradient(135deg, #f5e6c8, #d4af37); margin-bottom: 12px; display: flex; align-items: center; justify-content: center; color: #5d4037; font-size: 14px; font-weight: bold; position: relative; }
+        .theme-preview.birthday { background: linear-gradient(135deg, #ffd1dc, #ff6b9d); color: #fff; }
+        .theme-preview.wedding { background: linear-gradient(135deg, #fff, #ddd); color: #888; }
+        .theme-preview.newyear { background: linear-gradient(135deg, #ff4444, #cc0000); color: #fff; }
+        .theme-preview.midautumn { background: linear-gradient(135deg, #5c4d3c, #2c1810); color: #f5d76e; }
+        .theme-preview.teacher { background: linear-gradient(135deg, #b8e6b8, #4a8a4a); color: #fff; }
+        .theme-preview.business { background: linear-gradient(135deg, #1a1a1a, #4a4a4a); color: #d4af37; }
+        .theme-card h4 { font-size: 16px; margin-bottom: 6px; }
+        .theme-card p { font-size: 13px; color: #666; line-height: 1.6; margin: 0; }
+
+        /* 购买流程 */
+        .flow-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+        .flow-item { display: flex; gap: 16px; align-items: flex-start; padding: 20px; background: #fafafa; border-left: 4px solid #b8860b; }
+        .flow-num { font-size: 28px; font-weight: 900; color: #b8860b; min-width: 40px; }
+        .flow-body h4 { font-size: 16px; margin-bottom: 6px; }
+        .flow-body p { font-size: 14px; color: #555; line-height: 1.7; margin: 0; }
+
+        /* 礼品卡 mockup 预览 */
+        .card-mockup { width: 100%; max-width: 480px; margin: 24px auto; aspect-ratio: 1.6/1; background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%); border-radius: 12px; padding: 24px; color: #fff; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+        .card-mockup .top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .card-mockup .brand { font-size: 24px; font-weight: 900; letter-spacing: 4px; }
+        .card-mockup .brand .sub { display: block; font-size: 11px; font-weight: 400; letter-spacing: 6px; color: #d4af37; }
+        .card-mockup .amount-display { font-size: 48px; font-weight: 900; color: #d4af37; }
+        .card-mockup .bottom { display: flex; justify-content: space-between; font-size: 12px; color: #ccc; }
+        .card-mockup .greeting { font-size: 13px; color: #ddd; line-height: 1.6; }
+
+        /* 表单 */
+        .buy-form { background: #fafafa; border: 1px solid #eee; padding: 32px; margin-top: 24px; }
+        .form-row { margin-bottom: 16px; }
+        .form-row label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; }
+        .form-row input, .form-row select, .form-row textarea { width: 100%; padding: 10px 12px; border: 1px solid #ccc; font-size: 14px; font-family: inherit; background: #fff; }
+        .form-row textarea { min-height: 80px; resize: vertical; }
+        .form-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .submit-btn { padding: 12px 32px; background: #000; color: #fff; border: none; font-size: 16px; cursor: pointer; }
+        .reset-btn { padding: 12px 24px; background: #fff; color: #333; border: 1px solid #ccc; font-size: 16px; cursor: pointer; margin-left: 12px; }
+
+        .notice { background: #fff8e1; border-left: 4px solid #b8860b; padding: 16px 20px; margin: 16px 0; font-size: 14px; line-height: 1.8; color: #5d4037; }
+        .notice strong { color: #b8860b; }
+
+        /* 企业批量 */
+        .enterprise-block { background: #000; color: #fff; padding: 32px; margin-top: 24px; }
+        .enterprise-block h3 { color: #d4af37; }
+        .enterprise-block p { color: #ccc; }
+        .enterprise-block .form-grid2 label { color: #999; }
+        .enterprise-block .form-grid2 input, .enterprise-block .form-grid2 select { background: #1a1a1a; border-color: #444; color: #fff; }
+
+        footer { background: #fff; border-top: 1px solid #eee; padding: 40px; }
+        .footer-bottom { border-top: 1px solid #ddd; padding-top: 20px; font-size: 14px; line-height: 1.8; color: #444; }
+        .back-home { display: inline-block; margin-top: 20px; padding: 10px 24px; background: #000; color: #fff; font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .amount-grid, .theme-grid, .form-grid2 { grid-template-columns: repeat(2, 1fr); }
+            nav ul { flex-wrap: wrap; gap: 20px; font-size: 16px; }
+        }
+        /* 全站统一两栏布局 */
+        .main-wrap { display: flex; gap: 24px; padding: 40px 40px 60px; align-items: flex-start; }
+        .side-filter { width: 220px; flex-shrink: 0; border: 1px solid #eee; background: #fff; padding: 20px 16px; position: sticky; top: 80px; }
+        .side-filter .side-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; color: #000; border-left: 3px solid #b8860b; padding-left: 8px; }
+        .side-filter .side-group { border-bottom: 1px solid #f0f0f0; padding-bottom: 18px; margin-bottom: 18px; }
+        .side-filter .side-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .az-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+        .az-grid a { display: block; text-align: center; padding: 6px 0; font-size: 13px; border: 1px solid #eee; color: #333; background: #fff; transition: all .15s; }
+        .az-grid a:hover { border-color: #b8860b; color: #b8860b; background: #fff8e1; }
+        .az-grid a.disabled { color: #ccc; background: #fafafa; cursor: not-allowed; pointer-events: none; }
+        .price-tags { display: flex; flex-direction: column; gap: 6px; }
+        .price-tags label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; cursor: pointer; padding: 4px 0; }
+        .price-tags label:hover { color: #b8860b; }
+        .price-tags input { margin: 0; }
+        .page { flex: 1; min-width: 0; max-width: 1000px; margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-top">
+        <div class="logo">
+            <div class="logo-mark">
+                <span class="logo-xu">许</span><span class="logo-le">乐</span>
+            </div>
+            <span class="sub"><span class="sub-url">https://xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服饰 箱包 饰品</span></span>
+        </div>
+        <div class="search-wrap">
+            <input placeholder="搜索鞋履、服饰、箱包、饰品、品牌…">
+            <button>搜索</button>
+        </div>
+        <div class="header-icons">
+            <span>👤</span>
+            <span>🛒</span>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li class="has-dropdown">女士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">裙装</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">男士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">外套</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">儿童专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">童鞋</a></li>
+                    <li><a href="category.html?cat=clothing">童装</a></li>
+                    <li><a href="category.html?cat=accessories">配饰</a></li>
+                </ul>
+            </li>
+            <li><a href="brands.html">品牌集合</a></li>
+            <li class="has-dropdown"><a href="category.html?cat=shoes">运动鞋款</a>
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">跑步鞋</a></li>
+                    <li><a href="category.html?cat=shoes">篮球鞋</a></li>
+                    <li><a href="category.html?cat=shoes">板鞋</a></li>
+                    <li><a href="category.html?cat=shoes">休闲鞋</a></li>
+                    <li><a href="category.html?cat=shoes">户外鞋</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">运动装备
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=clothing">运动上衣</a></li>
+                    <li><a href="category.html?cat=clothing">运动裤</a></li>
+                    <li><a href="category.html?cat=bags">运动包</a></li>
+                    <li><a href="category.html?cat=accessories">运动配件</a></li>
+                </ul>
+            </li>
+            <li style="margin-left:auto;"><a href="faq.html">帮助与客服</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="sub-nav">
+    <ul>
+        <li><a href="#amount">礼品卡面额</a></li>
+        <li><a href="#theme">主题模板</a></li>
+        <li><a href="#flow">购买流程</a></li>
+        <li><a href="#rules">使用规则</a></li>
+        <li><a href="#preview">卡面预览</a></li>
+        <li><a href="#enterprise">企业批量采购</a></li>
+    </ul>
+</div>
+
+<!-- 全站统一两栏布局：左侧品牌+价格筛选，右侧主内容 -->
+<div class="main-wrap">
+<aside class="side-filter">
+    <div class="side-group">
+        <div class="side-title">品牌</div>
+        <div class="az-grid">
+            <a href="brands.html#A">A</a><a href="brands.html#B">B</a><a href="brands.html#C">C</a><a href="brands.html#D">D</a><a href="brands.html#E">E</a>
+            <a href="brands.html#F">F</a><a href="brands.html#G">G</a><a href="brands.html#H">H</a><a href="brands.html#I">I</a><a href="brands.html#J">J</a>
+            <a href="brands.html#K">K</a><a href="brands.html#L">L</a><a href="brands.html#M">M</a><a href="brands.html#N">N</a><a href="brands.html#O">O</a>
+            <a href="brands.html#P">P</a><a href="brands.html#Q">Q</a><a href="brands.html#R">R</a><a href="brands.html#S">S</a><a href="brands.html#T">T</a>
+            <a href="brands.html#U">U</a><a href="brands.html#V">V</a><a href="brands.html#W">W</a><a class="disabled" title="暂无品牌">X</a><a href="brands.html#Y">Y</a>
+            <a href="brands.html#Z">Z</a><a class="disabled" title="暂无品牌">#</a><a class="disabled" title="暂无品牌">0-9</a><a class="disabled" title="暂无品牌">★</a><a class="disabled" title="中文名">中</a>
+        </div>
+    </div>
+    <div class="side-group">
+        <div class="side-title">价格区间</div>
+        <div class="price-tags">
+            <label><input type="checkbox" value="0-300"> ¥0 - 300</label>
+            <label><input type="checkbox" value="300-800"> ¥300 - 800</label>
+            <label><input type="checkbox" value="800-1500"> ¥800 - 1500</label>
+            <label><input type="checkbox" value="1500-3000"> ¥1500 - 3000</label>
+            <label><input type="checkbox" value="3000+"> ¥3000 以上</label>
+        </div>
+    </div>
+    <div class="side-group" style="font-size:12px;color:#999;line-height:1.7;">
+        内容页同样保留左侧品牌与价格筛选，保持全站统一。点击字母跳转品牌大全页。
+    </div>
+</aside>
+
+<div class="page">
+    <h1>电子礼品卡</h1>
+    <p class="lead">许乐电子礼品卡 — 把「行业人共创」的品质，送给在乎的人。可自用、可赠人，适合商务馈赠、节日礼遇与员工福利。</p>
+
+    <!-- 面额 -->
+    <div class="section-block" id="amount">
+        <h2>礼品卡面额</h2>
+        <p>选择您想购买的面额，自定义面额支持 100-5000 元任意金额：</p>
+        <div class="amount-grid">
+            <div class="amount-card" data-amount="50">¥50</div>
+            <div class="amount-card active" data-amount="100">¥100</div>
+            <div class="amount-card" data-amount="200">¥200</div>
+            <div class="amount-card" data-amount="500">¥500</div>
+            <div class="amount-card" data-amount="1000">¥1000</div>
+            <div class="amount-card" data-amount="2000">¥2000</div>
+        </div>
+        <div class="custom-amount">
+            <span>自定义面额</span>
+            <input type="number" id="customAmount" placeholder="100-5000 元" min="100" max="5000">
+            <span>元</span>
+        </div>
+    </div>
+
+    <!-- 主题模板 -->
+    <div class="section-block" id="theme">
+        <h2>主题模板</h2>
+        <p>选择卡面主题，每个主题附带预设文案，可在购买时修改为您的祝福语：</p>
+        <div class="theme-grid">
+            <div class="theme-card active" data-theme="birthday">
+                <div class="theme-preview birthday">生日祝福</div>
+                <h4>生日祝福</h4>
+                <p>愿你步履不停，奔赴山海。生日快乐！</p>
+            </div>
+            <div class="theme-card" data-theme="wedding">
+                <div class="theme-preview wedding">新婚贺礼</div>
+                <h4>新婚贺礼</h4>
+                <p>从「我」到「我们」，每一步都值得好物相伴。</p>
+            </div>
+            <div class="theme-card" data-theme="newyear">
+                <div class="theme-preview newyear">新年礼遇</div>
+                <h4>新年礼遇</h4>
+                <p>新年新履，步步高升。许乐与你共启新年。</p>
+            </div>
+            <div class="theme-card" data-theme="midautumn">
+                <div class="theme-preview midautumn">中秋佳节</div>
+                <h4>中秋佳节</h4>
+                <p>月圆人圆，履亦圆。中秋安康。</p>
+            </div>
+            <div class="theme-card" data-theme="teacher">
+                <div class="theme-preview teacher">感谢师恩</div>
+                <h4>感谢师恩</h4>
+                <p>桃李不言，下自成蹊。师恩铭记。</p>
+            </div>
+            <div class="theme-card" data-theme="business">
+                <div class="theme-preview business">商务馈赠</div>
+                <h4>商务馈赠</h4>
+                <p>品质有据，礼重情更长。许乐 XULOVE。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 购买流程 -->
+    <div class="section-block" id="flow">
+        <h2>购买流程</h2>
+        <div class="flow-list">
+            <div class="flow-item">
+                <div class="flow-num">01</div>
+                <div class="flow-body">
+                    <h4>选面额</h4>
+                    <p>从 50/100/200/500/1000/2000 元档位选择，或自定义 100-5000 元任意金额。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">02</div>
+                <div class="flow-body">
+                    <h4>选主题</h4>
+                    <p>从 6 个节日主题模板中选择，或选「自定义」上传企业 LOGO（仅企业采购）。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">03</div>
+                <div class="flow-body">
+                    <h4>填祝福与收件人</h4>
+                    <p>填写祝福语（最多 80 字）与收件人手机号/邮箱，可发送给他人或自己。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">04</div>
+                <div class="flow-body">
+                    <h4>支付</h4>
+                    <p>支持微信/支付宝/银联支付。购卡时不开发票，使用礼品卡消费时随订单开具。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">05</div>
+                <div class="flow-body">
+                    <h4>发送</h4>
+                    <p>支付后系统自动通过邮件/短信发送卡号与密码。可一键加入微信卡包。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用规则 -->
+    <div class="section-block" id="rules">
+        <h2>使用规则</h2>
+        <ul class="bullet">
+            <li>礼品卡可自用或赠人，收件人需注册许乐账户后绑定礼品卡方可使用</li>
+            <li>有效期 1 年，自购买之日起计算，过期失效不予延期</li>
+            <li>不找零、不兑现，单笔订单可使用多张礼品卡抵扣至订单金额为 0</li>
+            <li>礼品卡为预付价值，直接抵扣订单金额，不可兑换现金</li>
+            <li>礼品卡金额可分多次使用，余额可在「我的-礼品卡」查看</li>
+            <li>购买后 7 天内未发送至收件人，购买人可申请全额退款</li>
+            <li>已发送礼品卡若丢失卡号，可凭购买订单号联系客服补发</li>
+            <li>礼品卡仅限许乐平台自营商品使用，第三方入驻品牌不支持</li>
+        </ul>
+        <div class="notice"><strong>提示：</strong>礼品卡消费不开发票（购卡时不开），实际下单时随订单开具发票。退款时礼品卡支付部分原路退回卡内，不退现金。</div>
+    </div>
+
+    <!-- 卡面预览 -->
+    <div class="section-block" id="preview">
+        <h2>卡面预览</h2>
+        <p>以下为当前所选面额与主题的卡面预览，购买后实际卡面附卡号与密码：</p>
+        <div class="card-mockup" id="cardMockup">
+            <div class="top">
+                <div class="brand">许乐<span class="sub">XULOVE</span></div>
+                <div style="font-size:11px;color:#d4af37;">礼品卡</div>
+            </div>
+            <div class="greeting" id="mockupGreeting">愿你步履不停，奔赴山海。生日快乐！</div>
+            <div>
+                <div class="amount-display" id="mockupAmount">¥100</div>
+                <div class="bottom">
+                    <span>卡号：XUL-GC-XXXX-XXXX（购买后生成）</span>
+                    <span>有效期 1 年</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 购买表单 -->
+        <div class="buy-form">
+            <h3 style="font-size:20px;margin-bottom:16px;">立即购买</h3>
+            <form onsubmit="return false">
+                <div class="form-grid2">
+                    <div class="form-row">
+                        <label>收件人手机号 <span style="color:#c00">*</span></label>
+                        <input type="tel" placeholder="11 位手机号">
+                    </div>
+                    <div class="form-row">
+                        <label>收件人邮箱（选填，用于邮件通知）</label>
+                        <input type="email" placeholder="name@example.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>祝福语（最多 80 字）</label>
+                    <textarea id="greetingInput" placeholder="愿你步履不停，奔赴山海。生日快乐！" maxlength="80"></textarea>
+                </div>
+                <div class="form-grid2">
+                    <div class="form-row">
+                        <label>发送时间</label>
+                        <select>
+                            <option>立即发送</option>
+                            <option>指定时间发送（可选节日当天）</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label>购买人手机号（用于退款/查询）</label>
+                        <input type="tel" placeholder="11 位手机号">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>购买数量</label>
+                    <input type="number" value="1" min="1" max="100">
+                </div>
+                <div class="form-row">
+                    <label><input type="checkbox" style="width:auto;margin-right:6px;"> 我已阅读并同意《许乐电子礼品卡服务条款》</label>
+                </div>
+                <button class="submit-btn">支付 <span id="payAmount">¥100</span></button>
+                <button type="reset" class="reset-btn">重置</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 企业批量采购 -->
+    <div class="section-block" id="enterprise">
+        <h2>企业批量采购</h2>
+        <div class="enterprise-block">
+            <h3 style="font-size:22px;margin-bottom:12px;">专属权益</h3>
+            <p style="font-size:14px;line-height:1.8;color:#ccc;margin-bottom:24px;">单笔采购满 5 万元以上享：</p>
+            <ul style="margin-bottom:24px;font-size:14px;line-height:2;color:#ccc;">
+                <li>· 卡面定制企业 LOGO 与专属祝福语</li>
+                <li>· 专属对接经理，1 对 1 服务</li>
+                <li>· 开具增值税专用发票</li>
+                <li>· 批量购买请联系客服洽谈</li>
+                <li>· 适合员工福利、商务馈赠、客户答谢、年会抽奖</li>
+            </ul>
+            <h3 style="font-size:18px;margin-bottom:16px;color:#d4af37;">企业采购申请</h3>
+            <form onsubmit="return false">
+                <div class="form-grid2">
+                    <div class="form-row">
+                        <label>公司名称</label>
+                        <input type="text" placeholder="营业执照上的全称">
+                    </div>
+                    <div class="form-row">
+                        <label>联系人</label>
+                        <input type="text" placeholder="姓名">
+                    </div>
+                </div>
+                <div class="form-grid2">
+                    <div class="form-row">
+                        <label>手机号</label>
+                        <input type="tel" placeholder="11 位手机号">
+                    </div>
+                    <div class="form-row">
+                        <label>采购金额（元）</label>
+                        <input type="number" placeholder="如 50000">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>采购用途</label>
+                    <select>
+                        <option>员工福利</option>
+                        <option>商务馈赠</option>
+                        <option>客户答谢</option>
+                        <option>年会抽奖</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>备注（如定制 LOGO、分批次发送等）</label>
+                    <textarea placeholder="请说明您的具体需求"></textarea>
+                </div>
+                <button class="submit-btn" style="background:#d4af37;color:#1a1a1a;">提交企业采购申请</button>
+            </form>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-home">← 返回首页</a>
+</div>
+</div>
+<!-- /main-wrap -->
+
+<footer>
+    <div class="footer-bottom">
+        <p>©2026 许乐有限公司 版权所有 · xulove.com</p>
+        <p>营业执照：XXXXXXXXXXXXXXXXXX | ICP 备案号：鲁ICP备XXXXXXXX号</p>
+        <p>《用户服务协议》｜《隐私政策》｜《消费者权益保障》｜《7 天无理由退换货规则》</p>
+    </div>
+</footer>
+
+<script>
+    // 面额选择
+    var currentAmount = 100;
+    var currentTheme = 'birthday';
+    var currentGreeting = '愿你步履不停，奔赴山海。生日快乐！';
+
+    document.querySelectorAll('.amount-card').forEach(function(card){
+        card.addEventListener('click', function(){
+            document.querySelectorAll('.amount-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+            currentAmount = parseInt(card.dataset.amount);
+            updatePreview();
+        });
+    });
+    document.getElementById('customAmount').addEventListener('input', function(){
+        var v = parseInt(this.value);
+        if (v >= 100 && v <= 5000) {
+            document.querySelectorAll('.amount-card').forEach(c => c.classList.remove('active'));
+            currentAmount = v;
+            updatePreview();
+        }
+    });
+
+    // 主题选择
+    var themeGreetings = {
+        birthday: '愿你步履不停，奔赴山海。生日快乐！',
+        wedding: '从「我」到「我们」，每一步都值得好物相伴。',
+        newyear: '新年新履，步步高升。许乐与你共启新年。',
+        midautumn: '月圆人圆，履亦圆。中秋安康。',
+        teacher: '桃李不言，下自成蹊。师恩铭记。',
+        business: '品质有据，礼重情更长。许乐 XULOVE。'
+    };
+    document.querySelectorAll('.theme-card').forEach(function(card){
+        card.addEventListener('click', function(){
+            document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+            currentTheme = card.dataset.theme;
+            currentGreeting = themeGreetings[currentTheme];
+            document.getElementById('greetingInput').value = currentGreeting;
+            updatePreview();
+        });
+    });
+
+    // 祝福语实时预览
+    document.getElementById('greetingInput').addEventListener('input', function(){
+        currentGreeting = this.value || themeGreetings[currentTheme];
+        updatePreview();
+    });
+
+    function updatePreview() {
+        document.getElementById('mockupAmount').textContent = '¥' + currentAmount;
+        document.getElementById('mockupGreeting').textContent = currentGreeting;
+        document.getElementById('payAmount').textContent = '¥' + currentAmount;
+    }
+</script>
+</body>
+</html>

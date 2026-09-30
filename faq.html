@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮助中心 - 常见问题与联系客服 | 许乐 XULOVE</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft Yahei", Arial, sans-serif; }
+        body { background: #fff; color: #000; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        header { padding: 24px 40px; }
+        .header-top { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
+        .logo { line-height: 1; }
+        .logo-mark {
+            display: inline-flex;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(207,48,36,0.22), 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 12%;
+            bottom: 12%;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #fff 0 3px, transparent 3px 5px);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .logo-xu {
+            color: #fff;
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo-le {
+            color: #fff;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo .sub {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #888;
+            margin-top: 10px;
+        }
+        .logo .sub-url { color: #cf3024; font-weight: 700; }
+        .logo .sub-sep { color: #ccc; margin: 0 5px; }
+        .logo .sub-tag { color: #659ee3; font-weight: 600; }
+        .search-wrap { flex: 1; display: flex; }
+        .search-wrap input { flex: 1; padding: 14px 16px; border: 1px solid #ccc; border-right: none; font-size: 18px; }
+        .search-wrap button { padding: 14px 28px; border: 1px solid #ccc; background: #fff; font-weight: bold; font-size: 18px; cursor: pointer; }
+        .header-icons { display: flex; gap: 24px; font-size: 32px; }
+        nav ul { display: flex; gap: 48px; list-style: none; font-size: 24px; font-weight: 500; align-items: center; }
+        nav ul li { cursor: pointer; }
+        /* 导航下拉菜单 */
+        nav ul li.has-dropdown { position: relative; }
+        nav ul li.has-dropdown > ul.dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 140px;
+            padding: 8px 0;
+            z-index: 100;
+            flex-direction: column;
+            gap: 0;
+        }
+        nav ul li.has-dropdown:hover > ul.dropdown { display: flex; }
+        nav ul li.has-dropdown > ul.dropdown li {
+            font-size: 15px;
+            padding: 8px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        nav ul li.has-dropdown > ul.dropdown li:hover { background: #fafafa; color: #b8860b; }
+        nav ul li.has-dropdown > ul.dropdown li a { display: block; }
+
+        /* 二级导航 */
+        .page { padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
+        .page h1 { font-size: 40px; margin-bottom: 12px; }
+        .page .lead { font-size: 18px; color: #666; margin-bottom: 40px; line-height: 1.7; }
+
+        /* FAQ 分类导航 */
+        .faq-tabs { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; border-bottom: 1px solid #eee; padding-bottom: 16px; }
+        .faq-tab { padding: 10px 20px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-size: 15px; }
+        .faq-tab.active { background: #000; color: #fff; border-color: #000; }
+
+        /* FAQ 手风琴 */
+        .faq-category { display: none; }
+        .faq-category.active { display: block; }
+        .faq-item { border: 1px solid #eee; margin-bottom: 12px; }
+        .faq-q { padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 500; background: #fafafa; }
+        .faq-q::after { content: "+"; font-size: 20px; color: #888; transition: transform .2s; }
+        .faq-item.open .faq-q::after { transform: rotate(45deg); }
+        .faq-a { max-height: 0; overflow: hidden; transition: max-height .25s ease; padding: 0 20px; }
+        .faq-item.open .faq-a { max-height: 600px; padding: 16px 20px 20px; }
+        .faq-a p { font-size: 14px; line-height: 1.9; color: #444; }
+        .faq-a a { color: #b8860b; text-decoration: underline; }
+
+        /* 联系客服 */
+        .contact-section { margin-top: 60px; padding-top: 40px; border-top: 2px solid #000; }
+        .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 24px; }
+        .contact-card { border: 1px solid #eee; padding: 24px; text-align: center; }
+        .contact-card .icon { font-size: 36px; margin-bottom: 12px; }
+        .contact-card h4 { font-size: 18px; margin-bottom: 8px; }
+        .contact-card .info { font-size: 15px; color: #b8860b; font-weight: bold; margin-bottom: 8px; }
+        .contact-card p { font-size: 13px; color: #666; line-height: 1.7; }
+
+        /* 工单表单 */
+        .ticket-form { margin-top: 40px; background: #fafafa; padding: 32px; border: 1px solid #eee; }
+        .ticket-form h3 { font-size: 20px; margin-bottom: 20px; }
+        .form-row { margin-bottom: 16px; }
+        .form-row label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; }
+        .form-row input, .form-row select, .form-row textarea { width: 100%; padding: 10px 12px; border: 1px solid #ccc; font-size: 14px; font-family: inherit; }
+        .form-row textarea { min-height: 100px; resize: vertical; }
+        .form-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .submit-btn { padding: 12px 32px; background: #000; color: #fff; border: none; font-size: 16px; cursor: pointer; }
+
+        footer { background: #fff; border-top: 1px solid #eee; padding: 40px; }
+        .footer-bottom { border-top: 1px solid #ddd; padding-top: 20px; font-size: 14px; line-height: 1.8; color: #444; }
+        .back-home { display: inline-block; margin-top: 20px; padding: 10px 24px; background: #000; color: #fff; font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .contact-grid, .form-grid2 { grid-template-columns: 1fr; }
+            nav ul { flex-wrap: wrap; gap: 20px; font-size: 16px; }
+        }
+
+        /* 全站统一两栏布局 */
+        .main-wrap { display: flex; gap: 24px; padding: 40px 40px 60px; align-items: flex-start; }
+        .side-filter { width: 220px; flex-shrink: 0; border: 1px solid #eee; background: #fff; padding: 20px 16px; position: sticky; top: 80px; }
+        .side-filter .side-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; color: #000; border-left: 3px solid #b8860b; padding-left: 8px; }
+        .side-filter .side-group { border-bottom: 1px solid #f0f0f0; padding-bottom: 18px; margin-bottom: 18px; }
+        .side-filter .side-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .az-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+        .az-grid a { display: block; text-align: center; padding: 6px 0; font-size: 13px; border: 1px solid #eee; color: #333; background: #fff; transition: all .15s; }
+        .az-grid a:hover { border-color: #b8860b; color: #b8860b; background: #fff8e1; }
+        .az-grid a.disabled { color: #ccc; background: #fafafa; cursor: not-allowed; pointer-events: none; }
+        .price-tags { display: flex; flex-direction: column; gap: 6px; }
+        .price-tags label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; cursor: pointer; padding: 4px 0; }
+        .price-tags label:hover { color: #b8860b; }
+        .price-tags input { margin: 0; }
+        .page { flex: 1; min-width: 0; max-width: 1000px; margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-top">
+        <div class="logo">
+            <div class="logo-mark">
+                <span class="logo-xu">许</span><span class="logo-le">乐</span>
+            </div>
+            <span class="sub"><span class="sub-url">https://xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服饰 箱包 饰品</span></span>
+        </div>
+        <div class="search-wrap">
+            <input placeholder="搜索常见问题关键词…">
+            <button>搜索</button>
+        </div>
+        <div class="header-icons">
+            <span>👤</span>
+            <span>🛒</span>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li class="has-dropdown">女士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">裙装</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">男士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">外套</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">儿童专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">童鞋</a></li>
+                    <li><a href="category.html?cat=clothing">童装</a></li>
+                    <li><a href="category.html?cat=accessories">配饰</a></li>
+                </ul>
+            </li>
+            <li><a href="brands.html">品牌集合</a></li>
+            <li class="has-dropdown"><a href="category.html?cat=shoes">运动鞋款</a>
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">跑步鞋</a></li>
+                    <li><a href="category.html?cat=shoes">篮球鞋</a></li>
+                    <li><a href="category.html?cat=shoes">板鞋</a></li>
+                    <li><a href="category.html?cat=shoes">休闲鞋</a></li>
+                    <li><a href="category.html?cat=shoes">户外鞋</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">运动装备
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=clothing">运动上衣</a></li>
+                    <li><a href="category.html?cat=clothing">运动裤</a></li>
+                    <li><a href="category.html?cat=bags">运动包</a></li>
+                    <li><a href="category.html?cat=accessories">运动配件</a></li>
+                </ul>
+            </li>
+            <li style="margin-left:auto;"><a href="faq.html">帮助与客服</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- 全站统一两栏布局：左侧品牌+价格筛选，右侧主内容 -->
+<div class="main-wrap">
+<aside class="side-filter">
+    <div class="side-group">
+        <div class="side-title">品牌</div>
+        <div class="az-grid">
+            <a href="brands.html#A">A</a><a href="brands.html#B">B</a><a href="brands.html#C">C</a><a href="brands.html#D">D</a><a href="brands.html#E">E</a>
+            <a href="brands.html#F">F</a><a href="brands.html#G">G</a><a href="brands.html#H">H</a><a href="brands.html#I">I</a><a href="brands.html#J">J</a>
+            <a href="brands.html#K">K</a><a href="brands.html#L">L</a><a href="brands.html#M">M</a><a href="brands.html#N">N</a><a href="brands.html#O">O</a>
+            <a href="brands.html#P">P</a><a href="brands.html#Q">Q</a><a href="brands.html#R">R</a><a href="brands.html#S">S</a><a href="brands.html#T">T</a>
+            <a href="brands.html#U">U</a><a href="brands.html#V">V</a><a href="brands.html#W">W</a><a class="disabled" title="暂无品牌">X</a><a href="brands.html#Y">Y</a>
+            <a href="brands.html#Z">Z</a><a class="disabled" title="暂无品牌">#</a><a class="disabled" title="暂无品牌">0-9</a><a class="disabled" title="暂无品牌">★</a><a class="disabled" title="中文名">中</a>
+        </div>
+    </div>
+    <div class="side-group">
+        <div class="side-title">价格区间</div>
+        <div class="price-tags">
+            <label><input type="checkbox" value="0-300"> ¥0 - 300</label>
+            <label><input type="checkbox" value="300-800"> ¥300 - 800</label>
+            <label><input type="checkbox" value="800-1500"> ¥800 - 1500</label>
+            <label><input type="checkbox" value="1500-3000"> ¥1500 - 3000</label>
+            <label><input type="checkbox" value="3000+"> ¥3000 以上</label>
+        </div>
+    </div>
+    <div class="side-group" style="font-size:12px;color:#999;line-height:1.7;">
+        内容页同样保留左侧品牌与价格筛选，保持全站统一。点击字母跳转品牌大全页。
+    </div>
+</aside>
+
+<div class="page">
+    <h1>帮助中心</h1>
+    <p class="lead">在许乐，您关心的每个问题都有答案。下方按类目整理了高频问题，未覆盖的请通过下方联系客服渠道告诉我们。</p>
+
+    <!-- FAQ 分类导航 -->
+    <div class="faq-tabs">
+        <div class="faq-tab active" data-cat="order">订单与支付</div>
+        <div class="faq-tab" data-cat="shipping">配送与签收</div>
+        <div class="faq-tab" data-cat="return">退换货</div>
+        <div class="faq-tab" data-cat="member">会员与权益</div>
+        <div class="faq-tab" data-cat="craft">商品工艺与溯源</div>
+        <div class="faq-tab" data-cat="account">账户与安全</div>
+    </div>
+
+    <!-- 订单与支付 -->
+    <div class="faq-category active" data-cat="order">
+        <div class="faq-item">
+            <div class="faq-q">下单后多久能取消或修改订单？</div>
+            <div class="faq-a"><p>订单未支付前可随时取消；已支付但未进入出库环节（通常 30 分钟内）可联系客服修改地址或尺码，进入出库环节后无法修改。如需变更商品，建议申请取消后重新下单。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">支持哪些支付方式？</div>
+            <div class="faq-a"><p>支持微信支付、支付宝、银联云闪付、Apple Pay；企业采购支持对公转账（需联系客服开通）。所有支付均通过持牌支付机构清算，许乐不接触您的支付凭证。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">订单显示「待付款」，我可以在多少时间内完成支付？</div>
+            <div class="faq-a"><p>普通订单保留 30 分钟，秒杀/预售订单保留 15 分钟，超时自动取消并释放库存。如需延长，请联系在线客服说明情况。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">订单金额包含运费吗？什么时候免运费？</div>
+            <div class="faq-a"><p>商品页显示价格不包含运费。实付满 199 元全国包邮（港澳台及偏远地区除外），未满 199 元系统自动按地区收取 8-15 元运费。详见 <a href="shipping.html">配送与退换货政策</a>。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">能否开具发票？</div>
+            <div class="faq-a"><p>支持电子普通发票与增值税专用发票。下单时可填写发票抬头，电子普票在订单完成后 24 小时内推送至您填写的邮箱；专票需企业资质审核，3 个工作日内开具并寄出。</p></div>
+        </div>
+    </div>
+
+    <!-- 配送与签收 -->
+    <div class="faq-category" data-cat="shipping">
+        <div class="faq-item">
+            <div class="faq-q">默认使用什么物流？多久能到？</div>
+            <div class="faq-a"><p>默认顺丰速运 / 京东物流。一线城市 1-2 天，二三线城市 2-3 天，偏远地区 3-5 天。大件箱包走德邦，皮具/饰品走顺丰特安。可在「我的-订单」实时查看物流轨迹。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">能否指定配送时间？</div>
+            <div class="faq-a"><p>下单时可备注「工作日送达」「周末送达」「避开午休」等要求，物流会尽量配合。如需精确时段配送，请联系客服加购专项配送服务（10 元/单）。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">签收时发现外包装破损怎么办？</div>
+            <div class="faq-a"><p>请在快递员面前开箱验视，并当场拍照留证。如内件损坏，请直接拒收并联系客服补发；已签收后发现损坏，48 小时内凭照片与视频申请退换，许乐承担往返运费。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">能否配送到港澳台及海外？</div>
+            <div class="faq-a"><p>港澳台地区：满 999 元包邮，未满按实收取。海外暂不支持直邮，可通过集运方式寄送，详情咨询客服。</p></div>
+        </div>
+    </div>
+
+    <!-- 退换货 -->
+    <div class="faq-category" data-cat="return">
+        <div class="faq-item">
+            <div class="faq-q">7 天无理由退换的具体规则是什么？</div>
+            <div class="faq-a"><p>自签收次日零点起 7 天内，商品未穿着/洗涤/使用、吊牌与原包装完整，可申请无理由退换。贴身商品（内衣、袜子、贴身饰品）不支持无理由退换。详见 <a href="shipping.html#return7">7 天无理由退换说明</a>。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">退换货的运费谁承担？</div>
+            <div class="faq-a"><p>无理由退换：买家承担寄回运费；质量问题：许乐承担往返运费；尺寸不合：首次换货许乐承担寄回运费，再次换货买家承担。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">退款多久能到账？</div>
+            <div class="faq-a"><p>仓库签收并验收后 1 个工作日内退款。原路退回：微信/支付宝 1-3 天到账，银行卡 3-7 天到账，对公账户 5-10 个工作日到账。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">商品有质量问题超过 7 天还能退吗？</div>
+            <div class="faq-a"><p>质量问题 30 天内包换；鞋类大底/皮具五金等核心部件 90 天内有质量缺陷包换；终身提供成本价维修服务。具体判定标准见 <a href="shipping.html#aftersale">售后申请入口</a>。</p></div>
+        </div>
+    </div>
+
+    <!-- 会员与权益 -->
+    <div class="faq-category" data-cat="member">
+        <div class="faq-item">
+            <div class="faq-q">会员有几个等级？分别享什么权益？</div>
+            <div class="faq-a"><p>会员等级仅用于区分消费累积，不影响商品售价（许乐所有商品只有一个售价，从不做促销）。等级每年 1 月 1 日根据上年消费额重新核定。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">积分怎么获取？怎么使用？</div>
+            <div class="faq-a"><p>消费 1 元 = 1 积分，生日月双倍，评价晒图额外送 50 积分。100 积分 = 1 元，下单时可抵扣商品金额（不超过订单金额 30%）。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">邀请好友有什么奖励？</div>
+            <div class="faq-a"><p>邀请好友功能用于推荐品质商品，邀请成功后双方各获 30 元礼品卡。</p></div>
+        </div>
+    </div>
+
+    <!-- 商品工艺与溯源 -->
+    <div class="faq-category" data-cat="craft">
+        <div class="faq-item">
+            <div class="faq-q">商品页标注的「材质/克重/工艺」是怎么测出来的？</div>
+            <div class="faq-a"><p>所有标注参数由许乐共创匠人 + 第三方检测机构（SGS/CTTC 等）按国标 GB/T 检测出具，每件商品页可下载对应批次的检测报告 PDF。详见 <a href="about.html#standard">工艺标准</a>。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">什么是「溯源码」？怎么查？</div>
+            <div class="faq-a"><p>每件商品出厂前贴唯一溯源二维码。手机扫描即可查看：批次号、生产工厂、出厂日期、选品匠人、检测报告、品控流程留档影像。未贴码商品视为非许乐正品，请勿购买。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">同样是「头层牛皮」，为什么不同商品价格差很多？</div>
+            <div class="faq-a"><p>头层牛皮因牛皮种类（黄牛/水牛/牦牛）、产地、皮料等级（A 级/B 级/C 级）、厚度、鞣制工艺差异，成本可能相差 3-10 倍。许乐商品页标注皮料种类与等级，让您买的明白。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">运动鞋标注的「重量」是单只还是双只？什么尺码？</div>
+            <div class="faq-a"><p>默认为男款 42 码单只重量，女款 37 码单只重量。如商品标注其他尺码基准，会在参数后注明。</p></div>
+        </div>
+    </div>
+
+    <!-- 账户与安全 -->
+    <div class="faq-category" data-cat="account">
+        <div class="faq-item">
+            <div class="faq-q">如何注销账户？</div>
+            <div class="faq-a"><p>在「我的-账户安全-注销账户」提交申请，需满足：无未完成订单、无欠款、积分已使用或放弃。注销后 30 天内可恢复，超期账户数据按法律要求脱敏处理。详见 <a href="javascript:void(0)">《隐私政策》</a>。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">忘记密码怎么办？</div>
+            <div class="faq-a"><p>登录页点「忘记密码」，输入注册手机号获取短信验证码后重置。如手机号已变更，请联系客服提供身份信息人工核验后修改。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">账户被盗怎么办？</div>
+            <div class="faq-a"><p>立即在登录页点「账户被锁」自助冻结，或联系客服紧急冻结。许乐对盗号期间产生的非本人订单承担举证责任，核实后全额赔付。</p></div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">第三方登录（微信/支付宝/Apple）能否绑定手机号？</div>
+            <div class="faq-a"><p>可以。首次第三方登录后系统引导绑定手机号，绑定后第三方与手机号均可登录同一账户。一个第三方账号只能绑定一个许乐账户。</p></div>
+        </div>
+    </div>
+
+    <!-- 联系客服 -->
+    <div class="contact-section" id="contact">
+        <h2 style="font-size:28px;margin-bottom:8px;">联系客服</h2>
+        <p style="color:#666;margin-bottom:8px;">未在 FAQ 中找到答案？我们提供以下多渠道服务，匠人组也会定期参与深度咨询。</p>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="icon">💬</div>
+                <h4>在线客服</h4>
+                <div class="info">7×14 小时 08:00-22:00</div>
+                <p>页面右下角气泡，平均响应 30 秒。复杂工艺问题可一键转接匠人组，工作日 14:00-17:00 在线。</p>
+            </div>
+            <div class="contact-card">
+                <div class="icon">📞</div>
+                <h4>客服热线</h4>
+                <div class="info">400-XXX-XULOVE</div>
+                <p>工作日 09:00-21:00，节假日 10:00-18:00。订单问题请备好订单号；质量问题请备好溯源码。</p>
+            </div>
+            <div class="contact-card">
+                <div class="icon">✉️</div>
+                <h4>邮件咨询</h4>
+                <div class="info">service@xulove.com</div>
+                <p>适用于发票、对公采购、批量定制、媒体合作等正式事务。24 小时内首次回复。</p>
+            </div>
+            <div class="contact-card">
+                <div class="icon">💚</div>
+                <h4>微信公众号</h4>
+                <div class="info">许乐 XULOVE</div>
+                <p>关注后底部菜单「联系客服」可进入小程序客服。每周三推送匠人工艺科普与新品预告。</p>
+            </div>
+            <div class="contact-card">
+                <div class="icon">🏢</div>
+                <h4>企业微信</h4>
+                <div class="info">扫码添加专属顾问</div>
+                <p>企业采购、定制礼盒、联名合作请联系企业微信顾问，提供 B 端专属价与发票服务。</p>
+            </div>
+            <div class="contact-card">
+                <div class="icon">🎥</div>
+                <h4>品控直播</h4>
+                <div class="info">每月 15 日 19:00</div>
+                <p>抖音/视频号同步直播工厂品控现场，匠人答疑，参与互动可抽取品质礼品。</p>
+            </div>
+        </div>
+
+        <!-- 工单表单 -->
+        <div class="ticket-form">
+            <h3>提交工单</h3>
+            <p style="font-size:13px;color:#888;margin-bottom:20px;">非紧急问题可填写工单，我们将在 1 个工作日内回复至您填写的邮箱。</p>
+            <form onsubmit="return false">
+                <div class="form-grid2">
+                    <div class="form-row">
+                        <label>姓名</label>
+                        <input type="text" placeholder="您的称呼">
+                    </div>
+                    <div class="form-row">
+                        <label>手机号 / 邮箱（必填，用于回复）</label>
+                        <input type="text" placeholder="11 位手机号或邮箱">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>问题类型</label>
+                    <select>
+                        <option>订单与支付</option>
+                        <option>配送与签收</option>
+                        <option>退换货</option>
+                        <option>会员与权益</option>
+                        <option>商品工艺与溯源</option>
+                        <option>账户与安全</option>
+                        <option>企业采购 / 媒体合作</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>订单号 / 溯源码（选填，但有助于快速定位）</label>
+                    <input type="text" placeholder="如 XUL20260920001">
+                </div>
+                <div class="form-row">
+                    <label>问题描述</label>
+                    <textarea placeholder="请尽量详细描述问题，包括时间、商品、现象。如涉及质量问题建议附照片或视频链接。"></textarea>
+                </div>
+                <button class="submit-btn">提交工单</button>
+            </form>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-home">← 返回首页</a>
+</div>
+</div>
+<!-- /main-wrap -->
+
+<footer>
+    <div class="footer-bottom">
+        <p>©2026 许乐有限公司 版权所有 · xulove.com</p>
+        <p>营业执照：XXXXXXXXXXXXXXXXXX | ICP 备案号：鲁ICP备XXXXXXXX号</p>
+        <p>《用户服务协议》｜《隐私政策》｜《消费者权益保障》｜《7 天无理由退换货规则》</p>
+    </div>
+</footer>
+
+<script>
+    // FAQ Tab 切换
+    document.querySelectorAll('.faq-tab').forEach(function(tab){
+        tab.addEventListener('click', function(){
+            document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.faq-category').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            const cat = tab.dataset.cat;
+            document.querySelector('.faq-category[data-cat="' + cat + '"]').classList.add('active');
+        });
+    });
+    // FAQ 手风琴
+    document.querySelectorAll('.faq-q').forEach(function(q){
+        q.addEventListener('click', function(){
+            const item = q.parentElement;
+            const isOpen = item.classList.contains('open');
+            // 同分类下其他项收起
+            item.parentElement.querySelectorAll('.faq-item.open').forEach(i => {
+                if (i !== item) i.classList.remove('open');
+            });
+            item.classList.toggle('open', !isOpen);
+        });
+    });
+</script>
+</body>
+</html>

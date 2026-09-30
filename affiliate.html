@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>许乐联盟推广计划 | 佣金规则·加入流程·结算说明 - 许乐 XULOVE</title>
+    <meta name="description" content="许乐 xulove.com 联盟推广计划：行业人共创的品质商城诚邀穿搭博主、工艺科普号、垂直社群、企业采购代理加入，享鞋履皮具 8% 起、自有品牌 10% 固定佣金。">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft Yahei", Arial, sans-serif; }
+        body { background: #fff; color: #000; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        header { padding: 24px 40px; }
+        .header-top { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
+        .logo { line-height: 1; }
+        .logo-mark {
+            display: inline-flex;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(207,48,36,0.22), 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 12%;
+            bottom: 12%;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #fff 0 3px, transparent 3px 5px);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .logo-xu {
+            color: #fff;
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo-le {
+            color: #fff;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo .sub {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #888;
+            margin-top: 10px;
+        }
+        .logo .sub-url { color: #cf3024; font-weight: 700; }
+        .logo .sub-sep { color: #ccc; margin: 0 5px; }
+        .logo .sub-tag { color: #659ee3; font-weight: 600; }
+        .search-wrap { flex: 1; display: flex; }
+        .search-wrap input { flex: 1; padding: 14px 16px; border: 1px solid #ccc; border-right: none; font-size: 18px; }
+        .search-wrap button { padding: 14px 28px; border: 1px solid #ccc; background: #fff; font-weight: bold; font-size: 18px; cursor: pointer; }
+        .header-icons { display: flex; gap: 24px; font-size: 32px; }
+        nav ul { display: flex; gap: 48px; list-style: none; font-size: 24px; font-weight: 500; align-items: center; }
+        nav ul li { cursor: pointer; }
+        /* 导航下拉菜单 */
+        nav ul li.has-dropdown { position: relative; }
+        nav ul li.has-dropdown > ul.dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 140px;
+            padding: 8px 0;
+            z-index: 100;
+            flex-direction: column;
+            gap: 0;
+        }
+        nav ul li.has-dropdown:hover > ul.dropdown { display: flex; }
+        nav ul li.has-dropdown > ul.dropdown li {
+            font-size: 15px;
+            padding: 8px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        nav ul li.has-dropdown > ul.dropdown li:hover { background: #fafafa; color: #b8860b; }
+        nav ul li.has-dropdown > ul.dropdown li a { display: block; }
+
+        /* 二级导航 */
+        .sub-nav { background: #fafafa; border-bottom: 1px solid #eee; padding: 16px 40px; position: sticky; top: 0; z-index: 10; }
+        .sub-nav ul { display: flex; gap: 40px; }
+        .sub-nav li { font-size: 16px; cursor: pointer; padding: 4px 0; }
+        .sub-nav li:hover { color: #b8860b; border-bottom: 2px solid #b8860b; }
+
+        /* 页面容器 */
+        .page { padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
+        .page h1 { font-size: 40px; margin-bottom: 12px; }
+        .page .lead { font-size: 18px; color: #666; margin-bottom: 40px; line-height: 1.7; }
+        .page h2 { font-size: 28px; margin: 48px 0 20px; padding-left: 16px; border-left: 4px solid #000; }
+        .page h3 { font-size: 20px; margin: 24px 0 12px; }
+        .page p { font-size: 15px; line-height: 1.9; color: #333; margin-bottom: 16px; }
+        .page ul.bullet { margin: 0 0 24px 24px; }
+        .page ul.bullet li { font-size: 15px; line-height: 1.9; color: #333; list-style: disc; margin-bottom: 6px; }
+
+        /* 章节块 */
+        .section-block { margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
+        .section-block:last-child { border-bottom: none; }
+
+        /* 工艺标准表格（复用） */
+        .standard-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .standard-table th, .standard-table td { border: 1px solid #ddd; padding: 12px 16px; font-size: 14px; text-align: left; }
+        .standard-table th { background: #000; color: #fff; }
+        .standard-table tr:nth-child(even) td { background: #fafafa; }
+
+        /* 品控流程（复用为加入流程时间轴） */
+        .flow-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+        .flow-item { display: flex; gap: 16px; align-items: flex-start; padding: 20px; background: #fafafa; border-left: 4px solid #b8860b; }
+        .flow-num { font-size: 28px; font-weight: 900; color: #b8860b; min-width: 40px; }
+        .flow-body h4 { font-size: 16px; margin-bottom: 6px; }
+        .flow-body p { font-size: 14px; color: #555; line-height: 1.7; margin: 0; }
+
+        footer { background: #fff; border-top: 1px solid #eee; padding: 40px; }
+        .footer-bottom { border-top: 1px solid #ddd; padding-top: 20px; font-size: 14px; line-height: 1.8; color: #444; }
+        .back-home { display: inline-block; margin-top: 20px; padding: 10px 24px; background: #000; color: #fff; font-size: 14px; }
+
+        /* ===== 页面专属样式 ===== */
+
+        /* 佣金规则表 */
+        .commission-table th { background: #000; color: #fff; }
+        .commission-table td.cat { font-weight: bold; background: #fff8e1; }
+        .commission-table td.highlight { color: #b8860b; font-weight: bold; }
+        .commission-note { font-size: 13px; color: #888; margin-top: 12px; line-height: 1.8; }
+
+        /* 差异对比卡片 */
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+        .compare-card { padding: 24px; border: 1px solid #eee; }
+        .compare-card.us { border-color: #b8860b; background: #fff8e1; }
+        .compare-card h4 { font-size: 18px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #ddd; }
+        .compare-card.us h4 { border-bottom-color: #b8860b; color: #b8860b; }
+        .compare-card ul li { font-size: 14px; line-height: 1.9; color: #555; padding-left: 16px; position: relative; margin-bottom: 4px; }
+        .compare-card ul li::before { content: "·"; position: absolute; left: 4px; color: #b8860b; font-weight: bold; }
+
+        /* 适合人群卡片网格 */
+        .audience-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px; }
+        .audience-card { background: #fafafa; padding: 24px; border: 1px solid #eee; }
+        .audience-card .tag { display: inline-block; padding: 4px 12px; background: #000; color: #fff; font-size: 12px; margin-bottom: 12px; }
+        .audience-card h4 { font-size: 18px; margin-bottom: 8px; }
+        .audience-card .role { font-size: 13px; color: #b8860b; margin-bottom: 8px; }
+        .audience-card p { font-size: 13px; line-height: 1.8; color: #555; margin: 0; }
+
+        /* 推广素材矩阵 */
+        .material-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+        .material-card { border: 1px solid #eee; padding: 20px; background: #fff; }
+        .material-thumb { width: 100%; height: 120px; background: #eee; display: flex; align-items: center; justify-content: center; color: #888; font-size: 13px; margin-bottom: 12px; }
+        .material-card h4 { font-size: 16px; margin-bottom: 6px; }
+        .material-card .format { font-size: 12px; color: #888; margin-bottom: 8px; }
+        .material-card p { font-size: 13px; color: #555; line-height: 1.7; margin: 0; }
+
+        /* 案例卡片 */
+        .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 24px; }
+        .case-card { background: #fafafa; padding: 24px; border: 1px solid #eee; border-top: 4px solid #b8860b; }
+        .case-card .avatar { width: 64px; height: 64px; background: #ddd; border-radius: 50%; margin-bottom: 12px; }
+        .case-card .name { font-size: 18px; font-weight: bold; margin-bottom: 4px; }
+        .case-card .role { font-size: 13px; color: #b8860b; margin-bottom: 12px; }
+        .case-card .income { font-size: 24px; color: #c00; font-weight: bold; margin-bottom: 4px; }
+        .case-card .income-label { font-size: 12px; color: #888; margin-bottom: 12px; }
+        .case-card p { font-size: 13px; line-height: 1.8; color: #555; margin: 0; }
+        .case-card .quote { font-size: 13px; color: #555; font-style: italic; padding: 12px; border-left: 3px solid #b8860b; background: #fff; margin-top: 12px; }
+
+        /* 申请表单 */
+        .apply-form { margin-top: 24px; padding: 32px; background: #fafafa; border: 1px solid #eee; }
+        .form-row { margin-bottom: 20px; }
+        .form-row label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #333; }
+        .form-row label .req { color: #c00; margin-left: 4px; }
+        .form-row input[type="text"],
+        .form-row input[type="tel"],
+        .form-row input[type="email"],
+        .form-row select,
+        .form-row textarea { width: 100%; padding: 12px 14px; border: 1px solid #ccc; background: #fff; font-size: 14px; font-family: inherit; }
+        .form-row textarea { resize: vertical; min-height: 80px; }
+        .form-row .hint { font-size: 12px; color: #888; margin-top: 6px; }
+        .form-row-inline { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .check-group { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+        .check-group label { display: inline-flex; align-items: center; gap: 6px; font-weight: normal; cursor: pointer; }
+        .check-group input[type="checkbox"],
+        .radio-group input[type="radio"] { width: auto; }
+        .radio-group { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+        .radio-group label { display: inline-flex; align-items: center; gap: 6px; font-weight: normal; cursor: pointer; }
+        .form-submit { display: inline-block; padding: 14px 40px; background: #000; color: #fff; font-size: 16px; cursor: pointer; border: none; font-family: inherit; }
+        .form-submit:hover { background: #b8860b; }
+        .form-disclaimer { font-size: 12px; color: #888; margin-top: 16px; line-height: 1.8; }
+
+        /* 结算规则要点块 */
+        .settle-list { margin-top: 16px; }
+        .settle-item { display: flex; gap: 16px; align-items: flex-start; padding: 16px 20px; background: #fafafa; border-left: 4px solid #b8860b; margin-bottom: 12px; }
+        .settle-item .icon { font-size: 24px; min-width: 32px; }
+        .settle-item h4 { font-size: 15px; margin-bottom: 4px; }
+        .settle-item p { font-size: 13px; color: #555; line-height: 1.7; margin: 0; }
+        /* 全站统一两栏布局 */
+        .main-wrap { display: flex; gap: 24px; padding: 40px 40px 60px; align-items: flex-start; }
+        .side-filter { width: 220px; flex-shrink: 0; border: 1px solid #eee; background: #fff; padding: 20px 16px; position: sticky; top: 80px; }
+        .side-filter .side-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; color: #000; border-left: 3px solid #b8860b; padding-left: 8px; }
+        .side-filter .side-group { border-bottom: 1px solid #f0f0f0; padding-bottom: 18px; margin-bottom: 18px; }
+        .side-filter .side-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .az-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+        .az-grid a { display: block; text-align: center; padding: 6px 0; font-size: 13px; border: 1px solid #eee; color: #333; background: #fff; transition: all .15s; }
+        .az-grid a:hover { border-color: #b8860b; color: #b8860b; background: #fff8e1; }
+        .az-grid a.disabled { color: #ccc; background: #fafafa; cursor: not-allowed; pointer-events: none; }
+        .price-tags { display: flex; flex-direction: column; gap: 6px; }
+        .price-tags label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; cursor: pointer; padding: 4px 0; }
+        .price-tags label:hover { color: #b8860b; }
+        .price-tags input { margin: 0; }
+        .page { flex: 1; min-width: 0; max-width: 1000px; margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-top">
+        <div class="logo">
+            <div class="logo-mark">
+                <span class="logo-xu">许</span><span class="logo-le">乐</span>
+            </div>
+            <span class="sub"><span class="sub-url">https://xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服饰 箱包 饰品</span></span>
+        </div>
+        <div class="search-wrap">
+            <input placeholder="搜索鞋履、服饰、箱包、饰品、品牌…">
+            <button>搜索</button>
+        </div>
+        <div class="header-icons">
+            <span>👤</span>
+            <span>🛒</span>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li class="has-dropdown">女士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">裙装</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">男士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">外套</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">儿童专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">童鞋</a></li>
+                    <li><a href="category.html?cat=clothing">童装</a></li>
+                    <li><a href="category.html?cat=accessories">配饰</a></li>
+                </ul>
+            </li>
+            <li><a href="brands.html">品牌集合</a></li>
+            <li class="has-dropdown"><a href="category.html?cat=shoes">运动鞋款</a>
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">跑步鞋</a></li>
+                    <li><a href="category.html?cat=shoes">篮球鞋</a></li>
+                    <li><a href="category.html?cat=shoes">板鞋</a></li>
+                    <li><a href="category.html?cat=shoes">休闲鞋</a></li>
+                    <li><a href="category.html?cat=shoes">户外鞋</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">运动装备
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=clothing">运动上衣</a></li>
+                    <li><a href="category.html?cat=clothing">运动裤</a></li>
+                    <li><a href="category.html?cat=bags">运动包</a></li>
+                    <li><a href="category.html?cat=accessories">运动配件</a></li>
+                </ul>
+            </li>
+            <li style="margin-left:auto;"><a href="faq.html">帮助与客服</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="sub-nav">
+    <ul>
+        <li><a href="#intro">联盟介绍</a></li>
+        <li><a href="#commission">佣金规则</a></li>
+        <li><a href="#process">加入流程</a></li>
+        <li><a href="#materials">推广素材</a></li>
+        <li><a href="#settle">结算规则</a></li>
+        <li><a href="#apply">申请加入</a></li>
+    </ul>
+</div>
+
+<!-- 全站统一两栏布局：左侧品牌+价格筛选，右侧主内容 -->
+<div class="main-wrap">
+<aside class="side-filter">
+    <div class="side-group">
+        <div class="side-title">品牌</div>
+        <div class="az-grid">
+            <a href="brands.html#A">A</a><a href="brands.html#B">B</a><a href="brands.html#C">C</a><a href="brands.html#D">D</a><a href="brands.html#E">E</a>
+            <a href="brands.html#F">F</a><a href="brands.html#G">G</a><a href="brands.html#H">H</a><a href="brands.html#I">I</a><a href="brands.html#J">J</a>
+            <a href="brands.html#K">K</a><a href="brands.html#L">L</a><a href="brands.html#M">M</a><a href="brands.html#N">N</a><a href="brands.html#O">O</a>
+            <a href="brands.html#P">P</a><a href="brands.html#Q">Q</a><a href="brands.html#R">R</a><a href="brands.html#S">S</a><a href="brands.html#T">T</a>
+            <a href="brands.html#U">U</a><a href="brands.html#V">V</a><a href="brands.html#W">W</a><a class="disabled" title="暂无品牌">X</a><a href="brands.html#Y">Y</a>
+            <a href="brands.html#Z">Z</a><a class="disabled" title="暂无品牌">#</a><a class="disabled" title="暂无品牌">0-9</a><a class="disabled" title="暂无品牌">★</a><a class="disabled" title="中文名">中</a>
+        </div>
+    </div>
+    <div class="side-group">
+        <div class="side-title">价格区间</div>
+        <div class="price-tags">
+            <label><input type="checkbox" value="0-300"> ¥0 - 300</label>
+            <label><input type="checkbox" value="300-800"> ¥300 - 800</label>
+            <label><input type="checkbox" value="800-1500"> ¥800 - 1500</label>
+            <label><input type="checkbox" value="1500-3000"> ¥1500 - 3000</label>
+            <label><input type="checkbox" value="3000+"> ¥3000 以上</label>
+        </div>
+    </div>
+    <div class="side-group" style="font-size:12px;color:#999;line-height:1.7;">
+        内容页同样保留左侧品牌与价格筛选，保持全站统一。点击字母跳转品牌大全页。
+    </div>
+</aside>
+
+<div class="page">
+    <h1>许乐联盟推广计划</h1>
+    <p class="lead">把「行业人看穿品质」的能力，变成你可以安心推荐给粉丝的货源。许乐联盟诚邀穿搭博主、工艺科普号、垂直社群与企业采购代理加入，分享品质溢价，也分享品质佣金。</p>
+
+    <!-- 联盟介绍 -->
+    <div class="section-block" id="intro">
+        <h2>联盟介绍</h2>
+        <p>许乐联盟推广计划，是许乐（xulove.com）面向内容创作者、社群运营者、采购代理开放的合规分销合作机制。与「拉人头、囤货、压货款」的传统分销不同，许乐联盟不需要任何入会费、不要求任何库存，推广者只需通过专属链接引导真实成交，即可按成交金额获得佣金。</p>
+        <p>我们做这件事的底气来自商品本身。许乐的每件商品都标注主材、辅料、克重、工艺、批次，附唯一溯源码，扫码可查匠人、工厂与第三方检测报告。这意味着你向粉丝推荐的，不是「参数模糊、材质不清」的玄学货，而是可验证的品质 —— 退货率更低、复购率更高、口碑更稳。</p>
+
+        <h3>与普通分销的核心差异</h3>
+        <div class="compare-grid">
+            <div class="compare-card">
+                <h4>普通分销 / 杂货代销</h4>
+                <ul>
+                    <li>货源参数模糊，常被粉丝质疑「是不是真货」</li>
+                    <li>供应链不可见，退换货扯皮、售后甩锅</li>
+                    <li>统一佣金比例，不区分品类与贡献</li>
+                    <li>素材只有厂家给的统一图，同质化严重</li>
+                    <li>结算周期不固定，常被克扣或拖延</li>
+                    <li>无溯源、无检测报告，被平台判违规风险高</li>
+                </ul>
+            </div>
+            <div class="compare-card us">
+                <h4>许乐联盟推广</h4>
+                <ul>
+                    <li>每件商品标主材/克重/工艺/批次，可验证</li>
+                    <li>溯源码直查匠人、工厂、SGS/CTTC 检测报告</li>
+                    <li>按品类差异化佣金，自有品牌固定 10%</li>
+                    <li>提供工艺科普长文、对比检测报告 PDF、短视频素材</li>
+                    <li>T+30 规则结算，满 50 元即可提现</li>
+                    <li>合规备案、提供月度佣金报表与个税说明</li>
+                </ul>
+            </div>
+        </div>
+        <p style="margin-top:16px;font-size:14px;color:#888;">说明：用料溯源 + 工艺溯源带来的转化加成，是许乐联盟区别于「白牌代销」的根本所在。多数推广者反馈，粉丝看到检测报告与溯源码后，咨询转化率提升 30%–60%，退货率下降约一半。</p>
+
+        <h3>适合人群</h3>
+        <p>我们不只欢迎「流量大号」，更欢迎「懂行」的合作方。以下四类伙伴在许乐联盟表现尤为突出：</p>
+        <div class="audience-grid">
+            <div class="audience-card">
+                <span class="tag">穿搭博主</span>
+                <h4>穿搭 / 时尚博主</h4>
+                <div class="role">小红书 / 抖音 / B 站 / 微博</div>
+                <p>擅长搭配示范与上身实测，可挂车许乐鞋履、皮具、服饰。粉丝对品质敏感、客单价高，是转化主力。可申领工艺科普长文作为内容素材。</p>
+            </div>
+            <div class="audience-card">
+                <span class="tag">工艺科普号</span>
+                <h4>工艺 / 材质科普号</h4>
+                <div class="role">知乎 / B 站 / 公众号</div>
+                <p>擅长讲「头层牛皮」「精梳棉支数」「925 银镀层」的硬核科普。许乐的检测报告与溯源码是你最扎实的论据，硬核内容长尾转化尤其稳定。</p>
+            </div>
+            <div class="audience-card">
+                <span class="tag">垂直社群</span>
+                <h4>垂直社群 / 圈主</h4>
+                <div class="role">球鞋群 / 皮友群 / 户外群</div>
+                <p>群内粉丝同好聚集、信任度高。适合在社群内发放专属礼品卡、组织拼团。许乐可按社群特征匹配定向货品与定制佣金包。</p>
+            </div>
+            <div class="audience-card">
+                <span class="tag">企业采购代理</span>
+                <h4>企业 / 团购采购代理</h4>
+                <div class="role">企业福利 / 工服 / 礼品</div>
+                <p>面向企业工服、员工福利、商务礼品采购。可走对公结算、开具专票，提供专属大客户佣金方案，具体比例一事一议，请联系 BD 沟通。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 佣金规则 -->
+    <div class="section-block" id="commission">
+        <h2>佣金规则</h2>
+        <p>佣金按「成交类目 × 月度阶梯」计算，以用户实际支付金额（不含运费、不含退款）为基数。不同品类基础比例不同，自有品牌类目享受固定 10% 佣金，不参与阶梯。</p>
+        <table class="standard-table commission-table">
+            <thead>
+                <tr>
+                    <th>类目</th>
+                    <th>基础佣金</th>
+                    <th>阶梯一（月销达标）</th>
+                    <th>阶梯二（月销达标）</th>
+                    <th>封顶比例</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="cat">鞋履皮具类</td>
+                    <td>8%</td>
+                    <td>月销 &gt; 1 万元，+2%（即 10%）</td>
+                    <td>月销 &gt; 5 万元，+4%（即 12%）</td>
+                    <td class="highlight">12%</td>
+                </tr>
+                <tr>
+                    <td class="cat">服饰类</td>
+                    <td>6%</td>
+                    <td>月销 &gt; 1 万元，+2%（即 8%）</td>
+                    <td>—</td>
+                    <td class="highlight">8%</td>
+                </tr>
+                <tr>
+                    <td class="cat">饰品类</td>
+                    <td>5%</td>
+                    <td>月销 &gt; 5000 元，+2%（即 7%）</td>
+                    <td>—</td>
+                    <td class="highlight">7%</td>
+                </tr>
+                <tr>
+                    <td class="cat">自有品牌<br><span style="font-weight:normal;font-size:12px;color:#666;">XULOVE STUDIO / 许乐皮具坊 等</span></td>
+                    <td class="highlight">10%</td>
+                    <td colspan="3" style="text-align:center;color:#888;">固定 10%，不参与阶梯，与月销无关</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="commission-note">注：1）「月销」指自然月内经联盟专属链接产生的有效成交金额（已过 7 天无理由期、未发生退款）；2）阶梯佣金按月重新计算，不累计、不顺延；3）跨类目订单按订单主商品的类目判定佣金；4）参与大促活动的优惠价订单，佣金以用户实付金额为基数计算。</p>
+
+        <h3>邀请下级联盟奖励</h3>
+        <p>已开通联盟的成员，可生成专属邀请链接邀请新的推广者加入许乐联盟。被邀请人成为联盟成员后，其每笔佣金中，邀请人可额外获得 <strong style="color:#b8860b;">下级佣金 10%</strong> 作为邀请奖励（从许乐平台额外发放，不扣减下级成员的佣金）。</p>
+        <ul class="bullet">
+            <li>邀请关系绑定后永久有效，只要下级成员持续推广，邀请人持续享受奖励</li>
+            <li>邀请奖励同样 T+30 结算，满 50 元可提现</li>
+            <li>最多支持两级邀请结构（即 A 邀 B，B 邀 C，A 不再从 C 处获得奖励），避免层级套利</li>
+            <li>禁止自邀自、虚假邀请，一经发现取消邀请奖励并封禁账户</li>
+        </ul>
+    </div>
+
+    <!-- 加入流程 -->
+    <div class="section-block" id="process">
+        <h2>加入流程</h2>
+        <p>从注册到第一笔佣金到账，常规 5 个工作日内可完成全流程：</p>
+        <div class="flow-list">
+            <div class="flow-item">
+                <div class="flow-num">01</div>
+                <div class="flow-body">
+                    <h4>注册许乐账户</h4>
+                    <p>访问 xulove.com 注册个人账户，或使用已注册账户直接登录。账户将成为你后续所有专属链接、佣金记录与提现的载体。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">02</div>
+                <div class="flow-body">
+                    <h4>实名认证</h4>
+                    <p>提交真实姓名、身份证号、本人手机号，完成实名认证；如需对公结算，另提交营业执照与对公账户信息。实名信息仅用于结算合规，不公开。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">03</div>
+                <div class="flow-body">
+                    <h4>审核开通</h4>
+                    <p>许乐 BD 团队将在 3 个工作日内完成审核。审核内容为：账户真实性、推广渠道合规性、过往是否有过违规营销记录。审核通过后会以短信与邮件通知。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">04</div>
+                <div class="flow-body">
+                    <h4>获取专属链接与素材</h4>
+                    <p>开通后在「我的-联盟中心」可生成商品/活动专属推广链接、Banner 与短视频素材，并可下载工艺科普长文、对比检测报告 PDF，便于创作硬核内容。</p>
+                </div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-num">05</div>
+                <div class="flow-body">
+                    <h4>开始推广 · 佣金到账</h4>
+                    <p>在你的内容/社群/采购场景中使用专属链接。用户点击后 15 天内的成交均归你结算；佣金按 T+30 规则结算，满 50 元即可提现。</p>
+                </div>
+            </div>
+        </div>
+        <p style="margin-top:16px;font-size:13px;color:#888;">提示：审核未通过者可在 30 天后重新申请。若对审核结果有异议，可邮件至 affiliate@xulove.com 申诉。</p>
+    </div>
+
+    <!-- 推广素材 -->
+    <div class="section-block" id="materials">
+        <h2>推广素材</h2>
+        <p>许乐为联盟成员提供六类素材，覆盖从种草到转化的全链路内容场景。所有素材均经过品控审核，材质、工艺、参数描述与商品页一致，可放心使用：</p>
+        <div class="material-grid">
+            <div class="material-card">
+                <div class="material-thumb">商品图文 · 占位</div>
+                <h4>商品图文链接</h4>
+                <div class="format">JPG / PNG · 多尺寸 · 含溯源码水印</div>
+                <p>每个商品提供主图、细节图、工艺图与详情页跳转链接，可一键生成带专属参数的分享卡片。</p>
+            </div>
+            <div class="material-card">
+                <div class="material-thumb">Banner 矩阵 · 占位</div>
+                <h4>Banner 矩阵</h4>
+                <div class="format">750×300 / 1200×628 / 375×200 等多尺寸</div>
+                <p>覆盖首页焦点图、朋友圈配图、公众号头图、信息流投放尺寸，适配小红书/抖音/公众号多端。</p>
+            </div>
+            <div class="material-card">
+                <div class="material-thumb">短视频素材 · 占位</div>
+                <h4>短视频素材</h4>
+                <div class="format">MP4 · 9:16 / 16:9 · 15-30s</div>
+                <p>包含开箱、工艺细节、上身实测、对比检测四类模板，可二次剪辑。含无 BGM 原片便于自行配音。</p>
+            </div>
+            <div class="material-card">
+                <div class="material-thumb">直播挂车 API · 占位</div>
+                <h4>直播挂车 API</h4>
+                <div class="format">REST API · 抖音/快手/视频号</div>
+                <p>提供直播挂车接口与 SDK，支持按品类批量挂车、实时库存同步、佣金回传。适合长期直播带货达人。</p>
+            </div>
+            <div class="material-card">
+                <div class="material-thumb">工艺科普长文 · 占位</div>
+                <h4>工艺科普长文</h4>
+                <div class="format">Markdown / DOCX · 1500-3000 字</div>
+                <p>由许乐内容编辑团队撰写的硬核科普，如「头层牛皮的四种差异」「精梳棉支数怎么读」「925 银镀层厚度区别」。</p>
+            </div>
+            <div class="material-card">
+                <div class="material-thumb">检测报告 PDF · 占位</div>
+                <h4>对比检测报告 PDF</h4>
+                <div class="format">PDF · SGS / CTTC 出具 · 含批次号</div>
+                <p>商品对应的第三方检测报告，可直接作为内容论据或粉丝赠阅材料，每份报告附唯一溯源码可在线核验。</p>
+            </div>
+        </div>
+        <p style="margin-top:16px;font-size:14px;color:#888;">所有素材在「我的-联盟中心-素材库」按 SKU 下载，支持批量打包。素材版权归许乐所有，仅限联盟推广场景使用，不得用于其他平台售卖或反向引流。</p>
+    </div>
+
+    <!-- 结算规则 -->
+    <div class="section-block" id="settle">
+        <h2>结算规则</h2>
+        <p>许乐联盟采用透明、合规的 T+30 结算规则。所有佣金经「成交 - 退款观察期 - 结算 - 提现」四步，确保每笔佣金真实可追溯：</p>
+        <div class="settle-list">
+            <div class="settle-item">
+                <div class="icon">⏱</div>
+                <div>
+                    <h4>T+30 结算周期</h4>
+                    <p>每笔订单成交后第 30 天进入「可结算」状态。30 天的观察期覆盖 7 天无理由退换与售后争议处理，避免佣金先发后退的扯皮。</p>
+                </div>
+            </div>
+            <div class="settle-item">
+                <div class="icon">¥</div>
+                <div>
+                    <h4>满 50 元可提现</h4>
+                    <p>可结算佣金累计满 50 元即可在「我的-联盟中心-提现」发起提现申请；不足 50 元的余额将累计至下一周期，不清零、不扣减。</p>
+                </div>
+            </div>
+            <div class="settle-item">
+                <div class="icon">🏦</div>
+                <div>
+                    <h4>支付宝 / 对公 双通道</h4>
+                    <p>个人账户默认走支付宝实名提现；企业账户走对公转账，需在实名认证阶段提交营业执照与对公账户。对公提现单笔满 1000 元免手续费。</p>
+                </div>
+            </div>
+            <div class="settle-item">
+                <div class="icon">📊</div>
+                <div>
+                    <h4>月度佣金报表</h4>
+                    <p>每月 5 日前生成上月佣金明细报表（含订单号、类目、金额、佣金比例、阶梯状态），可在联盟中心下载 PDF / Excel，便于对账与税务申报。</p>
+                </div>
+            </div>
+            <div class="settle-item">
+                <div class="icon">📋</div>
+                <div>
+                    <h4>个人所得税说明</h4>
+                    <p>个人推广者的佣金收入依法属于劳务报酬所得。许乐按税法规定代扣代缴个人所得税，并于次年 3-6 月提供个人所得税 APP 综合所得汇算所需数据。企业账户开具增值税发票，不涉及个税代扣。</p>
+                </div>
+            </div>
+        </div>
+        <p style="margin-top:12px;font-size:13px;color:#888;">结算相关问题可邮件至 finance@xulove.com，一般 1-3 个工作日内回复。详细规则以《许乐联盟推广合作协议》为准，开通联盟时需在线签署。</p>
+    </div>
+
+    <!-- 成员案例 -->
+    <div class="section-block" id="cases">
+        <h2>成员案例</h2>
+        <p>以下为三位不同类型联盟成员的真实推广画像（应本人要求，昵称已做化名处理，数据为近 3 个月月均）：</p>
+        <div class="case-grid">
+            <div class="case-card">
+                <div class="avatar"></div>
+                <div class="name">阿May</div>
+                <div class="role">穿搭博主 · 小红书 6.2 万粉丝</div>
+                <div class="income">¥8,400</div>
+                <div class="income-label">月均佣金</div>
+                <p>主推鞋履与皮具。每月发布 4-6 篇上身搭配笔记，附许乐检测报告截图。粉丝对「头层牛皮可溯源」反应强烈，复购率约 22%。</p>
+                <div class="quote">「以前推别的店总被粉丝问是不是真货，许乐的溯源码省了我一半解释成本。」</div>
+            </div>
+            <div class="case-card">
+                <div class="avatar"></div>
+                <div class="name">老周讲皮</div>
+                <div class="role">工艺科普号 · B 站 3.8 万粉丝</div>
+                <div class="income">¥5,200</div>
+                <div class="income-label">月均佣金</div>
+                <p>擅长硬核科普头层牛皮、车线密度、五金盐雾测试。把许乐检测报告 PDF 直接做进视频，长尾搜索流量稳定，3 个月前的视频仍在带单。</p>
+                <div class="quote">「硬核内容 + 可验证的货源，是工艺号最难找的组合，许乐解决了最难的货源端。」</div>
+            </div>
+            <div class="case-card">
+                <div class="avatar"></div>
+                <div class="name">林采购</div>
+                <div class="role">企业采购代理 · 服务 14 家中小企业</div>
+                <div class="income">¥12,600</div>
+                <div class="income-label">月均佣金（对公结算）</div>
+                <p>主营企业工服、商务礼品采购。走对公结算、开专票，许乐 BD 协助定制大客户佣金方案。单笔订单金额大、佣金稳定，复购周期 2-3 个月。</p>
+                <div class="quote">「能开票、能溯源、能对公，这三点就让我可以放心推给企业客户。」</div>
+            </div>
+        </div>
+        <p style="margin-top:16px;font-size:13px;color:#888;">案例数据为成员自愿分享的近 3 个月月均水平，仅供参考。实际收入取决于推广渠道、内容质量与品类结构，许乐不承诺具体收益。</p>
+    </div>
+
+    <!-- 申请加入 -->
+    <div class="section-block" id="apply">
+        <h2>申请加入</h2>
+        <p>填写以下信息提交申请，许乐 BD 团队将在 3 个工作日内完成审核并邮件通知结果。带 <span style="color:#c00;">*</span> 为必填项。</p>
+        <form class="apply-form" onsubmit="return false;">
+            <div class="form-row">
+                <label>姓名<span class="req">*</span></label>
+                <input type="text" placeholder="请填写真实姓名，需与身份证/营业执照一致">
+            </div>
+            <div class="form-row-inline">
+                <div class="form-row">
+                    <label>手机号<span class="req">*</span></label>
+                    <input type="tel" placeholder="用于账户绑定与审核通知">
+                </div>
+                <div class="form-row">
+                    <label>邮箱<span class="req">*</span></label>
+                    <input type="email" placeholder="用于接收审核结果与月度佣金报表">
+                </div>
+            </div>
+            <div class="form-row">
+                <label>主推平台（多选）<span class="req">*</span></label>
+                <div class="check-group">
+                    <label><input type="checkbox"> 小红书</label>
+                    <label><input type="checkbox"> 抖音</label>
+                    <label><input type="checkbox"> 快手</label>
+                    <label><input type="checkbox"> B 站</label>
+                    <label><input type="checkbox"> 微信公众号</label>
+                    <label><input type="checkbox"> 微博</label>
+                    <label><input type="checkbox"> 知乎</label>
+                    <label><input type="checkbox"> 私域社群</label>
+                    <label><input type="checkbox"> 企业采购渠道</label>
+                    <label><input type="checkbox"> 其他</label>
+                </div>
+                <div class="hint">可多选。如选「其他」，请在下方「推广方式」中说明具体渠道。</div>
+            </div>
+            <div class="form-row">
+                <label>粉丝量级<span class="req">*</span></label>
+                <div class="radio-group">
+                    <label><input type="radio" name="fans"> &lt; 1 万</label>
+                    <label><input type="radio" name="fans"> 1-5 万</label>
+                    <label><input type="radio" name="fans"> 5-20 万</label>
+                    <label><input type="radio" name="fans"> 20-100 万</label>
+                    <label><input type="radio" name="fans"> &gt; 100 万</label>
+                    <label><input type="radio" name="fans"> 企业采购（按企业数）</label>
+                </div>
+                <div class="hint">粉丝量级仅用于匹配素材包与佣金方案，不影响审核通过率。</div>
+            </div>
+            <div class="form-row">
+                <label>推广方式（多选）<span class="req">*</span></label>
+                <div class="check-group">
+                    <label><input type="checkbox"> 笔记 / 短视频种草</label>
+                    <label><input type="checkbox"> 直播挂车</label>
+                    <label><input type="checkbox"> 工艺科普长文</label>
+                    <label><input type="checkbox"> 社群拼团</label>
+                    <label><input type="checkbox"> 公众号推文</label>
+                    <label><input type="checkbox"> 企业集采 / 工服定制</label>
+                    <label><input type="checkbox"> 商务礼品采购</label>
+                    <label><input type="checkbox"> 邀请下级联盟</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <label>主推品类（多选）<span class="req">*</span></label>
+                <div class="check-group">
+                    <label><input type="checkbox"> 运动鞋</label>
+                    <label><input type="checkbox"> 皮鞋</label>
+                    <label><input type="checkbox"> 皮具箱包</label>
+                    <label><input type="checkbox"> 服饰上装</label>
+                    <label><input type="checkbox"> 服饰下装</label>
+                    <label><input type="checkbox"> 饰品</label>
+                    <label><input type="checkbox"> 自有品牌（XULOVE STUDIO / 许乐皮具坊）</label>
+                    <label><input type="checkbox"> 全品类</label>
+                </div>
+                <div class="hint">主推品类将影响为你配置的素材包与首月佣金方案。</div>
+            </div>
+            <div class="form-row">
+                <label>补充说明（选填）</label>
+                <textarea placeholder="可填写主推账号链接、过往带货案例、目标月销预估等，便于 BD 团队快速审核"></textarea>
+            </div>
+            <div class="form-row">
+                <button type="submit" class="form-submit">提交申请</button>
+            </div>
+            <p class="form-disclaimer">提交即表示你已阅读并同意《许乐联盟推广合作协议》《许乐联盟推广行为规范》。许乐承诺仅将上述信息用于联盟审核与结算合规，不会用于其他用途，详见《隐私政策》。审核结果将通过邮件与短信通知，请保持联系方式畅通。</p>
+        </form>
+    </div>
+
+    <a href="index.html" class="back-home">← 返回首页</a>
+</div>
+</div>
+<!-- /main-wrap -->
+
+<footer>
+    <div class="footer-bottom">
+        <p>©2026 许乐有限公司 版权所有 · xulove.com</p>
+        <p>营业执照：XXXXXXXXXXXXXXXXXX | ICP 备案号：鲁ICP备XXXXXXXX号</p>
+        <p>《用户服务协议》｜《隐私政策》｜《消费者权益保障》｜《7 天无理由退换货规则》</p>
+        <p>温馨提示：本平台商品支持 7 天无理由退换（贴身商品除外），保护消费者合法权益</p>
+    </div>
+</footer>
+</body>
+</html>

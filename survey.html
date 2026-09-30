@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>许乐用户调研 | 共创品质问卷 - 许乐 XULOVE</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft Yahei", Arial, sans-serif; }
+        body { background: #fff; color: #000; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        header { padding: 24px 40px; }
+        .header-top { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
+        .logo { line-height: 1; }
+        .logo-mark {
+            display: inline-flex;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(207,48,36,0.22), 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 12%;
+            bottom: 12%;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #fff 0 3px, transparent 3px 5px);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .logo-xu {
+            color: #fff;
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo-le {
+            color: #fff;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo .sub {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #888;
+            margin-top: 10px;
+        }
+        .logo .sub-url { color: #cf3024; font-weight: 700; }
+        .logo .sub-sep { color: #ccc; margin: 0 5px; }
+        .logo .sub-tag { color: #659ee3; font-weight: 600; }
+        .search-wrap { flex: 1; display: flex; }
+        .search-wrap input { flex: 1; padding: 14px 16px; border: 1px solid #ccc; border-right: none; font-size: 18px; }
+        .search-wrap button { padding: 14px 28px; border: 1px solid #ccc; background: #fff; font-weight: bold; font-size: 18px; cursor: pointer; }
+        .header-icons { display: flex; gap: 24px; font-size: 32px; }
+        nav ul { display: flex; gap: 48px; list-style: none; font-size: 24px; font-weight: 500; align-items: center; }
+        nav ul li { cursor: pointer; }
+        /* 导航下拉菜单 */
+        nav ul li.has-dropdown { position: relative; }
+        nav ul li.has-dropdown > ul.dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 140px;
+            padding: 8px 0;
+            z-index: 100;
+            flex-direction: column;
+            gap: 0;
+        }
+        nav ul li.has-dropdown:hover > ul.dropdown { display: flex; }
+        nav ul li.has-dropdown > ul.dropdown li {
+            font-size: 15px;
+            padding: 8px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        nav ul li.has-dropdown > ul.dropdown li:hover { background: #fafafa; color: #b8860b; }
+        nav ul li.has-dropdown > ul.dropdown li a { display: block; }
+
+        /* 二级导航 */
+        .sub-nav { background: #fafafa; border-bottom: 1px solid #eee; padding: 16px 40px; position: sticky; top: 0; z-index: 10; }
+        .sub-nav ul { display: flex; gap: 40px; }
+        .sub-nav li { font-size: 16px; cursor: pointer; padding: 4px 0; }
+        .sub-nav li:hover { color: #b8860b; border-bottom: 2px solid #b8860b; }
+
+        /* 页面容器 */
+        .page { padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
+        .page h1 { font-size: 40px; margin-bottom: 12px; }
+        .page .lead { font-size: 18px; color: #666; margin-bottom: 40px; line-height: 1.7; }
+        .page h2 { font-size: 28px; margin: 48px 0 20px; padding-left: 16px; border-left: 4px solid #000; }
+        .page h3 { font-size: 20px; margin: 24px 0 12px; }
+        .page p { font-size: 15px; line-height: 1.9; color: #333; margin-bottom: 16px; }
+
+        /* 章节块 */
+        .section-block { margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
+        .section-block:last-child { border-bottom: none; }
+
+        /* 问卷：调研权益横幅 */
+        .survey-banner { background: #000; color: #fff; padding: 32px 40px; display: flex; gap: 32px; align-items: center; margin-bottom: 40px; }
+        .survey-banner .banner-tag { font-size: 13px; letter-spacing: 2px; color: #b8860b; margin-bottom: 8px; }
+        .survey-banner h2 { font-size: 26px; margin: 0; padding: 0; border: none; color: #fff; }
+        .survey-banner .banner-sub { font-size: 14px; color: #bbb; margin-top: 6px; line-height: 1.7; }
+        .survey-banner .benefits { display: flex; gap: 24px; margin-left: auto; }
+        .benefit-item { text-align: center; min-width: 96px; }
+        .benefit-item .b-amount { font-size: 24px; font-weight: 900; color: #ffd700; }
+        .benefit-item .b-label { font-size: 12px; color: #ccc; margin-top: 4px; line-height: 1.5; }
+
+        /* 进度条 */
+        .progress-wrap { background: #fafafa; border: 1px solid #eee; padding: 20px 24px; margin-bottom: 40px; position: sticky; top: 65px; z-index: 8; }
+        .progress-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .progress-title { font-size: 15px; font-weight: bold; }
+        .progress-title span { color: #b8860b; }
+        .progress-text { font-size: 14px; color: #888; }
+        .progress-text .done { color: #000; font-weight: bold; }
+        .progress-bar { height: 8px; background: #eee; position: relative; }
+        .progress-bar .bar-fill { height: 100%; width: 0%; background: #b8860b; transition: width 0.35s ease; }
+
+        /* 章节进度提示 */
+        .section-meta { font-size: 13px; color: #b8860b; margin-bottom: 20px; letter-spacing: 1px; }
+        .section-meta .seg-done { color: #888; }
+
+        /* 题型卡片 */
+        .q-card { background: #fafafa; border: 1px solid #eee; padding: 24px 28px; margin-bottom: 20px; transition: border-color 0.2s; }
+        .q-card.q-answered { border-left: 4px solid #b8860b; }
+        .q-title { font-size: 16px; font-weight: bold; margin-bottom: 4px; display: flex; align-items: baseline; gap: 8px; }
+        .q-title .q-num { color: #b8860b; font-size: 14px; font-weight: 900; }
+        .q-meta { font-size: 12px; color: #888; margin-bottom: 14px; }
+        .q-meta .tag { display: inline-block; padding: 2px 8px; background: #eee; color: #555; margin-right: 6px; }
+
+        /* 选项（单选/多选） */
+        .option-row { display: flex; flex-wrap: wrap; gap: 12px; }
+        .option { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: #fff; border: 1px solid #ddd; cursor: pointer; font-size: 14px; user-select: none; transition: all 0.15s; }
+        .option:hover { border-color: #b8860b; }
+        .option .dot { width: 16px; height: 16px; border: 1px solid #999; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .option.radio .dot { border-radius: 50%; }
+        .option.radio .dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #b8860b; transform: scale(0); transition: transform 0.15s; }
+        .option.checkbox .dot::after { content: "✓"; font-size: 13px; color: #b8860b; opacity: 0; transition: opacity 0.15s; }
+        .option.selected { border-color: #b8860b; background: #fff8e1; }
+        .option.radio.selected .dot::after { transform: scale(1); }
+        .option.checkbox.selected .dot::after { opacity: 1; }
+        .option.selected .dot { border-color: #b8860b; }
+
+        /* 评分星条 */
+        .rating-row { display: flex; flex-direction: column; gap: 10px; }
+        .rating-stars { display: flex; gap: 6px; font-size: 28px; }
+        .rating-stars .star { color: #ddd; cursor: pointer; transition: color 0.15s; }
+        .rating-stars .star.active { color: #b8860b; }
+        .rating-stars .star.hover-on { color: #ffd700; }
+        .rating-label { font-size: 13px; color: #888; }
+        .rating-label .score { color: #b8860b; font-weight: bold; }
+
+        /* 排序题 */
+        .sort-list { display: flex; flex-direction: column; gap: 10px; }
+        .sort-item { display: flex; align-items: center; gap: 16px; padding: 12px 16px; background: #fff; border: 1px solid #ddd; }
+        .sort-num { width: 44px; height: 44px; border: 1px solid #b8860b; color: #b8860b; font-size: 18px; font-weight: 900; text-align: center; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .sort-text { font-size: 14px; color: #333; }
+        .sort-hint { font-size: 12px; color: #888; margin-top: 8px; }
+
+        /* 文本输入 */
+        .textarea-box { width: 100%; min-height: 110px; padding: 14px 16px; border: 1px solid #ddd; font-size: 14px; font-family: inherit; line-height: 1.7; resize: vertical; background: #fff; }
+        .textarea-box:focus { border-color: #b8860b; outline: none; }
+        .input-text { width: 100%; max-width: 360px; padding: 12px 16px; border: 1px solid #ddd; font-size: 14px; background: #fff; }
+        .input-text:focus { border-color: #b8860b; outline: none; }
+        .conditional-block { margin-top: 14px; padding: 14px 16px; background: #fff8e1; border-left: 3px solid #b8860b; }
+        .conditional-block label { font-size: 13px; color: #5d4037; display: block; margin-bottom: 6px; }
+
+        /* 提交区 */
+        .submit-block { text-align: center; margin-top: 40px; }
+        .submit-btn { display: inline-block; padding: 18px 60px; background: #000; color: #fff; font-size: 20px; font-weight: bold; cursor: pointer; border: none; letter-spacing: 2px; }
+        .submit-btn:hover { background: #b8860b; }
+        .submit-promise { margin-top: 20px; font-size: 14px; color: #555; line-height: 1.8; }
+        .submit-promise strong { color: #b8860b; }
+        .privacy-link { font-size: 13px; color: #888; margin-top: 10px; }
+        .privacy-link a { color: #b8860b; border-bottom: 1px dotted #b8860b; }
+
+        footer { background: #fff; border-top: 1px solid #eee; padding: 40px; }
+        .footer-bottom { border-top: 1px solid #ddd; padding-top: 20px; font-size: 14px; line-height: 1.8; color: #444; }
+        .back-home { display: inline-block; margin-top: 20px; padding: 10px 24px; background: #000; color: #fff; font-size: 14px; }
+        /* 全站统一两栏布局 */
+        .main-wrap { display: flex; gap: 24px; padding: 40px 40px 60px; align-items: flex-start; }
+        .side-filter { width: 220px; flex-shrink: 0; border: 1px solid #eee; background: #fff; padding: 20px 16px; position: sticky; top: 80px; }
+        .side-filter .side-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; color: #000; border-left: 3px solid #b8860b; padding-left: 8px; }
+        .side-filter .side-group { border-bottom: 1px solid #f0f0f0; padding-bottom: 18px; margin-bottom: 18px; }
+        .side-filter .side-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .az-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+        .az-grid a { display: block; text-align: center; padding: 6px 0; font-size: 13px; border: 1px solid #eee; color: #333; background: #fff; transition: all .15s; }
+        .az-grid a:hover { border-color: #b8860b; color: #b8860b; background: #fff8e1; }
+        .az-grid a.disabled { color: #ccc; background: #fafafa; cursor: not-allowed; pointer-events: none; }
+        .price-tags { display: flex; flex-direction: column; gap: 6px; }
+        .price-tags label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; cursor: pointer; padding: 4px 0; }
+        .price-tags label:hover { color: #b8860b; }
+        .price-tags input { margin: 0; }
+        .page { flex: 1; min-width: 0; max-width: 1000px; margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-top">
+        <div class="logo">
+            <div class="logo-mark">
+                <span class="logo-xu">许</span><span class="logo-le">乐</span>
+            </div>
+            <span class="sub"><span class="sub-url">https://xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服饰 箱包 饰品</span></span>
+        </div>
+        <div class="search-wrap">
+            <input placeholder="搜索鞋履、服饰、箱包、饰品、品牌…">
+            <button>搜索</button>
+        </div>
+        <div class="header-icons">
+            <span>👤</span>
+            <span>🛒</span>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li class="has-dropdown">女士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">裙装</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">男士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">外套</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">儿童专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">童鞋</a></li>
+                    <li><a href="category.html?cat=clothing">童装</a></li>
+                    <li><a href="category.html?cat=accessories">配饰</a></li>
+                </ul>
+            </li>
+            <li><a href="brands.html">品牌集合</a></li>
+            <li class="has-dropdown"><a href="category.html?cat=shoes">运动鞋款</a>
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">跑步鞋</a></li>
+                    <li><a href="category.html?cat=shoes">篮球鞋</a></li>
+                    <li><a href="category.html?cat=shoes">板鞋</a></li>
+                    <li><a href="category.html?cat=shoes">休闲鞋</a></li>
+                    <li><a href="category.html?cat=shoes">户外鞋</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">运动装备
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=clothing">运动上衣</a></li>
+                    <li><a href="category.html?cat=clothing">运动裤</a></li>
+                    <li><a href="category.html?cat=bags">运动包</a></li>
+                    <li><a href="category.html?cat=accessories">运动配件</a></li>
+                </ul>
+            </li>
+            <li style="margin-left:auto;"><a href="faq.html">帮助与客服</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="sub-nav">
+    <ul>
+        <li><a href="#sec1">① 基本信息</a></li>
+        <li><a href="#sec2">② 购买行为</a></li>
+        <li><a href="#sec3">③ 品质认知</a></li>
+        <li><a href="#sec4">④ 品类扩展</a></li>
+        <li><a href="#sec5">⑤ 开放反馈</a></li>
+        <li style="margin-left:auto;color:#b8860b;">共 21 题 · 约 6 分钟</li>
+    </ul>
+</div>
+
+<!-- 全站统一两栏布局：左侧品牌+价格筛选，右侧主内容 -->
+<div class="main-wrap">
+<aside class="side-filter">
+    <div class="side-group">
+        <div class="side-title">品牌</div>
+        <div class="az-grid">
+            <a href="brands.html#A">A</a><a href="brands.html#B">B</a><a href="brands.html#C">C</a><a href="brands.html#D">D</a><a href="brands.html#E">E</a>
+            <a href="brands.html#F">F</a><a href="brands.html#G">G</a><a href="brands.html#H">H</a><a href="brands.html#I">I</a><a href="brands.html#J">J</a>
+            <a href="brands.html#K">K</a><a href="brands.html#L">L</a><a href="brands.html#M">M</a><a href="brands.html#N">N</a><a href="brands.html#O">O</a>
+            <a href="brands.html#P">P</a><a href="brands.html#Q">Q</a><a href="brands.html#R">R</a><a href="brands.html#S">S</a><a href="brands.html#T">T</a>
+            <a href="brands.html#U">U</a><a href="brands.html#V">V</a><a href="brands.html#W">W</a><a class="disabled" title="暂无品牌">X</a><a href="brands.html#Y">Y</a>
+            <a href="brands.html#Z">Z</a><a class="disabled" title="暂无品牌">#</a><a class="disabled" title="暂无品牌">0-9</a><a class="disabled" title="暂无品牌">★</a><a class="disabled" title="中文名">中</a>
+        </div>
+    </div>
+    <div class="side-group">
+        <div class="side-title">价格区间</div>
+        <div class="price-tags">
+            <label><input type="checkbox" value="0-300"> ¥0 - 300</label>
+            <label><input type="checkbox" value="300-800"> ¥300 - 800</label>
+            <label><input type="checkbox" value="800-1500"> ¥800 - 1500</label>
+            <label><input type="checkbox" value="1500-3000"> ¥1500 - 3000</label>
+            <label><input type="checkbox" value="3000+"> ¥3000 以上</label>
+        </div>
+    </div>
+    <div class="side-group" style="font-size:12px;color:#999;line-height:1.7;">
+        内容页同样保留左侧品牌与价格筛选，保持全站统一。点击字母跳转品牌大全页。
+    </div>
+</aside>
+
+<div class="page">
+    <h1>许乐用户调研问卷</h1>
+    <p class="lead">本次调研面向已注册的许乐用户，结果将由共创匠人组逐条阅读，用于品类扩展与工艺改进。我们不收集用于营销推送的非必要信息，所有联系方式仅用于权益发放，不向第三方共享。</p>
+
+    <!-- 顶部调研权益横幅 -->
+    <div class="survey-banner">
+        <div>
+            <div class="banner-tag">XULOVE · 共创调研</div>
+            <h2>完成调研即享三重权益</h2>
+            <div class="banner-sub">您的每一条反馈，都会进入下一季度匠人组工艺改进议题。完成全部题目，权益自动到账。</div>
+        </div>
+        <div class="benefits">
+            <div class="benefit-item">
+                <div class="b-amount">¥30</div>
+                <div class="b-label">品质礼品<br>完成即送</div>
+            </div>
+            <div class="benefit-item">
+                <div class="b-amount">¥100</div>
+                <div class="b-label">抽奖礼品卡<br>10 名中奖</div>
+            </div>
+            <div class="benefit-item">
+                <div class="b-amount">内测</div>
+                <div class="b-label">产品内测资格<br>优先邀请</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 进度条 -->
+    <div class="progress-wrap">
+        <div class="progress-head">
+            <div class="progress-title">问卷进度 · 已完成 <span id="doneCount">0</span> / 21 题</div>
+            <div class="progress-text"><span class="done" id="percentText">0%</span> · 距离品质礼品还差 <span id="remainText">21</span> 题</div>
+        </div>
+        <div class="progress-bar"><div class="bar-fill" id="barFill"></div></div>
+    </div>
+
+    <form onsubmit="return false">
+
+        <!-- Section 1 基本信息 -->
+        <div class="section-block" id="sec1">
+            <h2>① 基本信息</h2>
+            <div class="section-meta">本段共 4 题 · <span class="seg-done" id="seg1">已完成 0/4</span></div>
+
+            <div class="q-card" data-q="q1">
+                <div class="q-title"><span class="q-num">Q1</span>您的性别？</div>
+                <div class="q-meta"><span class="tag">单选</span>用于品类偏好与尺码体系校准</div>
+                <div class="option-row" data-type="radio" data-name="gender">
+                    <span class="option radio" data-val="女"><span class="dot"></span>女</span>
+                    <span class="option radio" data-val="男"><span class="dot"></span>男</span>
+                    <span class="option radio" data-val="其他"><span class="dot"></span>其他</span>
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q2">
+                <div class="q-title"><span class="q-num">Q2</span>您的年龄段？</div>
+                <div class="q-meta"><span class="tag">单选</span>用于款式风格定位</div>
+                <div class="option-row" data-type="radio" data-name="age">
+                    <span class="option radio" data-val="18-24"><span class="dot"></span>18-24</span>
+                    <span class="option radio" data-val="25-30"><span class="dot"></span>25-30</span>
+                    <span class="option radio" data-val="31-40"><span class="dot"></span>31-40</span>
+                    <span class="option radio" data-val="41-50"><span class="dot"></span>41-50</span>
+                    <span class="option radio" data-val="50+"><span class="dot"></span>50+</span>
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q3">
+                <div class="q-title"><span class="q-num">Q3</span>您每月可自由支配的消费预算？</div>
+                <div class="q-meta"><span class="tag">单选</span>用于价格区间建议与商品分层</div>
+                <div class="option-row" data-type="radio" data-name="budget">
+                    <span class="option radio" data-val="<1000"><span class="dot"></span>少于 1000 元</span>
+                    <span class="option radio" data-val="1000-3000"><span class="dot"></span>1000-3000 元</span>
+                    <span class="option radio" data-val="3000-8000"><span class="dot"></span>3000-8000 元</span>
+                    <span class="option radio" data-val="8000+"><span class="dot"></span>8000 元以上</span>
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q4">
+                <div class="q-title"><span class="q-num">Q4</span>您所在城市的线级？</div>
+                <div class="q-meta"><span class="tag">单选</span>用于产业带选品与物流时效参考</div>
+                <div class="option-row" data-type="radio" data-name="city">
+                    <span class="option radio" data-val="一线"><span class="dot"></span>一线城市</span>
+                    <span class="option radio" data-val="新一线"><span class="dot"></span>新一线城市</span>
+                    <span class="option radio" data-val="二线"><span class="dot"></span>二线城市</span>
+                    <span class="option radio" data-val="三线及以下"><span class="dot"></span>三线及以下</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2 购买行为 -->
+        <div class="section-block" id="sec2">
+            <h2>② 购买行为</h2>
+            <div class="section-meta">本段共 4 题 · <span class="seg-done" id="seg2">已完成 0/4</span></div>
+
+            <div class="q-card" data-q="q5">
+                <div class="q-title"><span class="q-num">Q5</span>您在许乐的首次购买时间是？</div>
+                <div class="q-meta"><span class="tag">单选</span>用于识别新老用户工艺认知差异</div>
+                <div class="option-row" data-type="radio" data-name="firstbuy">
+                    <span class="option radio" data-val="本月"><span class="dot"></span>本月</span>
+                    <span class="option radio" data-val="3月内"><span class="dot"></span>3 个月内</span>
+                    <span class="option radio" data-val="半年内"><span class="dot"></span>半年内</span>
+                    <span class="option radio" data-val="1年内"><span class="dot"></span>1 年内</span>
+                    <span class="option radio" data-val="未购买"><span class="dot"></span>尚未购买</span>
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q6">
+                <div class="q-title"><span class="q-num">Q6</span>您在许乐的年度购买频次？</div>
+                <div class="q-meta"><span class="tag">单选</span>用于复购与会员分层</div>
+                <div class="option-row" data-type="radio" data-name="freq">
+                    <span class="option radio" data-val="1次"><span class="dot"></span>1 次</span>
+                    <span class="option radio" data-val="2-5次"><span class="dot"></span>2-5 次</span>
+                    <span class="option radio" data-val="6-12次"><span class="dot"></span>6-12 次</span>
+                    <span class="option radio" data-val=">12次"><span class="dot"></span>12 次以上</span>
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q7">
+                <div class="q-title"><span class="q-num">Q7</span>请为以下购买决策因素排序（1 最重要，5 最次要）</div>
+                <div class="q-meta"><span class="tag">排序题</span>在序号框中填入 1-5，每个数字不可重复</div>
+                <div class="sort-list" data-name="decision">
+                    <div class="sort-item"><div class="sort-num" contenteditable="true" data-field="param"></div><div class="sort-text">参数透明（材质/工艺/批次公开）</div></div>
+                    <div class="sort-item"><div class="sort-num" contenteditable="true" data-field="artisan"></div><div class="sort-text">工艺溯源（行业人选品把关）</div></div>
+                    <div class="sort-item"><div class="sort-num" contenteditable="true" data-field="price"></div><div class="sort-text">价格合理</div></div>
+                    <div class="sort-item"><div class="sort-num" contenteditable="true" data-field="design"></div><div class="sort-text">外观设计</div></div>
+                    <div class="sort-item"><div class="sort-num" contenteditable="true" data-field="service"></div><div class="sort-text">售后保障（7 天无理由+检测兜底）</div></div>
+                </div>
+                <div class="sort-hint">提示：点击序号框输入数字，1 = 最看重，5 = 最次要。</div>
+            </div>
+
+            <div class="q-card" data-q="q8">
+                <div class="q-title"><span class="q-num">Q8</span>您最常在许乐购买哪些品类？（可多选）</div>
+                <div class="q-meta"><span class="tag">多选</span>用于评估品类结构与库存配置</div>
+                <div class="option-row" data-type="checkbox" data-name="category">
+                    <span class="option checkbox" data-val="鞋履"><span class="dot"></span>鞋履</span>
+                    <span class="option checkbox" data-val="服饰"><span class="dot"></span>服饰</span>
+                    <span class="option checkbox" data-val="箱包"><span class="dot"></span>箱包</span>
+                    <span class="option checkbox" data-val="饰品"><span class="dot"></span>饰品</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3 品质认知 -->
+        <div class="section-block" id="sec3">
+            <h2>③ 品质认知</h2>
+            <div class="section-meta">本段共 7 题 · <span class="seg-done" id="seg3">已完成 0/7</span></div>
+
+            <div class="q-card" data-q="q9">
+                <div class="q-title"><span class="q-num">Q9</span>您对许乐「商品用料透明度」的评分？</div>
+                <div class="q-meta"><span class="tag">5 星评分</span>1 星 = 完全不透明，5 星 = 完全透明可验证</div>
+                <div class="rating-row">
+                    <div class="rating-stars" data-name="r-material" data-qid="q9">
+                        <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+                    </div>
+                    <div class="rating-label">当前评分：<span class="score" data-score="r-material">未评</span></div>
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q10">
+                <div class="q-title"><span class="q-num">Q10</span>您对许乐「工艺标注详细度」的评分？</div>
+                <div class="q-meta"><span class="tag">5 星评分</span>是否标明克重/支数/车线密度/电镀厚度等</div>
+                <div class="rating-row">
+                    <div class="rating-stars" data-name="r-craft" data-qid="q10">
+                        <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+                    </div>
+                    <div class="rating-label">当前评分：<span class="score" data-score="r-craft">未评</span></div>
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q11">
+                <div class="q-title"><span class="q-num">Q11</span>您对许乐「溯源码可查性」的评分？</div>
+                <div class="q-meta"><span class="tag">5 星评分</span>扫码后能否查到批次/工厂/匠人/检测报告</div>
+                <div class="rating-row">
+                    <div class="rating-stars" data-name="r-trace" data-qid="q11">
+                        <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+                    </div>
+                    <div class="rating-label">当前评分：<span class="score" data-score="r-trace">未评</span></div>
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q12">
+                <div class="q-title"><span class="q-num">Q12</span>您对许乐「品控流程可信度」的评分？</div>
+                <div class="q-meta"><span class="tag">5 星评分</span>四审三抽流程是否让您感到可信</div>
+                <div class="rating-row">
+                    <div class="rating-stars" data-name="r-qc" data-qid="q12">
+                        <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+                    </div>
+                    <div class="rating-label">当前评分：<span class="score" data-score="r-qc">未评</span></div>
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q13">
+                <div class="q-title"><span class="q-num">Q13</span>您对许乐商品的「性价比」评分？</div>
+                <div class="q-meta"><span class="tag">5 星评分</span>相对同等工艺品质的同行</div>
+                <div class="rating-row">
+                    <div class="rating-stars" data-name="r-value" data-qid="q13">
+                        <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+                    </div>
+                    <div class="rating-label">当前评分：<span class="score" data-score="r-value">未评</span></div>
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q14">
+                <div class="q-title"><span class="q-num">Q14</span>您是否扫码查过许乐商品的溯源码？</div>
+                <div class="q-meta"><span class="tag">单选</span>用于评估溯源体系的实际触达</div>
+                <div class="option-row" data-type="radio" data-name="scanned">
+                    <span class="option radio" data-val="是"><span class="dot"></span>是，查过</span>
+                    <span class="option radio" data-val="否"><span class="dot"></span>否，没查过</span>
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q15">
+                <div class="q-title"><span class="q-num">Q15</span>您是否关注过某位共创匠人？</div>
+                <div class="q-meta"><span class="tag">单选+填空</span>用于匠人推荐与社区运营</div>
+                <div class="option-row" data-type="radio" data-name="follow-artisan" data-conditional="true">
+                    <span class="option radio" data-val="是" data-trigger="artisan-name"><span class="dot"></span>是</span>
+                    <span class="option radio" data-val="否"><span class="dot"></span>否</span>
+                </div>
+                <div class="conditional-block" id="artisan-name" style="display:none;">
+                    <label>请填写您关注的匠人姓名或编号（选填）</label>
+                    <input class="input-text" placeholder="如：鞋类匠人组-陈师傅 / 工号 XA0021">
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4 品类扩展 -->
+        <div class="section-block" id="sec4">
+            <h2>④ 品类扩展需求</h2>
+            <div class="section-meta">本段共 3 题 · <span class="seg-done" id="seg4">已完成 0/3</span></div>
+
+            <div class="q-card" data-q="q16">
+                <div class="q-title"><span class="q-num">Q16</span>您最希望许乐扩展哪些品类？（可多选）</div>
+                <div class="q-meta"><span class="tag">多选+填空</span>选品扩张优先级参考</div>
+                <div class="option-row" data-type="checkbox" data-name="extend-cat">
+                    <span class="option checkbox" data-val="运动装备"><span class="dot"></span>运动装备</span>
+                    <span class="option checkbox" data-val="家居服"><span class="dot"></span>家居服</span>
+                    <span class="option checkbox" data-val="童装"><span class="dot"></span>童装</span>
+                    <span class="option checkbox" data-val="手表"><span class="dot"></span>手表</span>
+                    <span class="option checkbox" data-val="眼镜"><span class="dot"></span>眼镜</span>
+                    <span class="option checkbox" data-val="香水"><span class="dot"></span>香水</span>
+                    <span class="option checkbox" data-val="其他" data-trigger="extend-other"><span class="dot"></span>其他</span>
+                </div>
+                <div class="conditional-block" id="extend-other" style="display:none;">
+                    <label>请补充您希望扩展的其他品类</label>
+                    <input class="input-text" placeholder="如：户外露营装备 / 宠物用品">
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q17">
+                <div class="q-title"><span class="q-num">Q17</span>您最希望许乐增加哪些功能？（可多选）</div>
+                <div class="q-meta"><span class="tag">多选</span>用于产品功能迭代排期</div>
+                <div class="option-row" data-type="checkbox" data-name="extend-func">
+                    <span class="option checkbox" data-val="AR试穿"><span class="dot"></span>AR 试穿/试戴</span>
+                    <span class="option checkbox" data-val="工艺直播"><span class="dot"></span>工艺直播</span>
+                    <span class="option checkbox" data-val="匠人问答社区"><span class="dot"></span>匠人问答社区</span>
+                    <span class="option checkbox" data-val="定制服务"><span class="dot"></span>定制服务</span>
+                    <span class="option checkbox" data-val="订阅盒"><span class="dot"></span>订阅盒</span>
+                    <span class="option checkbox" data-val="其他" data-trigger="func-other"><span class="dot"></span>其他</span>
+                </div>
+                <div class="conditional-block" id="func-other" style="display:none;">
+                    <label>请补充您希望增加的其他功能</label>
+                    <input class="input-text" placeholder="如：尺码数据库 / 二手转售">
+                </div>
+            </div>
+
+            <div class="q-card" data-q="q18">
+                <div class="q-title"><span class="q-num">Q18</span>鞋履品类您可接受的价格区间？</div>
+                <div class="q-meta"><span class="tag">单选</span>用于主力价位带定位</div>
+                <div class="option-row" data-type="radio" data-name="price-range">
+                    <span class="option radio" data-val="<300"><span class="dot"></span>300 元以下</span>
+                    <span class="option radio" data-val="300-800"><span class="dot"></span>300-800 元</span>
+                    <span class="option radio" data-val="800-1500"><span class="dot"></span>800-1500 元</span>
+                    <span class="option radio" data-val="1500-3000"><span class="dot"></span>1500-3000 元</span>
+                    <span class="option radio" data-val=">3000"><span class="dot"></span>3000 元以上</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5 开放反馈 -->
+        <div class="section-block" id="sec5">
+            <h2>⑤ 开放反馈</h2>
+            <div class="section-meta">本段共 3 题 · <span class="seg-done" id="seg5">已完成 0/3</span></div>
+
+            <div class="q-card" data-q="q19">
+                <div class="q-title"><span class="q-num">Q19</span>您最希望许乐在哪些工艺参数上更透明？</div>
+                <div class="q-meta"><span class="tag">短答</span>可列举具体品类与参数，例如「皮具的油边工艺/鞋类的中底配方」</div>
+                <textarea class="textarea-box" data-name="open-param" placeholder="例如：希望鞋类标注中底 EVA 发泡密度与回弹率；希望服饰标注染整是否使用活性染料；希望饰品标注电镀层实际厚度…"></textarea>
+            </div>
+
+            <div class="q-card" data-q="q20">
+                <div class="q-title"><span class="q-num">Q20</span>您是否愿意成为许乐共创匠人/选品官？</div>
+                <div class="q-meta"><span class="tag">短答</span>如愿意，请简述您的行业背景与年限</div>
+                <textarea class="textarea-box" data-name="open-join" placeholder="例如：本人从事制鞋工艺 12 年，主要在晋江产业带，擅长运动鞋楦型与中底配方调校，对回弹/耐磨参数有体系化理解…"></textarea>
+            </div>
+
+            <div class="q-card" data-q="q21">
+                <div class="q-title"><span class="q-num">Q21</span>联系方式（选填，用于发放调研权益与抽奖）</div>
+                <div class="q-meta"><span class="tag">联系方式</span>仅用于本次调研权益发放，不做他用</div>
+                <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:12px;">
+                    <input class="input-text" data-name="phone" placeholder="手机号（选填）" style="flex:1; min-width:200px;">
+                    <input class="input-text" data-name="email" placeholder="邮箱（选填）" style="flex:1; min-width:200px;">
+                </div>
+                <div class="sort-hint">提示：完成 21 题中的任意 18 题即可获得品质礼品，留下联系方式方可参与 100 元礼品卡抽奖。</div>
+            </div>
+        </div>
+
+        <!-- 提交区 -->
+        <div class="submit-block">
+            <button type="submit" class="submit-btn" id="submitBtn">提交问卷 · 领取权益</button>
+            <div class="submit-promise">
+                <strong>您的反馈将由共创匠人组逐条阅读。</strong><br>
+                每季度第一次匠人组例会将汇总本次调研的工艺参数诉求，对应的选品与品控改进方案会在许乐公众号公示。
+            </div>
+            <div class="privacy-link">
+                提交即表示您已阅读并同意 <a href="#">《许乐隐私政策》</a> · 联系方式仅用于本次调研权益发放，不用于商业推送，不向第三方共享。
+            </div>
+        </div>
+
+    </form>
+
+    <a href="index.html" class="back-home">← 返回首页</a>
+</div>
+</div>
+<!-- /main-wrap -->
+
+<footer>
+    <div class="footer-bottom">
+        <p>©2026 许乐有限公司 版权所有 · xulove.com</p>
+        <p>营业执照：XXXXXXXXXXXXXXXXXX | ICP 备案号：鲁ICP备XXXXXXXX号-1</p>
+        <p>《用户服务协议》｜《隐私政策》｜《消费者权益保障》｜《7 天无理由退换货规则》</p>
+        <p>温馨提示：本平台商品支持 7 天无理由退换（贴身商品除外），保护消费者合法权益</p>
+    </div>
+</footer>
+
+<script>
+(function () {
+    // 题目总数与每段配置
+    var TOTAL = 21;
+    var answeredSet = {};          // q1..q21 -> true
+    var segMap = {
+        1: { ids: ['q1','q2','q3','q4'], el: 'seg1' },
+        2: { ids: ['q5','q6','q7','q8'], el: 'seg2' },
+        3: { ids: ['q9','q10','q11','q12','q13','q14','q15'], el: 'seg3' },
+        4: { ids: ['q16','q17','q18'], el: 'seg4' },
+        5: { ids: ['q19','q20','q21'], el: 'seg5' }
+    };
+    var ratings = {};              // r-material..r-value -> number
+    var ratingQidMap = { 'r-material':'q9','r-craft':'q10','r-trace':'q11','r-qc':'q12','r-value':'q13' };
+
+    var barFill = document.getElementById('barFill');
+    var doneCount = document.getElementById('doneCount');
+    var percentText = document.getElementById('percentText');
+    var remainText = document.getElementById('remainText');
+
+    function refresh() {
+        var done = 0;
+        for (var k in answeredSet) if (answeredSet[k]) done++;
+        var pct = Math.round(done / TOTAL * 100);
+        barFill.style.width = pct + '%';
+        doneCount.textContent = done;
+        percentText.textContent = pct + '%';
+        remainText.textContent = Math.max(TOTAL - done, 0);
+
+        for (var seg in segMap) {
+            var cfg = segMap[seg];
+            var sd = 0;
+            cfg.ids.forEach(function (id) { if (answeredSet[id]) sd++; });
+            document.getElementById(cfg.el).textContent = '已完成 ' + sd + '/' + cfg.ids.length;
+        }
+
+        // 题卡左侧高亮
+        document.querySelectorAll('.q-card').forEach(function (card) {
+            var qid = card.getAttribute('data-q');
+            if (answeredSet[qid]) card.classList.add('q-answered');
+            else card.classList.remove('q-answered');
+        });
+    }
+
+    function mark(qid, val) {
+        answeredSet[qid] = val;
+        refresh();
+    }
+
+    // 单选/多选
+    document.querySelectorAll('.option-row').forEach(function (row) {
+        var type = row.getAttribute('data-type');
+        row.querySelectorAll('.option').forEach(function (opt) {
+            opt.addEventListener('click', function () {
+                var card = closest(opt, '.q-card');
+                var qid = card.getAttribute('data-q');
+                if (type === 'radio') {
+                    row.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
+                    opt.classList.add('selected');
+                    mark(qid, opt.getAttribute('data-val'));
+                    // 条件显示
+                    var trigger = opt.getAttribute('data-trigger');
+                    var condBlock = row.getAttribute('data-conditional');
+                    if (condBlock === 'true' && trigger) {
+                        var target = document.getElementById(trigger);
+                        if (target) target.style.display = 'block';
+                    } else if (condBlock === 'true') {
+                        // 选「否」时隐藏
+                        var allTrig = row.querySelectorAll('[data-trigger]');
+                        allTrig.forEach(function (t) {
+                            var tid = t.getAttribute('data-trigger');
+                            if (tid && t !== opt) {
+                                var tb = document.getElementById(tid);
+                                if (tb) tb.style.display = 'none';
+                            }
+                        });
+                    }
+                } else {
+                    opt.classList.toggle('selected');
+                    var anySel = row.querySelectorAll('.option.selected').length > 0;
+                    mark(qid, anySel);
+                    // 多选条件显示
+                    var trigger = opt.getAttribute('data-trigger');
+                    if (trigger) {
+                        var target = document.getElementById(trigger);
+                        if (target) target.style.display = opt.classList.contains('selected') ? 'block' : 'none';
+                    }
+                }
+            });
+        });
+    });
+
+    // 评分星
+    document.querySelectorAll('.rating-stars').forEach(function (stars) {
+        var name = stars.getAttribute('data-name');
+        var qid = stars.getAttribute('data-qid');
+        var starEls = stars.querySelectorAll('.star');
+        var scoreLabel = document.querySelector('[data-score="' + name + '"]');
+
+        starEls.forEach(function (star, idx) {
+            // 悬停预览
+            star.addEventListener('mouseenter', function () {
+                starEls.forEach(function (s, i) {
+                    if (i <= idx) s.classList.add('hover-on');
+                    else s.classList.remove('hover-on');
+                });
+            });
+            star.addEventListener('mouseleave', function () {
+                starEls.forEach(function (s) { s.classList.remove('hover-on'); });
+            });
+            star.addEventListener('click', function () {
+                var val = parseInt(star.getAttribute('data-val'), 10);
+                ratings[name] = val;
+                starEls.forEach(function (s, i) {
+                    if (i < val) s.classList.add('active');
+                    else s.classList.remove('active');
+                });
+                if (scoreLabel) scoreLabel.textContent = val + ' 星';
+                mark(qid, val);
+            });
+        });
+    });
+
+    // 排序题（填序号）
+    var sortList = document.querySelector('.sort-list[data-name="decision"]');
+    if (sortList) {
+        var sortInputs = sortList.querySelectorAll('.sort-num');
+        sortInputs.forEach(function (inp) {
+            inp.addEventListener('input', function () {
+                // 限制只能输入 1-5
+                var v = inp.textContent.replace(/[^1-5]/g, '');
+                inp.textContent = v;
+                // 光标移到末尾
+                placeCaretEnd(inp);
+            });
+            inp.addEventListener('blur', function () {
+                var filled = 0;
+                sortInputs.forEach(function (i) { if (i.textContent.trim() !== '') filled++; });
+                mark('q7', filled === 5);
+            });
+        });
+    }
+
+    // textarea / input 标记答题
+    document.querySelectorAll('textarea[data-name]').forEach(function (ta) {
+        var qid = closest(ta, '.q-card').getAttribute('data-q');
+        ta.addEventListener('input', function () {
+            mark(qid, ta.value.trim().length > 0);
+        });
+    });
+    // 联系方式任一填写即算答
+    var phoneInput = document.querySelector('[data-name="phone"]');
+    var emailInput = document.querySelector('[data-name="email"]');
+    if (phoneInput && emailInput) {
+        function syncContact() {
+            mark('q21', phoneInput.value.trim() !== '' || emailInput.value.trim() !== '');
+        }
+        phoneInput.addEventListener('input', syncContact);
+        emailInput.addEventListener('input', syncContact);
+    }
+
+    // 提交按钮反馈
+    var submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', function () {
+            var done = 0;
+            for (var k in answeredSet) if (answeredSet[k]) done++;
+            if (done < 18) {
+                alert('已完成 ' + done + '/21 题，至少完成 18 题方可领取品质礼品。');
+                return;
+            }
+            submitBtn.textContent = '已提交 · 权益将在 24 小时内到账';
+            submitBtn.style.background = '#b8860b';
+            submitBtn.disabled = true;
+        });
+    }
+
+    // 工具函数
+    function closest(el, sel) {
+        while (el && el !== document) {
+            if (el.matches(sel)) return el;
+            el = el.parentElement;
+        }
+        return null;
+    }
+    function placeCaretEnd(el) {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        range.collapse(false);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+
+    refresh();
+})();
+</script>
+</body>
+</html>

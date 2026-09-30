@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>许乐 XULOVE | 品类商品列表 - 行业人共创品质商城</title>
+    <meta name="description" content="许乐 xulove.com 品类商品列表页 - 鞋履/服饰/箱包/饰品/新品/全部分类，由行业资深匠人共创严选。">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", Arial, sans-serif;
+        }
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        /* 头部区域 - 复用 index.html */
+        header {
+            padding: 24px 40px;
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+        .logo { line-height: 1; }
+        .logo-mark {
+            display: inline-flex;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(207,48,36,0.22), 0 2px 6px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 12%;
+            bottom: 12%;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #fff 0 4px, transparent 4px 7px);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .logo-xu {
+            color: #fff;
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+            font-size: 56px; font-weight: 900;
+            padding: 14px 18px; line-height: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .logo-le {
+            color: #fff;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            font-size: 56px; font-weight: 900;
+            padding: 14px 18px; line-height: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .logo .sub {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #888;
+            margin-top: 12px;
+        }
+        .logo .sub-url { color: #cf3024; font-weight: 700; }
+        .logo .sub-sep { color: #ccc; margin: 0 6px; }
+        .logo .sub-tag { color: #659ee3; font-weight: 600; }
+        .search-wrap {
+            flex: 1;
+            display: flex;
+        }
+        .search-wrap input {
+            flex: 1;
+            padding: 14px 16px;
+            border: 1px solid #ccc;
+            border-right: none;
+            font-size: 18px;
+        }
+        .search-wrap button {
+            padding: 14px 28px;
+            border: 1px solid #ccc;
+            background: #fff;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .header-icons {
+            display: flex;
+            gap: 24px;
+            font-size: 32px;
+        }
+        .header-icons span {
+            cursor: pointer;
+        }
+        nav ul {
+            display: flex;
+            gap: 48px;
+            list-style: none;
+            font-size: 24px;
+            font-weight: 500;
+            align-items: center;
+        }
+        nav ul li {
+            cursor: pointer;
+        }
+        /* 导航下拉菜单 */
+        nav ul li.has-dropdown { position: relative; }
+        nav ul li.has-dropdown > ul.dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 140px;
+            padding: 8px 0;
+            z-index: 100;
+            flex-direction: column;
+            gap: 0;
+        }
+        nav ul li.has-dropdown:hover > ul.dropdown { display: flex; }
+        nav ul li.has-dropdown > ul.dropdown li {
+            font-size: 15px;
+            padding: 8px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        nav ul li.has-dropdown > ul.dropdown li:hover { background: #fafafa; color: #b8860b; }
+        nav ul li.has-dropdown > ul.dropdown li a { display: block; }
+        /* 品类横幅（小 banner，高度 200px） */
+        .cat-banner {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(90deg, #ffdd00 30%, #c7e0ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cat-banner-inner {
+            text-align: center;
+            padding: 0 60px;
+        }
+        .cat-banner h1 {
+            font-size: 44px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .cat-banner .cat-banner-sub {
+            font-size: 18px;
+            color: #333;
+        }
+        /* 面包屑 */
+        .breadcrumb {
+            padding: 16px 40px;
+            font-size: 14px;
+            color: #666;
+            background: #fafafa;
+            border-bottom: 1px solid #eee;
+        }
+        .breadcrumb a:hover { color: #b8860b; }
+        .breadcrumb .sep { margin: 0 8px; color: #ccc; }
+        .breadcrumb .current { color: #000; font-weight: 500; }
+        /* 主体两栏布局 */
+        .main-wrap {
+            display: flex;
+            gap: 24px;
+            padding: 32px 40px 60px;
+            align-items: flex-start;
+        }
+        /* 左侧筛选侧栏 220px */
+        .filter-sidebar {
+            width: 220px;
+            flex-shrink: 0;
+            border: 1px solid #eee;
+            background: #fff;
+            padding: 20px 16px;
+        }
+        .filter-group {
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 18px;
+            margin-bottom: 18px;
+        }
+        .filter-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .filter-group h4 {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #000;
+        }
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .filter-tags .tag {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 13px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            background: #fff;
+            color: #555;
+            transition: all .15s;
+        }
+        .filter-tags .tag:hover {
+            border-color: #b8860b;
+            color: #b8860b;
+        }
+        .filter-tags .tag.active {
+            background: #b8860b;
+            border-color: #b8860b;
+            color: #fff;
+        }
+        .filter-list li {
+            padding: 6px 0;
+            font-size: 13px;
+            color: #555;
+            cursor: pointer;
+        }
+        .filter-list li:hover { color: #b8860b; }
+        .filter-list li.active { color: #b8860b; font-weight: bold; }
+        /* 右侧商品列表区 */
+        .product-list-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+        /* 排序条 */
+        .sort-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #fafafa;
+            border: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .sort-tabs {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .sort-tabs .sort-btn {
+            padding: 6px 14px;
+            font-size: 14px;
+            border: 1px solid transparent;
+            background: transparent;
+            cursor: pointer;
+            color: #555;
+        }
+        .sort-tabs .sort-btn:hover {
+            color: #b8860b;
+        }
+        .sort-tabs .sort-btn.active {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+        .sort-count {
+            font-size: 13px;
+            color: #888;
+        }
+        .sort-count strong { color: #c00; }
+        /* 商品 grid（4 列） - 复用 index 样式 */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .product-card {
+            border: 1px solid #eee;
+            transition: box-shadow .2s;
+            background: #fff;
+        }
+        .product-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        .product-card .product-img-box {
+            width: 100%;
+            height: 240px;
+            background: #eee;
+            position: relative;
+        }
+        .product-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #000;
+            color: #fff;
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+        .product-info {
+            padding: 14px;
+        }
+        .product-brand {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+        .product-info h4 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .product-params {
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        .product-params span {
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #c00;
+            margin-bottom: 6px;
+        }
+        .product-rating {
+            font-size: 13px;
+            color: #666;
+        }
+        .product-rating .stars {
+            color: #f5a623;
+            letter-spacing: 2px;
+        }
+        .design-info { margin-top: 10px; border-top: 1px dashed #eee; padding-top: 8px; }
+        .design-info summary { font-size: 13px; color: #b8860b; cursor: pointer; user-select: none; padding: 4px 0; }
+        .design-info summary::before { content: "▸ "; }
+        .design-info[open] summary::before { content: "▾ "; }
+        .design-row { display: flex; gap: 8px; font-size: 12px; line-height: 1.7; color: #555; padding: 3px 0; }
+        .design-row .dl { color: #888; min-width: 72px; flex-shrink: 0; }
+        .design-row .dv { color: #333; flex: 1; }
+        /* 分页器 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin-top: 40px;
+            padding-bottom: 20px;
+        }
+        .pagination a, .pagination span {
+            display: inline-block;
+            min-width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            padding: 0 10px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            cursor: pointer;
+            background: #fff;
+            color: #333;
+        }
+        .pagination a:hover, .pagination span:hover {
+            border-color: #b8860b;
+            color: #b8860b;
+        }
+        .pagination .active {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+        .pagination .disabled {
+            color: #ccc;
+            cursor: not-allowed;
+            border-color: #eee;
+        }
+        .pagination .ellipsis {
+            border: none;
+            cursor: default;
+        }
+        /* 页脚 - 复用 index.html */
+        footer {
+            background: #fff;
+            border-top: 1px solid #eee;
+            padding: 60px 40px;
+        }
+        .social-icons {
+            display: flex;
+            gap: 20px;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .footer-column li {
+            margin-bottom: 14px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .footer-column li:hover {
+            color: #b8860b;
+        }
+        .footer-bottom {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #444;
+        }
+        /* 弹窗：注册弹窗 */
+        .modal-mask {
+            position: fixed;
+            left: 0; top: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .modal-mask.show {
+            display: flex;
+        }
+        .modal-box {
+            width: 480px;
+            background: #fff;
+            padding: 32px;
+            border-radius: 8px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-box h2 {
+            margin-bottom: 8px;
+        }
+        .modal-sub {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .member-benefits {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #5d4037;
+            border-radius: 4px;
+        }
+        .member-benefits strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #b8860b;
+        }
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .auth-tabs .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #888;
+            border-bottom: 2px solid transparent;
+        }
+        .auth-tabs .tab.active {
+            color: #000;
+            border-bottom-color: #000;
+            font-weight: bold;
+        }
+        .auth-panel {
+            display: none;
+        }
+        .auth-panel.active {
+            display: block;
+        }
+        .form-item {
+            margin-bottom: 16px;
+        }
+        .form-item label {
+            display: block;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        .form-item input[type="text"],
+        .form-item input[type="tel"],
+        .form-item input[type="email"],
+        .form-item input[type="password"],
+        .form-item input[type="date"],
+        .form-item select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-item-row {
+            display: flex;
+            gap: 8px;
+        }
+        .form-item-row > input {
+            flex: 1;
+        }
+        .form-item-row > button {
+            padding: 0 16px;
+            border: 1px solid #ccc;
+            background: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .form-item-row > button:disabled {
+            color: #999;
+            cursor: not-allowed;
+        }
+        .gender-radio {
+            display: flex;
+            gap: 24px;
+            padding: 8px 0;
+            font-size: 15px;
+        }
+        .gender-radio label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+        }
+        .agree-check {
+            margin: 16px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .agree-check input {
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        .agree-check a {
+            color: #b8860b;
+            text-decoration: underline;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #000;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .submit-btn:hover {
+            background: #222;
+        }
+        .third-party {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .third-party .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            margin: 16px 0;
+        }
+        .third-party .divider::before,
+        .third-party .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #eee;
+        }
+        .third-party .divider span {
+            padding: 0 12px;
+        }
+        .third-party-icons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            font-size: 32px;
+        }
+        .third-party-icons span {
+            cursor: pointer;
+        }
+        /* 协议预览弹窗 */
+        .terms-modal {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 640px;
+            max-width: 90vw;
+            max-height: 80vh;
+            background: #fff;
+            border-radius: 8px;
+            z-index: 200;
+            overflow: hidden;
+            flex-direction: column;
+        }
+        .terms-modal.show {
+            display: flex;
+        }
+        .terms-modal .terms-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .terms-modal .terms-close {
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 1;
+        }
+        .terms-modal .terms-body {
+            padding: 24px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+        }
+        .terms-modal .terms-body h4 {
+            margin: 16px 0 8px;
+            font-size: 16px;
+        }
+        .terms-modal .terms-body p {
+            margin-bottom: 12px;
+        }
+        /* 响应式简单适配 */
+        @media (max-width: 1024px) {
+            .product-grid, .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .main-wrap { flex-direction: column; }
+            .filter-sidebar { width: 100%; }
+            .logo { font-size: 48px; }
+            nav ul { flex-wrap: wrap; gap: 24px; font-size: 18px; }
+            .cat-banner h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-top">
+        <div class="logo">
+            <div class="logo-mark">
+                <a href="index.html"><span class="logo-xu">许</span><span class="logo-le">乐</span></a>
+            </div>
+            <span class="sub"><span class="sub-url">https://xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服饰 箱包 饰品</span></span>
+        </div>
+        <div class="search-wrap">
+            <input placeholder="搜索鞋履、服饰、箱包、饰品、品牌…">
+            <button>搜索</button>
+        </div>
+        <div class="header-icons">
+            <span id="openRegister" title="注册/登录">👤</span>
+            <span title="购物车">🛒</span>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li class="has-dropdown">女士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">裙装</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">男士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">外套</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">儿童专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">童鞋</a></li>
+                    <li><a href="category.html?cat=clothing">童装</a></li>
+                    <li><a href="category.html?cat=accessories">配饰</a></li>
+                </ul>
+            </li>
+            <li><a href="brands.html">品牌集合</a></li>
+            <li class="has-dropdown"><a href="category.html?cat=shoes">运动鞋款</a>
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">跑步鞋</a></li>
+                    <li><a href="category.html?cat=shoes">篮球鞋</a></li>
+                    <li><a href="category.html?cat=shoes">板鞋</a></li>
+                    <li><a href="category.html?cat=shoes">休闲鞋</a></li>
+                    <li><a href="category.html?cat=shoes">户外鞋</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">运动装备
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=clothing">运动上衣</a></li>
+                    <li><a href="category.html?cat=clothing">运动裤</a></li>
+                    <li><a href="category.html?cat=bags">运动包</a></li>
+                    <li><a href="category.html?cat=accessories">运动配件</a></li>
+                </ul>
+            </li>
+            <li style="margin-left:auto;"><a href="faq.html">帮助与客服</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- 品类横幅（小 banner） -->
+<section class="cat-banner">
+    <div class="cat-banner-inner">
+        <h1 id="catTitle">全部分类 · 行业人共创严选</h1>
+        <div class="cat-banner-sub" id="catSub">由鞋履、服饰、箱包、饰品行业资深从业者共同创建</div>
+    </div>
+</section>
+
+<!-- 面包屑 -->
+<div class="breadcrumb">
+    <a href="index.html">首页</a>
+    <span class="sep">/</span>
+    <span class="current" id="crumbCurrent">全部分类</span>
+</div>
+
+<!-- 主体两栏布局 -->
+<div class="main-wrap">
+    <!-- 左侧筛选侧栏 220px -->
+    <aside class="filter-sidebar" id="filterSidebar">
+        <!-- 由 JS 动态渲染 -->
+    </aside>
+
+    <!-- 右侧商品列表区 -->
+    <section class="product-list-wrap">
+        <!-- 排序条 -->
+        <div class="sort-bar">
+            <div class="sort-tabs" id="sortTabs">
+                <span class="sort-btn active" data-sort="default">综合</span>
+                <span class="sort-btn" data-sort="new">最新</span>
+                <span class="sort-btn" data-sort="priceAsc">价格↑</span>
+                <span class="sort-btn" data-sort="priceDesc">价格↓</span>
+                <span class="sort-btn" data-sort="rating">评分</span>
+                <span class="sort-btn" data-sort="sales">销量</span>
+            </div>
+            <div class="sort-count">共 <strong id="totalCount">0</strong> 件商品</div>
+        </div>
+
+        <!-- 商品 grid -->
+        <div class="product-grid" id="productGrid">
+            <!-- 由 JS 动态渲染 -->
+        </div>
+
+        <!-- 分页器 -->
+        <div class="pagination" id="pagination">
+            <!-- 由 JS 动态渲染 -->
+        </div>
+    </section>
+</div>
+
+<footer>
+    <div class="social-icons">
+        <span title="小红书">📕</span>
+        <span title="抖音">🎵</span>
+        <span title="微博">🌐</span>
+        <span title="微信视频号">📺</span>
+    </div>
+    <div class="footer-grid">
+        <div class="footer-column">
+            <h3>关于许乐</h3>
+            <ul>
+                <li><a href="about.html">平台介绍</a></li>
+                <li><a href="about.html#join">加入我们</a></li>
+                <li><a href="about.html#app">下载 APP</a></li>
+                <li><a href="about.html#qc">品控流程</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>客户服务</h3>
+            <ul>
+                <li><a href="faq.html">常见问题</a></li>
+                <li><a href="faq.html#contact">联系客服</a></li>
+                <li><a href="shipping.html">配送与退换货政策</a></li>
+                <li><a href="shipping.html#return7">7 天无理由退换说明</a></li>
+                <li><a href="shipping.html#aftersale">售后申请入口</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>实用工具</h3>
+            <ul>
+                <li><a href="size-chart.html">尺码对照表</a></li>
+                <li><a href="affiliate.html">联盟推广</a></li>
+                <li><a href="sitemap.html">网站地图</a></li>
+                <li><a href="survey.html">用户调研</a></li>
+                <li><a href="gift-card.html">电子礼品卡</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>商城浏览</h3>
+            <ul>
+                <li><a href="brands.html">品牌大全</a></li>
+                <li><a href="category.html?cat=clothing">服饰</a></li>
+                <li><a href="category.html?cat=new">最近到货</a></li>
+                <li><a href="category.html?cat=bags">包袋</a></li>
+                <li><a href="category.html?cat=shoes">鞋履</a></li>
+                <li><a href="category.html?cat=accessories">饰品</a></li>
+                <li><a href="category.html?cat=all">全部分类</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>©2026 许乐有限公司 版权所有 · xulove.com</p>
+        <p>营业执照：XXXXXXXXXXXXXXXXXX | ICP 备案号：鲁ICP备XXXXXXXX号</p>
+        <p><a href="javascript:void(0)" data-terms="service">《用户服务协议》</a>｜<a href="javascript:void(0)" data-terms="privacy">《隐私政策》</a>｜《消费者权益保障》｜《7 天无理由退换货规则》</p>
+        <p>温馨提示：本平台商品支持 7 天无理由退换（贴身商品除外），保护消费者合法权益。所有商品由行业资深匠人共创严选，用料与工艺均有溯源档案。</p>
+    </div>
+</footer>
+
+<!-- 注册弹窗 -->
+<div class="modal-mask" id="registerModal">
+    <div class="modal-box">
+        <h2>欢迎来到许乐</h2>
+        <div class="modal-sub">注册即可查看每件商品的完整设计信息与材质溯源档案</div>
+        <div class="member-benefits">
+            <strong>🎁 注册后可使用的功能</strong>
+            1. 查看完整工艺档案与溯源信息 · 2. 收藏商品与关注设计师 · 3. 订单管理与售后一键直达
+        </div>
+        <div class="auth-tabs">
+            <div class="tab active" data-tab="register">注册</div>
+            <div class="tab" data-tab="login">登录</div>
+        </div>
+        <div class="auth-panel active" data-panel="register">
+            <div class="form-item">
+                <label>手机号</label>
+                <input type="tel" placeholder="请输入 11 位手机号" maxlength="11">
+            </div>
+            <div class="form-item">
+                <label>短信验证码</label>
+                <div class="form-item-row">
+                    <input type="text" placeholder="请输入 6 位验证码" maxlength="6">
+                    <button id="sendCodeBtn">获取验证码</button>
+                </div>
+            </div>
+            <div class="form-item">
+                <label>登录密码</label>
+                <input type="password" placeholder="6-16 位字母+数字组合">
+            </div>
+            <div class="form-item">
+                <label>邮箱（选填，用于订单通知与权益发放）</label>
+                <input type="email" placeholder="name@example.com">
+            </div>
+            <div class="form-item">
+                <label>姓名 / 昵称</label>
+                <input type="text" placeholder="展示在评价与会员档案">
+            </div>
+            <div class="form-item">
+                <label>性别（用于精准推荐）</label>
+                <div class="gender-radio">
+                    <label><input type="radio" name="gender" value="female"> 女</label>
+                    <label><input type="radio" name="gender" value="male"> 男</label>
+                    <label><input type="radio" name="gender" value="other"> 其他/不公开</label>
+                </div>
+            </div>
+            <div class="form-item">
+                <label>生日（选填，用于个性化推荐）</label>
+                <input type="date">
+            </div>
+            <div class="form-item">
+                <label>邀请码（选填）</label>
+                <input type="text" placeholder="无邀请码可留空">
+            </div>
+            <div class="agree-check">
+                <input type="checkbox" id="agree">
+                <label for="agree">我已阅读并同意 <a href="javascript:void(0)" data-terms="service">《用户服务协议》</a> 与 <a href="javascript:void(0)" data-terms="privacy">《隐私政策》</a>，未注册手机号视为同意「一键注册」</label>
+            </div>
+            <button class="submit-btn">立即注册</button>
+        </div>
+        <div class="auth-panel" data-panel="login">
+            <div class="form-item">
+                <label>手机号 / 邮箱</label>
+                <input type="text" placeholder="请输入手机号或邮箱">
+            </div>
+            <div class="form-item">
+                <label>密码</label>
+                <input type="password" placeholder="请输入登录密码">
+            </div>
+            <div class="agree-check">
+                <input type="checkbox" id="remember"><label for="remember">7 天免登录</label>
+                <a href="javascript:void(0)" style="float:right;color:#b8860b;">忘记密码？</a>
+            </div>
+            <button class="submit-btn">立即登录</button>
+        </div>
+        <div class="third-party">
+            <div class="divider"><span>其他方式登录</span></div>
+            <div class="third-party-icons">
+                <span title="微信登录">💚</span>
+                <span title="支付宝登录">💙</span>
+                <span title="Apple ID 登录">🍎</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 协议预览弹窗 -->
+<div class="terms-modal" id="termsModal">
+    <div class="terms-header">
+        <h3 id="termsTitle">协议</h3>
+        <span class="terms-close" id="termsClose">×</span>
+    </div>
+    <div class="terms-body" id="termsBody"></div>
+</div>
+
+<script>
+    // ============ 品类配置 ============
+    const CAT_CONFIG = {
+        shoes: {
+            name: '鞋履',
+            title: '鞋履 · 行业共创楦型与中底配方',
+            sub: '从楦型设计到大底配方，每双鞋都经过匠人终审 · 飞织 / 头层皮 / 网布 / EVA 多材质可选',
+            subcats: ['运动鞋', '休闲鞋', '皮鞋', '靴子', '凉鞋'],
+            materials: ['飞织', '头层皮', '网布', 'EVA'],
+            craftsmen: ['陈师傅', '林师傅', '赵工']
+        },
+        clothing: {
+            name: '服饰',
+            title: '服饰 · 面料溯源与工艺透明',
+            sub: '从纱线到成衣全链路溯源 · 精梳棉 / 亚麻 / 羊毛 / 涤纶 多面料严选',
+            subcats: ['上衣', '裤装', '外套', '裙装'],
+            materials: ['精梳棉', '亚麻', '羊毛', '涤纶'],
+            craftsmen: ['王师傅', '刘师傅', '孙工']
+        },
+        bags: {
+            name: '箱包',
+            title: '箱包 · 头层牛皮与手工油边',
+            sub: '广州花都皮具产业带直供 · 头层牛皮 / 帆布 / PU / 尼龙 多材质工艺',
+            subcats: ['手提包', '斜挎包', '双肩包', '钱包'],
+            materials: ['头层牛皮', '帆布', 'PU', '尼龙'],
+            craftsmen: ['李工', '张师傅', '黄工']
+        },
+        accessories: {
+            name: '饰品',
+            title: '饰品 · 925 银与镶嵌工艺',
+            sub: '925 银基材 + 电镀铑工艺 · 项链 / 手链 / 耳饰 / 戒指 全品类共创溯源',
+            subcats: ['项链', '手链', '耳饰', '戒指'],
+            materials: ['925 银', '316L 钢', '钛钢', '镀金'],
+            craftsmen: ['周师傅', '吴师傅', '郑工']
+        },
+        new: {
+            name: '最近到货',
+            title: '最近到货 · 行业人最新作品',
+            sub: '本周行业人最新选品 · 涵盖鞋履 / 服饰 / 箱包 / 饰品全品类',
+            subcats: ['运动鞋', '休闲鞋', '皮鞋', '上衣', '裤装', '外套', '手提包', '斜挎包', '双肩包', '项链', '手链', '耳饰'],
+            materials: ['飞织', '头层皮', '网布', '精梳棉', '亚麻', '羊毛', '头层牛皮', '帆布', '925 银', '316L 钢', '钛钢', '镀金'],
+            craftsmen: ['陈师傅', '林师傅', '赵工', '王师傅', '刘师傅', '孙工', '李工', '张师傅', '黄工', '周师傅', '吴师傅', '郑工']
+        },
+        all: {
+            name: '全部分类',
+            title: '全部分类 · 行业人共创严选',
+            sub: '由鞋履、服饰、箱包、饰品行业资深从业者共同创建 —— 更懂工艺、更懂参数、更懂设计',
+            subcats: ['运动鞋', '休闲鞋', '皮鞋', '靴子', '凉鞋', '上衣', '裤装', '外套', '裙装', '手提包', '斜挎包', '双肩包', '钱包', '项链', '手链', '耳饰', '戒指'],
+            materials: ['飞织', '头层皮', '网布', 'EVA', '精梳棉', '亚麻', '羊毛', '涤纶', '头层牛皮', '帆布', 'PU', '尼龙', '925 银', '316L 钢', '钛钢', '镀金'],
+            craftsmen: ['陈师傅', '林师傅', '赵工', '王师傅', '刘师傅', '孙工', '李工', '张师傅', '黄工', '周师傅', '吴师傅', '郑工']
+        }
+    };
+
+    const PRICE_RANGES = ['<¥300', '¥300-800', '¥800-1500', '¥1500-3000', '>¥3000'];
+    const RATINGS = ['A 级共创', 'B 级深度合作', 'C 级普通入驻'];
+
+    // ============ 商品数据 ============
+    const PRODUCTS = {
+        shoes: [
+            { brand: 'XULOVE STUDIO', name: '休闲跑步运动鞋', tag: '飞织鞋面', params: ['材质：飞织鞋面', '大底：EVA+橡胶', '重量：268g'], price: 899, original: 1299, rating: 4.9, stars: '★★★★★', reviews: 1280, sales: 3260, isNew: 1,
+              design: { designer: '陈志远', designerWorks: ['XULOVE 飞织系列','许乐竞速碳板跑鞋','某国际品牌 SS22 运动系列'], designerBio: '15 年制鞋经验，曾任某国际品牌研发负责人，擅长楦型设计与中底配方调校', patternDesigner: '林淑芬', specialCraft: ['飞织一体成型','无缝热压贴合'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江飞织工厂；大底：广东东莞 EVA 注塑厂', materialFeature: '鞋面飞织纱线 70D 高弹涤纶，透气孔率达 35%；大底 EVA+橡胶混合，耐磨系数 0.8mm，回弹 42%' } },
+            { brand: 'XULOVE STUDIO', name: '专业马拉松竞速跑鞋', tag: '飞织鞋面', params: ['材质：飞织鞋面', '中底：超临界发泡', '重量：198g'], price: 1299, original: 1899, rating: 4.8, stars: '★★★★★', reviews: 642, sales: 1180, isNew: 1,
+              design: { designer: '黄国栋', designerWorks: ['许乐马拉松竞速系列','某国际品牌碳板跑鞋','XULOVE 越野赛鞋'], designerBio: '12 年运动鞋研发经验，专注超临界发泡中底与碳板力学结构，曾参与多场马拉松赛事装备测试', patternDesigner: '', specialCraft: ['超临界氮气发泡','全掌碳板植入'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江飞织工厂；中底：浙江温州超临界发泡厂', materialFeature: '中底 PEBA 超临界发泡密度 0.08g/cm³，回弹 65%；全掌碳板厚度 1.2mm，刚度 180N·m' } },
+            { brand: '许乐皮具坊', name: '头层牛皮商务皮鞋', tag: '头层牛皮', params: ['材质：头层黄牛皮', '鞋底：真皮大底', '工艺：固特异缝合'], price: 1599, original: 2299, rating: 4.9, stars: '★★★★★', reviews: 388, sales: 620, isNew: 0,
+              design: { designer: '周晓雅', designerWorks: ['许乐固特异商务系列','某意式手工皮鞋品牌 AW21','XULOVE 手工绅士鞋'], designerBio: '18 年制鞋经验，师从意大利固特异制鞋大师，擅长手工绷楦与沿条缝合工艺', patternDesigner: '', specialCraft: ['固特异沿条缝合','手工绷楦成型'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：广州花都头层牛皮工厂；大底：广东东莞真皮大底厂', materialFeature: '头层黄牛皮厚度 1.6-1.8mm，粒面细腻，柔韧性佳；真皮大底经植鞣处理，透气性与耐磨性俱佳' } },
+            { brand: '许乐皮具坊', name: '手工擦色复古靴', tag: '手工擦色', params: ['材质：头层牛皮', '里料：猪皮', '工艺：手工擦色'], price: 1899, original: 2599, rating: 4.7, stars: '★★★★★', reviews: 256, sales: 410, isNew: 0,
+              design: { designer: '吴文豪', designerWorks: ['许乐复古工装靴系列','某复古手工靴品牌','XULOVE 手工擦色系列'], designerBio: '14 年手工靴制作经验，精通手工擦色与做旧工艺，擅长复古风格皮靴开发', patternDesigner: '', specialCraft: ['手工擦色','做旧打磨'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：广州花都头层牛皮工厂；里料：浙江温州猪皮厂', materialFeature: '头层牛皮经手工擦色处理，每双呈现独特渐变纹理；猪皮里料透气吸湿，厚度 0.8mm' } },
+            { brand: 'XULOVE STUDIO', name: '网布透气健步鞋', tag: '网布透气', params: ['材质：工程网布', '大底：EVA', '重量：240g'], price: 459, original: 699, rating: 4.6, stars: '★★★★☆', reviews: 892, sales: 2150, isNew: 1,
+              design: { designer: '刘梦琪', designerWorks: ['XULOVE 健步系列','某轻量化健步鞋品牌','许乐网布轻跑鞋'], designerBio: '10 年运动鞋设计经验，专注网布鞋面结构与轻量化中底设计', patternDesigner: '', specialCraft: ['工程网布一体编织','无缝贴合'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江网布工厂；大底：广东东莞 EVA 注塑厂', materialFeature: '工程网布 60D 涤纶，透气率 45%；EVA 大底密度 0.15g/cm³，重量仅 240g' } },
+            { brand: 'XULOVE STUDIO', name: 'EVA 轻量化凉鞋', tag: 'EVA 轻量', params: ['材质：EVA 一体成型', '重量：180g', '工艺：注塑一次成型'], price: 199, original: 329, rating: 4.5, stars: '★★★★☆', reviews: 1520, sales: 4860, isNew: 0,
+              design: { designer: '赵建华', designerWorks: ['XULOVE 轻量凉鞋系列','某 EVA 注塑凉鞋品牌','许乐夏季凉拖'], designerBio: '13 年 EVA 注塑工艺经验，擅长一次成型模具开发与轻量化设计', patternDesigner: '', specialCraft: ['EVA 注塑一次成型','模具咬花处理'], printTech: '', embroideryTech: '', materialOrigin: '鞋身：广东东莞 EVA 注塑厂', materialFeature: 'EVA 一次成型密度 0.12g/cm³，单只重 90g，防滑咬花底纹耐磨系数 0.6mm' } },
+            { brand: '许乐皮具坊', name: '头层牛皮切尔西靴', tag: '头层牛皮', params: ['材质：头层牛皮', '鞋底：TPR', '工艺：弹性侧边'], price: 1399, original: 1999, rating: 4.8, stars: '★★★★★', reviews: 472, sales: 780, isNew: 0,
+              design: { designer: '孙丽红', designerWorks: ['许乐切尔西靴系列','某英伦风皮靴品牌','XULOVE 秋冬皮靴'], designerBio: '16 年皮靴设计经验，擅长切尔西靴楦型与弹性侧边结构开发', patternDesigner: '', specialCraft: ['弹性侧边缝合','手工绷楦'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：广州花都头层牛皮工厂；鞋底：广东东莞 TPR 鞋底厂', materialFeature: '头层牛皮厚度 1.4-1.6mm，柔软度佳；TPR 鞋底耐磨防滑，弹性侧边松紧带耐用 5000 次拉伸' } },
+            { brand: 'XULOVE STUDIO', name: '飞织透气板鞋', tag: '飞织板鞋', params: ['材质：飞织鞋面', '大底：橡胶', '重量：252g'], price: 559, original: 799, rating: 4.7, stars: '★★★★★', reviews: 968, sales: 2640, isNew: 1,
+              design: { designer: '陈志远', designerWorks: ['XULOVE 飞织系列','许乐竞速碳板跑鞋','某国际品牌 SS22 运动系列'], designerBio: '15 年制鞋经验，曾任某国际品牌研发负责人，擅长楦型设计与中底配方调校', patternDesigner: '马建平', specialCraft: ['飞织一体成型','硫化橡胶大底'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江飞织工厂；大底：广东东莞硫化橡胶厂', materialFeature: '飞织鞋面 70D 涤纶，透气率 38%；硫化橡胶大底耐磨系数 0.9mm，防滑性强' } },
+            { brand: 'XULOVE STUDIO', name: '碳板竞速跑鞋', tag: '碳板科技', params: ['材质：飞织鞋面', '中底：PEBA 碳板', '重量：185g'], price: 2199, original: 2999, rating: 4.9, stars: '★★★★★', reviews: 312, sales: 540, isNew: 1,
+              design: { designer: '黄国栋', designerWorks: ['许乐马拉松竞速系列','某国际品牌碳板跑鞋','XULOVE 越野赛鞋'], designerBio: '12 年运动鞋研发经验，专注超临界发泡中底与碳板力学结构，曾参与多场马拉松赛事装备测试', patternDesigner: '', specialCraft: ['超临界氮气发泡','全掌碳板植入'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江飞织工厂；中底：浙江温州超临界发泡厂', materialFeature: 'PEBA 超临界发泡回弹 65%；全掌碳板厚度 1.2mm，刚度 180N·m，推进力提升 8%' } },
+            { brand: '许乐皮具坊', name: '手工缝线乐福鞋', tag: '手工缝线', params: ['材质：头层牛皮', '工艺：手工绷楦', '里料：真皮'], price: 1199, original: 1699, rating: 4.7, stars: '★★★★★', reviews: 286, sales: 490, isNew: 0,
+              design: { designer: '周晓雅', designerWorks: ['许乐固特异商务系列','某意式手工皮鞋品牌 AW21','XULOVE 手工绅士鞋'], designerBio: '18 年制鞋经验，师从意大利固特异制鞋大师，擅长手工绷楦与沿条缝合工艺', patternDesigner: '', specialCraft: ['手工绷楦','手工缝线沿条'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：广州花都头层牛皮工厂；里料：广东东莞真皮里料厂', materialFeature: '头层牛皮厚度 1.4mm，手工绷楦贴合楦型；真皮里料透气吸湿，舒适度高' } },
+            { brand: 'XULOVE STUDIO', name: '网布轻跑鞋女款', tag: '网布透气', params: ['材质：工程网布', '大底：EVA', '重量：212g'], price: 499, original: 729, rating: 4.6, stars: '★★★★☆', reviews: 1102, sales: 2980, isNew: 0,
+              design: { designer: '刘梦琪', designerWorks: ['XULOVE 健步系列','某轻量化健步鞋品牌','许乐网布轻跑鞋'], designerBio: '10 年运动鞋设计经验，专注网布鞋面结构与轻量化中底设计', patternDesigner: '', specialCraft: ['工程网布一体编织','女性楦型适配'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江网布工厂；大底：广东东莞 EVA 注塑厂', materialFeature: '工程网布 60D 涤纶，专为女性楦型优化；EVA 大底重量仅 212g，回弹 40%' } },
+            { brand: 'XULOVE STUDIO', name: 'EVA 厚底老爹鞋', tag: 'EVA 厚底', params: ['材质：PU+网布', '大底：EVA 厚底', '重量：320g'], price: 699, original: 999, rating: 4.5, stars: '★★★★☆', reviews: 760, sales: 1820, isNew: 1,
+              design: { designer: '赵建华', designerWorks: ['XULOVE 轻量凉鞋系列','某 EVA 注塑凉鞋品牌','许乐老爹鞋系列'], designerBio: '13 年 EVA 注塑工艺经验，擅长一次成型模具开发与轻量化设计', patternDesigner: '', specialCraft: ['EVA 厚底注塑','PU 网布复合'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江 PU 网布工厂；大底：广东东莞 EVA 注塑厂', materialFeature: 'EVA 厚底高度 4cm，密度 0.18g/cm³，回弹 45%；PU+网布复合鞋面支撑性强' } }
+        ],
+        clothing: [
+            { brand: '许乐衣造局', name: '精梳棉基础衬衫', tag: '精梳棉', params: ['面料：40 支精梳棉', '克重：180g/m²', '工艺：免烫处理'], price: 269, original: 399, rating: 4.6, stars: '★★★★☆', reviews: 388, sales: 1560, isNew: 1,
+              design: { designer: '朱敏华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：山东高密精梳棉纺织厂', materialFeature: '40 支精梳棉，克重 180g/m²，经免烫处理，布面光洁不易起皱' } },
+            { brand: '许乐衣造局', name: '亚麻直筒长裤', tag: '亚麻面料', params: ['面料：100% 亚麻', '克重：210g/m²', '工艺：预缩处理'], price: 359, original: 529, rating: 4.5, stars: '★★★★☆', reviews: 268, sales: 980, isNew: 0,
+              design: { designer: '胡承恩', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江绍兴亚麻纺织厂', materialFeature: '100% 亚麻，克重 210g/m²，预缩处理后面料稳定不易缩水' } },
+            { brand: '许乐衣造局', name: '羊毛混纺西装外套', tag: '羊毛混纺', params: ['面料：60% 羊毛 40% 涤纶', '克重：280g/m²', '工艺：免烫处理'], price: 1299, original: 1899, rating: 4.8, stars: '★★★★★', reviews: 156, sales: 420, isNew: 1,
+              design: { designer: '郑丽丽', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：江苏苏州毛纺厂', materialFeature: '60% 羊毛 40% 涤纶，克重 280g/m²，免烫处理，挺括有型' } },
+            { brand: '许乐衣造局', name: '精梳棉圆领 T 恤', tag: '精梳棉', params: ['面料：32 支精梳棉', '克重：200g/m²', '工艺：丝光处理'], price: 129, original: 199, rating: 4.7, stars: '★★★★★', reviews: 2240, sales: 5680, isNew: 0,
+              design: { designer: '朱敏华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：山东高密精梳棉纺织厂', materialFeature: '32 支精梳棉，克重 200g/m²，丝光处理，色泽饱满手感柔滑' } },
+            { brand: '许乐衣造局', name: '涤纶速干运动卫裤', tag: '涤纶速干', params: ['面料：100% 涤纶', '克重：220g/m²', '工艺：吸湿速干'], price: 229, original: 349, rating: 4.5, stars: '★★★★☆', reviews: 682, sales: 1920, isNew: 1,
+              design: { designer: '林淑芬', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：福建泉州涤纶面料厂', materialFeature: '100% 涤纶，克重 220g/m²，吸湿速干处理，运动后快速排汗' } },
+            { brand: '许乐衣造局', name: '羊毛针织开衫', tag: '羊毛针织', params: ['面料：70% 羊毛 30% 锦纶', '克重：260g/m²', '工艺：12 针针织'], price: 899, original: 1299, rating: 4.7, stars: '★★★★★', reviews: 198, sales: 560, isNew: 0,
+              design: { designer: '郑丽丽', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江桐乡羊毛针织厂', materialFeature: '70% 羊毛 30% 锦纶，克重 260g/m²，12 针针织，手感软糯保暖性佳' } },
+            { brand: '许乐衣造局', name: '亚麻立领衬衫', tag: '亚麻面料', params: ['面料：100% 亚麻', '克重：195g/m²', '工艺：酶洗软化'], price: 329, original: 489, rating: 4.6, stars: '★★★★☆', reviews: 312, sales: 870, isNew: 1,
+              design: { designer: '胡承恩', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江绍兴亚麻纺织厂', materialFeature: '100% 亚麻，克重 195g/m²，酶洗软化处理后手感更柔顺' } },
+            { brand: '许乐衣造局', name: '精梳棉休闲卫衣', tag: '精梳棉', params: ['面料：精梳毛圈布', '克重：320g/m²', '工艺：活性染色'], price: 399, original: 599, rating: 4.7, stars: '★★★★★', reviews: 542, sales: 1640, isNew: 0,
+              design: { designer: '朱敏华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：广东佛山毛圈布厂', materialFeature: '精梳毛圈布，克重 320g/m²，活性染色，色牢度 4 级以上' } },
+            { brand: '许乐衣造局', name: '涤纶冲锋衣三件套', tag: '涤纶防泼水', params: ['面料：100% 涤纶', '涂层：PU 防泼水', '工艺：压胶接缝'], price: 1599, original: 2299, rating: 4.8, stars: '★★★★★', reviews: 168, sales: 380, isNew: 1,
+              design: { designer: '林淑芬', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：福建泉州涤纶面料厂', materialFeature: '100% 涤纶，PU 涂层防泼水，压胶接缝处理，耐水压 5000mm' } },
+            { brand: '许乐衣造局', name: '羊毛披肩式外套', tag: '羊毛混纺', params: ['面料：80% 羊毛 20% 羊绒', '克重：300g/m²', '工艺：双面工艺'], price: 1899, original: 2699, rating: 4.9, stars: '★★★★★', reviews: 96, sales: 240, isNew: 0,
+              design: { designer: '郑丽丽', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：内蒙古鄂尔多斯羊绒厂', materialFeature: '80% 羊毛 20% 羊绒，克重 300g/m²，双面工艺，轻盈保暖' } },
+            { brand: '许乐衣造局', name: '精梳棉直筒牛仔裤', tag: '精梳棉', params: ['面料：精梳棉牛仔', '克重：340g/m²', '工艺：酵素水洗'], price: 299, original: 449, rating: 4.6, stars: '★★★★☆', reviews: 768, sales: 2240, isNew: 1,
+              design: { designer: '朱敏华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：广东新塘牛仔布厂', materialFeature: '精梳棉牛仔，克重 340g/m²，酵素水洗后手感柔软' } },
+            { brand: '许乐衣造局', name: '亚麻连衣裙', tag: '亚麻面料', params: ['面料：100% 亚麻', '克重：185g/m²', '工艺：预缩定型'], price: 459, original: 679, rating: 4.7, stars: '★★★★★', reviews: 420, sales: 1180, isNew: 0,
+              design: { designer: '胡承恩', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江绍兴亚麻纺织厂', materialFeature: '100% 亚麻，克重 185g/m²，预缩定型，垂感自然' } }
+        ],
+        bags: [
+            { brand: '许乐皮具坊', name: '头层牛皮斜挎包', tag: '头层牛皮', params: ['材质：头层黄牛皮', '里料：棉麻', '工艺：手工油边'], price: 599, original: 899, rating: 4.8, stars: '★★★★★', reviews: 642, sales: 1820, isNew: 1,
+              design: { designer: '黄国栋', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '皮料：广州花都头层牛皮工厂', materialFeature: '头层黄牛皮厚度 1.6-1.8mm，粒面细腻，手工油边处理边缘' } },
+            { brand: '许乐皮具坊', name: '头层牛皮商务手提包', tag: '头层牛皮', params: ['材质：头层黄牛皮', '里料：绒布', '工艺：车缝加固'], price: 1299, original: 1899, rating: 4.8, stars: '★★★★★', reviews: 312, sales: 580, isNew: 0,
+              design: { designer: '黄国栋', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '皮料：广州花都头层牛皮工厂', materialFeature: '头层黄牛皮厚度 1.8mm，承重车缝加固，商务通勤耐用' } },
+            { brand: '许乐皮具坊', name: '手工油边邮差包', tag: '手工油边', params: ['材质：头层牛皮', '里料：棉布', '工艺：手工油边'], price: 899, original: 1299, rating: 4.7, stars: '★★★★★', reviews: 268, sales: 720, isNew: 1,
+              design: { designer: '李建华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '皮料：广州花都头层牛皮工厂', materialFeature: '头层牛皮厚度 1.4mm，手工油边封边三次，边缘光润耐磨' } },
+            { brand: '许乐皮具坊', name: '帆布双肩包学院风', tag: '帆布面料', params: ['材质：16 安帆布', '里料：涤纶', '工艺：双线缝合'], price: 269, original: 399, rating: 4.6, stars: '★★★★☆', reviews: 880, sales: 2380, isNew: 0,
+              design: { designer: '马建平', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江绍兴帆布厂', materialFeature: '16 安帆布，克重 380g/m²，双线缝合加固，承重耐用' } },
+            { brand: '许乐皮具坊', name: '尼龙轻量双肩包', tag: '尼龙轻量', params: ['材质：420D 尼龙', '里料：涤纶', '工艺：防泼水处理'], price: 399, original: 599, rating: 4.7, stars: '★★★★★', reviews: 524, sales: 1460, isNew: 1,
+              design: { designer: '马建平', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江义乌尼龙面料厂', materialFeature: '420D 尼龙，防泼水处理，轻量耐磨，色牢度 4 级' } },
+            { brand: '许乐皮具坊', name: '头层牛皮短款钱包', tag: '头层牛皮', params: ['材质：头层牛皮', '里料：涤纶', '工艺：手工裁切'], price: 299, original: 459, rating: 4.7, stars: '★★★★★', reviews: 1120, sales: 3260, isNew: 0,
+              design: { designer: '李建华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '皮料：广州花都头层牛皮工厂', materialFeature: '头层牛皮厚度 1.2mm，手工裁切，6 卡位布局合理' } },
+            { brand: '许乐皮具坊', name: 'PU 简约手提包', tag: 'PU 材质', params: ['材质：环保 PU', '里料：涤纶', '工艺：压花处理'], price: 199, original: 329, rating: 4.4, stars: '★★★★☆', reviews: 1420, sales: 3860, isNew: 1,
+              design: { designer: '孙丽红', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：广东东莞 PU 革厂', materialFeature: '环保 PU，压花纹理清晰，柔韧度佳，无异味' } },
+            { brand: '许乐皮具坊', name: '头层牛皮双肩通勤包', tag: '头层牛皮', params: ['材质：头层牛皮', '里料：绒布', '工艺：手工绷缝'], price: 1599, original: 2299, rating: 4.9, stars: '★★★★★', reviews: 184, sales: 360, isNew: 0,
+              design: { designer: '黄国栋', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '皮料：广州花都头层牛皮工厂', materialFeature: '头层牛皮厚度 1.8mm，手工绷缝加固，通勤承重耐用' } },
+            { brand: '许乐皮具坊', name: '帆布单肩购物袋', tag: '帆布面料', params: ['材质：20 安帆布', '工艺：包边加固', '承重：10kg'], price: 129, original: 199, rating: 4.5, stars: '★★★★☆', reviews: 968, sales: 2840, isNew: 1,
+              design: { designer: '马建平', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江绍兴帆布厂', materialFeature: '20 安帆布，克重 450g/m²，包边加固，承重 10kg' } },
+            { brand: '许乐皮具坊', name: '尼龙折叠旅行包', tag: '尼龙轻量', params: ['材质：210D 尼龙', '工艺：防泼水', '容量：32L'], price: 349, original: 529, rating: 4.6, stars: '★★★★☆', reviews: 432, sales: 1240, isNew: 0,
+              design: { designer: '马建平', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江义乌尼龙面料厂', materialFeature: '210D 尼龙，防泼水处理，可折叠收纳，容量 32L' } },
+            { brand: '许乐皮具坊', name: '头层牛皮长款钱包', tag: '头层牛皮', params: ['材质：头层牛皮', '工艺：手工油边', '容量：12 卡位'], price: 459, original: 679, rating: 4.8, stars: '★★★★★', reviews: 568, sales: 1620, isNew: 1,
+              design: { designer: '李建华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '皮料：广州花都头层牛皮工厂', materialFeature: '头层牛皮厚度 1.2mm，手工油边，12 卡位大容量' } },
+            { brand: '许乐皮具坊', name: 'PU 编织斜挎小包', tag: 'PU 材质', params: ['材质：PU 编织', '里料：涤纶', '工艺：手工编织'], price: 229, original: 359, rating: 4.5, stars: '★★★★☆', reviews: 682, sales: 1980, isNew: 0,
+              design: { designer: '孙丽红', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：广东东莞 PU 革厂', materialFeature: 'PU 编织条宽 3mm，手工编织，纹理立体，轻巧便携' } }
+        ],
+        accessories: [
+            { brand: '许乐饰物所', name: '925 银极简项链', tag: '925 银', params: ['材质：S925 银', '链长：45cm', '工艺：电镀铑'], price: 149, original: 229, rating: 4.7, stars: '★★★★★', reviews: 210, sales: 1680, isNew: 1,
+              design: { designer: '周晓雅', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '银材：深圳水贝 925 银厂', materialFeature: 'S925 银含银量 92.5%，电镀铑层厚度 0.05μm，抗氧化不变色' } },
+            { brand: '许乐饰物所', name: '925 银四叶草手链', tag: '925 银', params: ['材质：S925 银', '工艺：镶嵌锆石', '长度：18cm'], price: 199, original: 299, rating: 4.8, stars: '★★★★★', reviews: 320, sales: 2240, isNew: 0,
+              design: { designer: '吴文豪', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '银材：深圳水贝 925 银厂', materialFeature: 'S925 银，四叶草镶嵌 AAA 级锆石，爪镶牢固不易脱落' } },
+            { brand: '许乐饰物所', name: '925 银耳钉礼盒装', tag: '925 银', params: ['材质：S925 银', '工艺：抛光处理', '附：礼盒包装'], price: 129, original: 199, rating: 4.6, stars: '★★★★☆', reviews: 560, sales: 3120, isNew: 1,
+              design: { designer: '刘梦琪', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '银材：深圳水贝 925 银厂', materialFeature: 'S925 银，镜面抛光，附防敏耳堵，低敏佩戴舒适' } },
+            { brand: '许乐饰物所', name: '925 银简约戒指', tag: '925 银', params: ['材质：S925 银', '工艺：拉丝处理', '可选：开口可调'], price: 169, original: 259, rating: 4.7, stars: '★★★★★', reviews: 420, sales: 2480, isNew: 0,
+              design: { designer: '周晓雅', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '银材：深圳水贝 925 银厂', materialFeature: 'S925 银，拉丝纹理，开口可调适应不同指围' } },
+            { brand: '许乐饰物所', name: '316L 钢项链男款', tag: '316L 钢', params: ['材质：316L 不锈钢', '链长：55cm', '工艺：真空镀膜'], price: 229, original: 349, rating: 4.7, stars: '★★★★★', reviews: 280, sales: 1620, isNew: 1,
+              design: { designer: '陈志远', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '钢材：广东深圳 316L 钢厂', materialFeature: '316L 不锈钢耐腐蚀，真空镀膜层厚度 0.3μm，色泽持久' } },
+            { brand: '许乐饰物所', name: '316L 钢手链情侣款', tag: '316L 钢', params: ['材质：316L 不锈钢', '工艺：拉丝抛光', '套装：2 件'], price: 299, original: 459, rating: 4.6, stars: '★★★★☆', reviews: 380, sales: 1980, isNew: 0,
+              design: { designer: '陈志远', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '钢材：广东深圳 316L 钢厂', materialFeature: '316L 不锈钢，拉丝抛光双工艺，套装 2 件情侣款' } },
+            { brand: '许乐饰物所', name: '钛钢耳圈个性款', tag: '钛钢', params: ['材质：钛钢', '工艺：PVD 镀膜', '规格：8mm'], price: 189, original: 289, rating: 4.6, stars: '★★★★☆', reviews: 240, sales: 1280, isNew: 1,
+              design: { designer: '朱敏华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '钢材：广东深圳钛钢厂', materialFeature: '钛钢硬度高不易变形，PVD 镀膜色泽持久不掉色' } },
+            { brand: '许乐饰物所', name: '钛钢戒指磨砂款', tag: '钛钢', params: ['材质：钛钢', '工艺：磨砂处理', '规格：6-12 号'], price: 219, original: 329, rating: 4.7, stars: '★★★★★', reviews: 196, sales: 1080, isNew: 0,
+              design: { designer: '朱敏华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '钢材：广东深圳钛钢厂', materialFeature: '钛钢磨砂处理，哑光质感，6-12 号可选' } },
+            { brand: '许乐饰物所', name: '18K 镀金项链女款', tag: '镀金', params: ['材质：铜镀 18K 金', '链长：42cm', '工艺：电镀'], price: 259, original: 399, rating: 4.5, stars: '★★★★☆', reviews: 340, sales: 1860, isNew: 1,
+              design: { designer: '胡承恩', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '基材：广东深圳铜坯厂', materialFeature: '铜基材镀 18K 金，电镀层厚度 3μm，色泽接近真金' } },
+            { brand: '许乐饰物所', name: '18K 镀金手链轻奢款', tag: '镀金', params: ['材质：铜镀 18K 金', '工艺：镶嵌锆石', '长度：17cm'], price: 289, original: 449, rating: 4.6, stars: '★★★★☆', reviews: 260, sales: 1420, isNew: 0,
+              design: { designer: '胡承恩', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '基材：广东深圳铜坯厂', materialFeature: '铜基材镀 18K 金，镶嵌 AAA 级锆石，轻奢质感' } },
+            { brand: '许乐饰物所', name: '925 银镶锆石耳坠', tag: '925 银', params: ['材质：S925 银', '工艺：爪镶锆石', '附：防敏耳堵'], price: 239, original: 369, rating: 4.8, stars: '★★★★★', reviews: 180, sales: 980, isNew: 1,
+              design: { designer: '吴文豪', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '银材：深圳水贝 925 银厂', materialFeature: 'S925 银，爪镶 AAA 级锆石，附防敏耳堵，低敏舒适' } },
+            { brand: '许乐饰物所', name: '钛钢项链双层款', tag: '钛钢', params: ['材质：钛钢', '工艺：双层叠加', '链长：40+50cm'], price: 279, original: 429, rating: 4.7, stars: '★★★★★', reviews: 220, sales: 1180, isNew: 0,
+              design: { designer: '朱敏华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '钢材：广东深圳钛钢厂', materialFeature: '钛钢双层链条叠加，40+50cm 长度，层次感强' } }
+        ],
+        new: [
+            { brand: 'XULOVE STUDIO', name: '碳板竞速跑鞋', tag: '碳板科技', params: ['材质：飞织鞋面', '中底：PEBA 碳板', '重量：185g'], price: 2199, original: 2999, rating: 4.9, stars: '★★★★★', reviews: 312, sales: 540, isNew: 1,
+              design: { designer: '黄国栋', designerWorks: ['许乐马拉松竞速系列','某国际品牌碳板跑鞋','XULOVE 越野赛鞋'], designerBio: '12 年运动鞋研发经验，专注超临界发泡中底与碳板力学结构，曾参与多场马拉松赛事装备测试', patternDesigner: '', specialCraft: ['超临界氮气发泡','全掌碳板植入'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江飞织工厂；中底：浙江温州超临界发泡厂', materialFeature: 'PEBA 超临界发泡回弹 65%；全掌碳板厚度 1.2mm，刚度 180N·m，推进力提升 8%' } },
+            { brand: '许乐衣造局', name: '亚麻立领衬衫', tag: '亚麻面料', params: ['面料：100% 亚麻', '克重：195g/m²', '工艺：酶洗软化'], price: 329, original: 489, rating: 4.6, stars: '★★★★☆', reviews: 312, sales: 870, isNew: 1,
+              design: { designer: '胡承恩', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江绍兴亚麻纺织厂', materialFeature: '100% 亚麻，克重 195g/m²，酶洗软化处理后手感更柔顺' } },
+            { brand: '许乐皮具坊', name: '头层牛皮短款钱包', tag: '头层牛皮', params: ['材质：头层牛皮', '里料：涤纶', '工艺：手工裁切'], price: 299, original: 459, rating: 4.7, stars: '★★★★★', reviews: 1120, sales: 3260, isNew: 1,
+              design: { designer: '李建华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '皮料：广州花都头层牛皮工厂', materialFeature: '头层牛皮厚度 1.2mm，手工裁切，6 卡位布局合理' } },
+            { brand: '许乐饰物所', name: '18K 镀金项链女款', tag: '镀金', params: ['材质：铜镀 18K 金', '链长：42cm', '工艺：电镀'], price: 259, original: 399, rating: 4.5, stars: '★★★★☆', reviews: 340, sales: 1860, isNew: 1,
+              design: { designer: '胡承恩', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '基材：广东深圳铜坯厂', materialFeature: '铜基材镀 18K 金，电镀层厚度 3μm，色泽接近真金' } },
+            { brand: 'XULOVE STUDIO', name: '专业马拉松竞速跑鞋', tag: '飞织鞋面', params: ['材质：飞织鞋面', '中底：超临界发泡', '重量：198g'], price: 1299, original: 1899, rating: 4.8, stars: '★★★★★', reviews: 642, sales: 1180, isNew: 1,
+              design: { designer: '黄国栋', designerWorks: ['许乐马拉松竞速系列','某国际品牌碳板跑鞋','XULOVE 越野赛鞋'], designerBio: '12 年运动鞋研发经验，专注超临界发泡中底与碳板力学结构，曾参与多场马拉松赛事装备测试', patternDesigner: '', specialCraft: ['超临界氮气发泡','全掌碳板植入'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江飞织工厂；中底：浙江温州超临界发泡厂', materialFeature: '中底 PEBA 超临界发泡密度 0.08g/cm³，回弹 65%；全掌碳板厚度 1.2mm，刚度 180N·m' } },
+            { brand: '许乐衣造局', name: '精梳棉休闲卫衣', tag: '精梳棉', params: ['面料：精梳毛圈布', '克重：320g/m²', '工艺：活性染色'], price: 399, original: 599, rating: 4.7, stars: '★★★★★', reviews: 542, sales: 1640, isNew: 1,
+              design: { designer: '朱敏华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：广东佛山毛圈布厂', materialFeature: '精梳毛圈布，克重 320g/m²，活性染色，色牢度 4 级以上' } },
+            { brand: '许乐皮具坊', name: '手工油边邮差包', tag: '手工油边', params: ['材质：头层牛皮', '里料：棉布', '工艺：手工油边'], price: 899, original: 1299, rating: 4.7, stars: '★★★★★', reviews: 268, sales: 720, isNew: 1,
+              design: { designer: '李建华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '皮料：广州花都头层牛皮工厂', materialFeature: '头层牛皮厚度 1.4mm，手工油边封边三次，边缘光润耐磨' } },
+            { brand: '许乐饰物所', name: '925 银四叶草手链', tag: '925 银', params: ['材质：S925 银', '工艺：镶嵌锆石', '长度：18cm'], price: 199, original: 299, rating: 4.8, stars: '★★★★★', reviews: 320, sales: 2240, isNew: 1,
+              design: { designer: '吴文豪', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '银材：深圳水贝 925 银厂', materialFeature: 'S925 银，四叶草镶嵌 AAA 级锆石，爪镶牢固不易脱落' } },
+            { brand: 'XULOVE STUDIO', name: '网布透气健步鞋', tag: '网布透气', params: ['材质：工程网布', '大底：EVA', '重量：240g'], price: 459, original: 699, rating: 4.6, stars: '★★★★☆', reviews: 892, sales: 2150, isNew: 1,
+              design: { designer: '刘梦琪', designerWorks: ['XULOVE 健步系列','某轻量化健步鞋品牌','许乐网布轻跑鞋'], designerBio: '10 年运动鞋设计经验，专注网布鞋面结构与轻量化中底设计', patternDesigner: '', specialCraft: ['工程网布一体编织','无缝贴合'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江网布工厂；大底：广东东莞 EVA 注塑厂', materialFeature: '工程网布 60D 涤纶，透气率 45%；EVA 大底密度 0.15g/cm³，重量仅 240g' } },
+            { brand: '许乐衣造局', name: '涤纶冲锋衣三件套', tag: '涤纶防泼水', params: ['面料：100% 涤纶', '涂层：PU 防泼水', '工艺：压胶接缝'], price: 1599, original: 2299, rating: 4.8, stars: '★★★★★', reviews: 168, sales: 380, isNew: 1,
+              design: { designer: '林淑芬', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：福建泉州涤纶面料厂', materialFeature: '100% 涤纶，PU 涂层防泼水，压胶接缝处理，耐水压 5000mm' } },
+            { brand: '许乐皮具坊', name: '尼龙轻量双肩包', tag: '尼龙轻量', params: ['材质：420D 尼龙', '里料：涤纶', '工艺：防泼水处理'], price: 399, original: 599, rating: 4.7, stars: '★★★★★', reviews: 524, sales: 1460, isNew: 1,
+              design: { designer: '马建平', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江义乌尼龙面料厂', materialFeature: '420D 尼龙，防泼水处理，轻量耐磨，色牢度 4 级' } },
+            { brand: '许乐饰物所', name: '925 银镶锆石耳坠', tag: '925 银', params: ['材质：S925 银', '工艺：爪镶锆石', '附：防敏耳堵'], price: 239, original: 369, rating: 4.8, stars: '★★★★★', reviews: 180, sales: 980, isNew: 1,
+              design: { designer: '吴文豪', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '银材：深圳水贝 925 银厂', materialFeature: 'S925 银，爪镶 AAA 级锆石，附防敏耳堵，低敏舒适' } }
+        ],
+        all: [
+            { brand: 'XULOVE STUDIO', name: '休闲跑步运动鞋', tag: '飞织鞋面', params: ['材质：飞织鞋面', '大底：EVA+橡胶', '重量：268g'], price: 899, original: 1299, rating: 4.9, stars: '★★★★★', reviews: 1280, sales: 3260, isNew: 1,
+              design: { designer: '陈志远', designerWorks: ['XULOVE 飞织系列','许乐竞速碳板跑鞋','某国际品牌 SS22 运动系列'], designerBio: '15 年制鞋经验，曾任某国际品牌研发负责人，擅长楦型设计与中底配方调校', patternDesigner: '林淑芬', specialCraft: ['飞织一体成型','无缝热压贴合'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江飞织工厂；大底：广东东莞 EVA 注塑厂', materialFeature: '鞋面飞织纱线 70D 高弹涤纶，透气孔率达 35%；大底 EVA+橡胶混合，耐磨系数 0.8mm，回弹 42%' } },
+            { brand: '许乐皮具坊', name: '头层牛皮斜挎包', tag: '头层牛皮', params: ['材质：头层黄牛皮', '里料：棉麻', '工艺：手工油边'], price: 599, original: 899, rating: 4.8, stars: '★★★★★', reviews: 642, sales: 1820, isNew: 1,
+              design: { designer: '黄国栋', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '皮料：广州花都头层牛皮工厂', materialFeature: '头层黄牛皮厚度 1.6-1.8mm，粒面细腻，手工油边处理边缘' } },
+            { brand: '许乐衣造局', name: '精梳棉基础衬衫', tag: '精梳棉', params: ['面料：40 支精梳棉', '克重：180g/m²', '工艺：免烫处理'], price: 269, original: 399, rating: 4.6, stars: '★★★★☆', reviews: 388, sales: 1560, isNew: 1,
+              design: { designer: '朱敏华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：山东高密精梳棉纺织厂', materialFeature: '40 支精梳棉，克重 180g/m²，经免烫处理，布面光洁不易起皱' } },
+            { brand: '许乐饰物所', name: '925 银极简项链', tag: '925 银', params: ['材质：S925 银', '链长：45cm', '工艺：电镀铑'], price: 149, original: 229, rating: 4.7, stars: '★★★★★', reviews: 210, sales: 1680, isNew: 1,
+              design: { designer: '周晓雅', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '银材：深圳水贝 925 银厂', materialFeature: 'S925 银含银量 92.5%，电镀铑层厚度 0.05μm，抗氧化不变色' } },
+            { brand: '许乐皮具坊', name: '头层牛皮商务皮鞋', tag: '头层牛皮', params: ['材质：头层黄牛皮', '鞋底：真皮大底', '工艺：固特异缝合'], price: 1599, original: 2299, rating: 4.9, stars: '★★★★★', reviews: 388, sales: 620, isNew: 0,
+              design: { designer: '周晓雅', designerWorks: ['许乐固特异商务系列','某意式手工皮鞋品牌 AW21','XULOVE 手工绅士鞋'], designerBio: '18 年制鞋经验，师从意大利固特异制鞋大师，擅长手工绷楦与沿条缝合工艺', patternDesigner: '', specialCraft: ['固特异沿条缝合','手工绷楦成型'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：广州花都头层牛皮工厂；大底：广东东莞真皮大底厂', materialFeature: '头层黄牛皮厚度 1.6-1.8mm，粒面细腻，柔韧性佳；真皮大底经植鞣处理，透气性与耐磨性俱佳' } },
+            { brand: '许乐衣造局', name: '羊毛混纺西装外套', tag: '羊毛混纺', params: ['面料：60% 羊毛 40% 涤纶', '克重：280g/m²', '工艺：免烫处理'], price: 1299, original: 1899, rating: 4.8, stars: '★★★★★', reviews: 156, sales: 420, isNew: 1,
+              design: { designer: '郑丽丽', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：江苏苏州毛纺厂', materialFeature: '60% 羊毛 40% 涤纶，克重 280g/m²，免烫处理，挺括有型' } },
+            { brand: '许乐皮具坊', name: '手工油边邮差包', tag: '手工油边', params: ['材质：头层牛皮', '里料：棉布', '工艺：手工油边'], price: 899, original: 1299, rating: 4.7, stars: '★★★★★', reviews: 268, sales: 720, isNew: 1,
+              design: { designer: '李建华', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '皮料：广州花都头层牛皮工厂', materialFeature: '头层牛皮厚度 1.4mm，手工油边封边三次，边缘光润耐磨' } },
+            { brand: '许乐饰物所', name: '925 银四叶草手链', tag: '925 银', params: ['材质：S925 银', '工艺：镶嵌锆石', '长度：18cm'], price: 199, original: 299, rating: 4.8, stars: '★★★★★', reviews: 320, sales: 2240, isNew: 0,
+              design: { designer: '吴文豪', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '银材：深圳水贝 925 银厂', materialFeature: 'S925 银，四叶草镶嵌 AAA 级锆石，爪镶牢固不易脱落' } },
+            { brand: 'XULOVE STUDIO', name: '碳板竞速跑鞋', tag: '碳板科技', params: ['材质：飞织鞋面', '中底：PEBA 碳板', '重量：185g'], price: 2199, original: 2999, rating: 4.9, stars: '★★★★★', reviews: 312, sales: 540, isNew: 1,
+              design: { designer: '黄国栋', designerWorks: ['许乐马拉松竞速系列','某国际品牌碳板跑鞋','XULOVE 越野赛鞋'], designerBio: '12 年运动鞋研发经验，专注超临界发泡中底与碳板力学结构，曾参与多场马拉松赛事装备测试', patternDesigner: '', specialCraft: ['超临界氮气发泡','全掌碳板植入'], printTech: '', embroideryTech: '', materialOrigin: '鞋面：福建晋江飞织工厂；中底：浙江温州超临界发泡厂', materialFeature: 'PEBA 超临界发泡回弹 65%；全掌碳板厚度 1.2mm，刚度 180N·m，推进力提升 8%' } },
+            { brand: '许乐衣造局', name: '亚麻直筒长裤', tag: '亚麻面料', params: ['面料：100% 亚麻', '克重：210g/m²', '工艺：预缩处理'], price: 359, original: 529, rating: 4.5, stars: '★★★★☆', reviews: 268, sales: 980, isNew: 0,
+              design: { designer: '胡承恩', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江绍兴亚麻纺织厂', materialFeature: '100% 亚麻，克重 210g/m²，预缩处理后面料稳定不易缩水' } },
+            { brand: '许乐皮具坊', name: '帆布双肩包学院风', tag: '帆布面料', params: ['材质：16 安帆布', '里料：涤纶', '工艺：双线缝合'], price: 269, original: 399, rating: 4.6, stars: '★★★★☆', reviews: 880, sales: 2380, isNew: 0,
+              design: { designer: '马建平', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '面料：浙江绍兴帆布厂', materialFeature: '16 安帆布，克重 380g/m²，双线缝合加固，承重耐用' } },
+            { brand: '许乐饰物所', name: '925 银简约戒指', tag: '925 银', params: ['材质：S925 银', '工艺：拉丝处理', '可选：开口可调'], price: 169, original: 259, rating: 4.7, stars: '★★★★★', reviews: 420, sales: 2480, isNew: 0,
+              design: { designer: '周晓雅', designerWorks: [], designerBio: '', patternDesigner: '', specialCraft: [], printTech: '', embroideryTech: '', materialOrigin: '银材：深圳水贝 925 银厂', materialFeature: 'S925 银，拉丝纹理，开口可调适应不同指围' } }
+        ]
+    };
+
+    // ============ 解析 cat 参数 ============
+    function getCat() {
+        const params = new URLSearchParams(location.search);
+        let cat = params.get('cat') || 'all';
+        if (!CAT_CONFIG[cat]) cat = 'all';
+        return cat;
+    }
+
+    let currentCat = getCat();
+    let currentSort = 'default';
+    let currentPage = 1;
+    const PAGE_SIZE = 12;
+
+    // ============ 渲染横幅与面包屑 ============
+    function renderHeader() {
+        const cfg = CAT_CONFIG[currentCat];
+        document.getElementById('catTitle').textContent = cfg.title;
+        document.getElementById('catSub').textContent = cfg.sub;
+        document.getElementById('crumbCurrent').textContent = cfg.name;
+        document.title = '许乐 XULOVE | ' + cfg.name + ' - 行业人共创品质商城';
+    }
+
+    // ============ 渲染筛选侧栏 ============
+    function renderFilter() {
+        const cfg = CAT_CONFIG[currentCat];
+        const azLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const azHtml = azLetters.map(L => {
+            // 简单起见，全部字母均可点击跳转 brands.html
+            return `<a href="brands.html#${L}" title="${L} 开头品牌">${L}</a>`;
+        }).join('') + `<a class="tag" style="grid-column:1/-1;text-align:center;background:#fafafa;color:#888;" href="brands.html#cn">中文名</a>`;
+        const html = `
+            <div class="filter-group">
+                <h4>品牌</h4>
+                <div class="filter-az" style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;">
+                    ${azHtml}
+                </div>
+            </div>
+            <div class="filter-group">
+                <h4>价格区间</h4>
+                <div class="filter-tags">
+                    ${PRICE_RANGES.map(p => `<span class="tag">${p}</span>`).join('')}
+                </div>
+            </div>
+            <div class="filter-group">
+                <h4>品类细分</h4>
+                <ul class="filter-list" id="subcatList">
+                    ${cfg.subcats.map(s => `<li>${s}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+        document.getElementById('filterSidebar').innerHTML = html;
+        // 绑定筛选标签点击切换选中态
+        document.querySelectorAll('.filter-tags .tag').forEach(function(tag){
+            tag.addEventListener('click', function(){
+                tag.classList.toggle('active');
+            });
+        });
+        document.querySelectorAll('.filter-list li').forEach(function(li){
+            li.addEventListener('click', function(){
+                const siblings = li.parentNode.querySelectorAll('li');
+                siblings.forEach(s => s.classList.remove('active'));
+                li.classList.add('active');
+            });
+        });
+    }
+
+    // ============ 排序商品 ============
+    function sortProducts(list) {
+        const arr = list.slice();
+        switch (currentSort) {
+            case 'priceAsc': arr.sort((a,b) => a.price - b.price); break;
+            case 'priceDesc': arr.sort((a,b) => b.price - a.price); break;
+            case 'rating': arr.sort((a,b) => b.rating - a.rating); break;
+            case 'sales': arr.sort((a,b) => b.sales - a.sales); break;
+            case 'new': arr.sort((a,b) => b.isNew - a.isNew); break;
+            default: break;
+        }
+        return arr;
+    }
+
+    // ============ 渲染商品 grid ============
+    function renderProducts() {
+        const list = sortProducts(PRODUCTS[currentCat]);
+        const total = list.length;
+        document.getElementById('totalCount').textContent = total;
+        const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+        if (currentPage > totalPages) currentPage = totalPages;
+        const start = (currentPage - 1) * PAGE_SIZE;
+        const pageList = list.slice(start, start + PAGE_SIZE);
+        const grid = document.getElementById('productGrid');
+        if (pageList.length === 0) {
+            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:#999;">暂无商品</div>';
+        } else {
+            grid.innerHTML = pageList.map(p => `
+                <div class="product-card">
+                    <div class="product-img-box">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand">${p.brand}</div>
+                        <h4>${p.name}</h4>
+                        <div class="product-params">
+                            ${p.params.map(x => `<span>${x}</span>`).join('')}
+                        </div>
+                        <div class="product-price">¥${p.price.toFixed(2)}</div>
+                        <div class="product-rating"><span class="stars">${p.stars}</span> ${p.rating} (${p.reviews} 评价)</div>
+                        <details class="design-info">
+                            <summary>设计信息</summary>
+                            <div class="design-row"><span class="dl">版型设计师</span><span class="dv">${p.design.designer}</span></div>
+                            ${p.design.designerWorks && p.design.designerWorks.length ? `<div class="design-row"><span class="dl">参与设计</span><span class="dv">${p.design.designerWorks.join('、')}</span></div>` : ''}
+                            ${p.design.designerBio ? `<div class="design-row"><span class="dl">成长履历</span><span class="dv">${p.design.designerBio}</span></div>` : ''}
+                            ${p.design.patternDesigner ? `<div class="design-row"><span class="dl">图案设计师</span><span class="dv">${p.design.patternDesigner}</span></div>` : ''}
+                            ${p.design.specialCraft && p.design.specialCraft.length ? `<div class="design-row"><span class="dl">特殊工艺</span><span class="dv">${p.design.specialCraft.join('、')}</span></div>` : ''}
+                            ${p.design.printTech ? `<div class="design-row"><span class="dl">印刷技术</span><span class="dv">${p.design.printTech}</span></div>` : ''}
+                            ${p.design.embroideryTech ? `<div class="design-row"><span class="dl">刺绣技术</span><span class="dv">${p.design.embroideryTech}</span></div>` : ''}
+                            ${p.design.materialOrigin ? `<div class="design-row"><span class="dl">材质来源</span><span class="dv">${p.design.materialOrigin}</span></div>` : ''}
+                            ${p.design.materialFeature ? `<div class="design-row"><span class="dl">材质特性</span><span class="dv">${p.design.materialFeature}</span></div>` : ''}
+                        </details>
+                    </div>
+                </div>
+            `).join('');
+        }
+        renderPagination(totalPages);
+    }
+
+    // ============ 渲染分页器 ============
+    function renderPagination(totalPages) {
+        const pg = document.getElementById('pagination');
+        let html = '';
+        // 上一页
+        if (currentPage <= 1) {
+            html += '<span class="disabled">上一页</span>';
+        } else {
+            html += `<a data-page="${currentPage - 1}">上一页</a>`;
+        }
+        // 页码 1 2 3 4 5
+        const maxShow = 5;
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, startPage + maxShow - 1);
+        if (endPage - startPage < maxShow - 1) {
+            startPage = Math.max(1, endPage - maxShow + 1);
+        }
+        if (startPage > 1) {
+            html += '<a data-page="1">1</a>';
+            if (startPage > 2) html += '<span class="ellipsis">...</span>';
+        }
+        for (let i = startPage; i <= endPage; i++) {
+            if (i === currentPage) {
+                html += `<span class="active">${i}</span>`;
+            } else {
+                html += `<a data-page="${i}">${i}</a>`;
+            }
+        }
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) html += '<span class="ellipsis">...</span>';
+            html += `<a data-page="${totalPages}">${totalPages}</a>`;
+        }
+        // 下一页
+        if (currentPage >= totalPages) {
+            html += '<span class="disabled">下一页</span>';
+        } else {
+            html += `<a data-page="${currentPage + 1}">下一页</a>`;
+        }
+        pg.innerHTML = html;
+        // 绑定分页点击
+        pg.querySelectorAll('a[data-page]').forEach(function(a){
+            a.addEventListener('click', function(){
+                currentPage = parseInt(a.dataset.page, 10);
+                renderProducts();
+                window.scrollTo({ top: document.querySelector('.main-wrap').offsetTop - 20, behavior: 'smooth' });
+            });
+        });
+    }
+
+    // ============ 排序条交互 ============
+    function bindSort() {
+        document.querySelectorAll('#sortTabs .sort-btn').forEach(function(btn){
+            btn.addEventListener('click', function(){
+                document.querySelectorAll('#sortTabs .sort-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSort = btn.dataset.sort;
+                currentPage = 1;
+                renderProducts();
+            });
+        });
+    }
+
+    // ============ 初始化 ============
+    renderHeader();
+    renderFilter();
+    renderProducts();
+    bindSort();
+
+    // ============ 注册弹窗交互（复用 index.html） ============
+    const mask = document.getElementById('registerModal');
+    const openBtn = document.getElementById('openRegister');
+    function openModal() { mask.classList.add('show'); }
+    function closeModal() { mask.classList.remove('show'); }
+    if (openBtn) openBtn.addEventListener('click', openModal);
+    mask.addEventListener('click', function(e){
+        if (e.target === mask) closeModal();
+    });
+    document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape') { closeModal(); closeTerms(); }
+    });
+
+    document.querySelectorAll('.auth-tabs .tab').forEach(function(tab){
+        tab.addEventListener('click', function(){
+            document.querySelectorAll('.auth-tabs .tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            const name = tab.dataset.tab;
+            document.querySelector('.auth-panel[data-panel="' + name + '"]').classList.add('active');
+        });
+    });
+
+    const sendBtn = document.getElementById('sendCodeBtn');
+    let countdown = 0;
+    if (sendBtn) {
+        sendBtn.addEventListener('click', function(){
+            if (countdown > 0) return;
+            countdown = 60;
+            const tick = function(){
+                if (countdown <= 0) {
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = '获取验证码';
+                    return;
+                }
+                sendBtn.disabled = true;
+                sendBtn.textContent = countdown + 's 后重发';
+                countdown--;
+                setTimeout(tick, 1000);
+            };
+            tick();
+        });
+    }
+
+    // ============ 协议预览弹窗 ============
+    const termsModal = document.getElementById('termsModal');
+    const termsTitle = document.getElementById('termsTitle');
+    const termsBody = document.getElementById('termsBody');
+    const termsClose = document.getElementById('termsClose');
+
+    const TERMS = {
+        service: {
+            title: '用户服务协议',
+            html: `
+                <h4>一、协议范围</h4>
+                <p>本协议是您与许乐有限公司（xulove.com，以下简称"许乐"）就许乐平台所提供服务所订立的协议。您在许乐平台注册、登录、浏览、下单即视为同意本协议。</p>
+                <h4>二、账户与注册</h4>
+                <p>2.1 注册需提供有效手机号，并完成短信验证码验证。</p>
+                <p>2.2 您应保证注册信息真实、准确，如因信息不实导致损失由您自行承担。</p>
+                <p>2.3 账号仅限本人使用，不得转让、出借或售卖。</p>
+                <h4>三、订单与商品</h4>
+                <p>3.1 许乐平台商品由行业人共创，每件商品附用料与工艺溯源信息。</p>
+                <p>3.2 商品价格、可购数量以订单提交时页面显示为准。</p>
+                <h4>四、退换货</h4>
+                <p>4.1 除贴身商品外，支持签收后 7 天内无理由退换。</p>
+                <p>4.2 质量问题 30 天内包换，详见《7 天无理由退换货规则》。</p>
+            `
+        },
+        privacy: {
+            title: '隐私政策',
+            html: `
+                <h4>一、信息收集</h4>
+                <p>我们收集的信息包括：您主动提供的手机号、邮箱、姓名、性别、生日、邀请码；以及订单、收货、设备日志等自动采集的信息。</p>
+                <h4>二、信息使用</h4>
+                <p>2.1 用于完成订单、客服沟通、退换货处理。</p>
+                <p>2.2 用于个性化商品推荐与活动通知（您可在「我的-消息设置」关闭）。</p>
+                <h4>三、信息保护</h4>
+                <p>我们采用 SSL 加密、数据脱敏、权限分级等措施保护您的信息安全。</p>
+                <h4>四、联系我们</h4>
+                <p>隐私相关问题可发送至 privacy@xulove.com，我们将在 15 个工作日内回复。</p>
+            `
+        }
+    };
+
+    function openTerms(key) {
+        const t = TERMS[key];
+        if (!t) return;
+        termsTitle.textContent = t.title;
+        termsBody.innerHTML = t.html;
+        termsModal.classList.add('show');
+    }
+    function closeTerms() { termsModal.classList.remove('show'); }
+    if (termsClose) termsClose.addEventListener('click', closeTerms);
+    if (termsModal) {
+        termsModal.addEventListener('click', function(e){
+            if (e.target === termsModal) closeTerms();
+        });
+    }
+    document.querySelectorAll('[data-terms]').forEach(function(el){
+        el.addEventListener('click', function(){
+            openTerms(el.dataset.terms);
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>配送与退换货政策 - 许乐 XULOVE</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft Yahei", Arial, sans-serif; }
+        body { background: #fff; color: #000; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        header { padding: 24px 40px; }
+        .header-top { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
+        .logo { line-height: 1; }
+        .logo-mark {
+            display: inline-flex;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(207,48,36,0.22), 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 12%;
+            bottom: 12%;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #fff 0 3px, transparent 3px 5px);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .logo-xu {
+            color: #fff;
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo-le {
+            color: #fff;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            font-size: 48px; font-weight: 900;
+            padding: 10px 14px; line-height: 1;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        .logo .sub {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #888;
+            margin-top: 10px;
+        }
+        .logo .sub-url { color: #cf3024; font-weight: 700; }
+        .logo .sub-sep { color: #ccc; margin: 0 5px; }
+        .logo .sub-tag { color: #659ee3; font-weight: 600; }
+        .search-wrap { flex: 1; display: flex; }
+        .search-wrap input { flex: 1; padding: 14px 16px; border: 1px solid #ccc; border-right: none; font-size: 18px; }
+        .search-wrap button { padding: 14px 28px; border: 1px solid #ccc; background: #fff; font-weight: bold; font-size: 18px; cursor: pointer; }
+        .header-icons { display: flex; gap: 24px; font-size: 32px; }
+        nav ul { display: flex; gap: 48px; list-style: none; font-size: 24px; font-weight: 500; align-items: center; }
+        nav ul li { cursor: pointer; }
+        /* 导航下拉菜单 */
+        nav ul li.has-dropdown { position: relative; }
+        nav ul li.has-dropdown > ul.dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 140px;
+            padding: 8px 0;
+            z-index: 100;
+            flex-direction: column;
+            gap: 0;
+        }
+        nav ul li.has-dropdown:hover > ul.dropdown { display: flex; }
+        nav ul li.has-dropdown > ul.dropdown li {
+            font-size: 15px;
+            padding: 8px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        nav ul li.has-dropdown > ul.dropdown li:hover { background: #fafafa; color: #b8860b; }
+        nav ul li.has-dropdown > ul.dropdown li a { display: block; }
+
+        .sub-nav { background: #fafafa; border-bottom: 1px solid #eee; padding: 16px 40px; position: sticky; top: 0; z-index: 10; }
+        .sub-nav ul { display: flex; gap: 40px; }
+        .sub-nav li { font-size: 16px; cursor: pointer; padding: 4px 0; }
+        .sub-nav li:hover { color: #b8860b; border-bottom: 2px solid #b8860b; }
+
+        /* 全站统一两栏布局 */
+        .main-wrap { display: flex; gap: 24px; padding: 40px 40px 60px; align-items: flex-start; }
+        .side-filter { width: 220px; flex-shrink: 0; border: 1px solid #eee; background: #fff; padding: 20px 16px; position: sticky; top: 80px; }
+        .side-filter .side-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; color: #000; border-left: 3px solid #b8860b; padding-left: 8px; }
+        .side-filter .side-group { border-bottom: 1px solid #f0f0f0; padding-bottom: 18px; margin-bottom: 18px; }
+        .side-filter .side-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .az-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+        .az-grid a { display: block; text-align: center; padding: 6px 0; font-size: 13px; border: 1px solid #eee; color: #333; background: #fff; transition: all .15s; }
+        .az-grid a:hover { border-color: #b8860b; color: #b8860b; background: #fff8e1; }
+        .az-grid a.disabled { color: #ccc; background: #fafafa; cursor: not-allowed; pointer-events: none; }
+        .price-tags { display: flex; flex-direction: column; gap: 6px; }
+        .price-tags label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; cursor: pointer; padding: 4px 0; }
+        .price-tags label:hover { color: #b8860b; }
+        .price-tags input { margin: 0; }
+        .page { flex: 1; min-width: 0; max-width: 1000px; margin: 0; padding: 0; }
+        .page h1 { font-size: 40px; margin-bottom: 12px; }
+        .page .lead { font-size: 18px; color: #666; margin-bottom: 40px; line-height: 1.7; }
+        .page h2 { font-size: 28px; margin: 48px 0 20px; padding-left: 16px; border-left: 4px solid #000; }
+        .page h3 { font-size: 20px; margin: 24px 0 12px; }
+        .page p { font-size: 15px; line-height: 1.9; color: #333; margin-bottom: 16px; }
+        .page ul.bullet { margin: 0 0 24px 24px; }
+        .page ul.bullet li { font-size: 15px; line-height: 1.9; color: #333; list-style: disc; margin-bottom: 6px; }
+
+        .section-block { margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid #eee; }
+        .section-block:last-child { border-bottom: none; }
+
+        /* 运费表格 */
+        .ship-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .ship-table th, .ship-table td { border: 1px solid #ddd; padding: 12px 16px; font-size: 14px; text-align: left; }
+        .ship-table th { background: #000; color: #fff; }
+        .ship-table tr:nth-child(even) td { background: #fafafa; }
+
+        /* 注意框 */
+        .notice { background: #fff8e1; border-left: 4px solid #b8860b; padding: 16px 20px; margin: 16px 0; font-size: 14px; line-height: 1.8; color: #5d4037; }
+        .notice strong { color: #b8860b; }
+
+        /* 退换货流程时间轴 */
+        .timeline { margin: 24px 0; }
+        .tl-item { display: flex; gap: 16px; align-items: flex-start; padding: 16px 0; border-bottom: 1px dashed #eee; }
+        .tl-num { width: 36px; height: 36px; background: #000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+        .tl-body h4 { font-size: 16px; margin-bottom: 4px; }
+        .tl-body p { font-size: 14px; color: #555; line-height: 1.7; margin: 0; }
+
+        /* 售后申请表单 */
+        .aftersale-form { background: #fafafa; padding: 32px; border: 1px solid #eee; margin-top: 24px; }
+        .aftersale-form h3 { font-size: 20px; margin-bottom: 8px; }
+        .form-row { margin-bottom: 16px; }
+        .form-row label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; }
+        .form-row label .req { color: #c00; }
+        .form-row input, .form-row select, .form-row textarea { width: 100%; padding: 10px 12px; border: 1px solid #ccc; font-size: 14px; font-family: inherit; background: #fff; }
+        .form-row textarea { min-height: 100px; resize: vertical; }
+        .form-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .upload-box { border: 2px dashed #bbb; padding: 24px; text-align: center; color: #888; font-size: 14px; cursor: pointer; background: #fff; }
+        .submit-btn { padding: 12px 32px; background: #000; color: #fff; border: none; font-size: 16px; cursor: pointer; }
+        .reset-btn { padding: 12px 24px; background: #fff; color: #333; border: 1px solid #ccc; font-size: 16px; cursor: pointer; margin-left: 12px; }
+
+        footer { background: #fff; border-top: 1px solid #eee; padding: 40px; }
+        .footer-bottom { border-top: 1px solid #ddd; padding-top: 20px; font-size: 14px; line-height: 1.8; color: #444; }
+        .back-home { display: inline-block; margin-top: 20px; padding: 10px 24px; background: #000; color: #fff; font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .form-grid2, .form-grid3 { grid-template-columns: 1fr; }
+            nav ul { flex-wrap: wrap; gap: 20px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-top">
+        <div class="logo">
+            <div class="logo-mark">
+                <span class="logo-xu">许</span><span class="logo-le">乐</span>
+            </div>
+            <span class="sub"><span class="sub-url">https://xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服饰 箱包 饰品</span></span>
+        </div>
+        <div class="search-wrap">
+            <input placeholder="搜索鞋履、服饰、箱包、饰品、品牌…">
+            <button>搜索</button>
+        </div>
+        <div class="header-icons">
+            <span>👤</span>
+            <span>🛒</span>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li class="has-dropdown">女士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">裙装</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">男士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">外套</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">儿童专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">童鞋</a></li>
+                    <li><a href="category.html?cat=clothing">童装</a></li>
+                    <li><a href="category.html?cat=accessories">配饰</a></li>
+                </ul>
+            </li>
+            <li><a href="brands.html">品牌集合</a></li>
+            <li class="has-dropdown"><a href="category.html?cat=shoes">运动鞋款</a>
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">跑步鞋</a></li>
+                    <li><a href="category.html?cat=shoes">篮球鞋</a></li>
+                    <li><a href="category.html?cat=shoes">板鞋</a></li>
+                    <li><a href="category.html?cat=shoes">休闲鞋</a></li>
+                    <li><a href="category.html?cat=shoes">户外鞋</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">运动装备
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=clothing">运动上衣</a></li>
+                    <li><a href="category.html?cat=clothing">运动裤</a></li>
+                    <li><a href="category.html?cat=bags">运动包</a></li>
+                    <li><a href="category.html?cat=accessories">运动配件</a></li>
+                </ul>
+            </li>
+            <li style="margin-left:auto;"><a href="faq.html">帮助与客服</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="sub-nav">
+    <ul>
+        <li><a href="#delivery">配送政策</a></li>
+        <li><a href="#return7">7 天无理由退换</a></li>
+        <li><a href="#rights">消费者权益保障</a></li>
+        <li><a href="#quality">三包与终身维修</a></li>
+        <li><a href="#aftersale">售后申请入口</a></li>
+    </ul>
+</div>
+
+<!-- 全站统一两栏布局：左侧品牌+价格筛选，右侧主内容 -->
+<div class="main-wrap">
+<aside class="side-filter">
+    <div class="side-group">
+        <div class="side-title">品牌</div>
+        <div class="az-grid">
+            <a href="brands.html#A">A</a><a href="brands.html#B">B</a><a href="brands.html#C">C</a><a href="brands.html#D">D</a><a href="brands.html#E">E</a>
+            <a href="brands.html#F">F</a><a href="brands.html#G">G</a><a href="brands.html#H">H</a><a href="brands.html#I">I</a><a href="brands.html#J">J</a>
+            <a href="brands.html#K">K</a><a href="brands.html#L">L</a><a href="brands.html#M">M</a><a href="brands.html#N">N</a><a href="brands.html#O">O</a>
+            <a href="brands.html#P">P</a><a href="brands.html#Q">Q</a><a href="brands.html#R">R</a><a href="brands.html#S">S</a><a href="brands.html#T">T</a>
+            <a href="brands.html#U">U</a><a href="brands.html#V">V</a><a href="brands.html#W">W</a><a class="disabled" title="暂无品牌">X</a><a href="brands.html#Y">Y</a>
+            <a href="brands.html#Z">Z</a><a class="disabled" title="暂无品牌">#</a><a class="disabled" title="暂无品牌">0-9</a><a class="disabled" title="暂无品牌">★</a><a class="disabled" title="中文名">中</a>
+        </div>
+    </div>
+    <div class="side-group">
+        <div class="side-title">价格区间</div>
+        <div class="price-tags">
+            <label><input type="checkbox" value="0-300"> ¥0 - 300</label>
+            <label><input type="checkbox" value="300-800"> ¥300 - 800</label>
+            <label><input type="checkbox" value="800-1500"> ¥800 - 1500</label>
+            <label><input type="checkbox" value="1500-3000"> ¥1500 - 3000</label>
+            <label><input type="checkbox" value="3000+"> ¥3000 以上</label>
+        </div>
+    </div>
+    <div class="side-group" style="font-size:12px;color:#999;line-height:1.7;">
+        政策内容页同样保留左侧品牌与价格筛选，保持全站统一。点击字母跳转品牌大全页。
+    </div>
+</aside>
+
+<div class="page">
+    <h1>配送与退换货政策</h1>
+    <p class="lead">在许乐，从下单到售后的每个环节都有明确规则。本政策适用于许乐平台所有自营商品，第三方入驻品牌以商品页公示为准。</p>
+
+    <!-- 配送政策 -->
+    <div class="section-block" id="delivery">
+        <h2>配送政策</h2>
+
+        <h3>1. 物流方式</h3>
+        <p>许乐根据商品品类选择最匹配的物流，确保品质与时效：</p>
+        <table class="ship-table">
+            <thead>
+                <tr><th>商品品类</th><th>默认物流</th><th>备注</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>鞋履 / 服饰 / 饰品</td><td>顺丰速运</td><td>顺丰特安（皮具饰品）防震包装</td></tr>
+                <tr><td>箱包大件</td><td>德邦快递</td><td>大件专送，含原厂防尘袋</td></tr>
+                <tr><td>港澳台地区</td><td>顺丰国际</td><td>满 999 元包邮</td></tr>
+                <tr><td>企业批量采购</td><td>京东物流 / 德邦</td><td>可指定，需提前沟通</td></tr>
+            </tbody>
+        </table>
+
+        <h3>2. 运费规则</h3>
+        <ul class="bullet">
+            <li>大陆地区：实付满 199 元包邮；未满 199 元按地区收取 8-15 元运费</li>
+            <li>港澳台地区：满 999 元包邮；未满按实际重量收取 35-80 元</li>
+            <li>偏远地区（新疆/西藏/青海/内蒙古部分）：满 499 元包邮；未满收取 25-40 元</li>
+            <li>海外：暂不支持直邮，可走集运，运费请咨询客服</li>
+        </ul>
+        <div class="notice"><strong>提示：</strong>运费以订单结算页实际显示为准。商品重量的差异（如大箱包）可能影响运费计算，以下单页为准。</div>
+
+        <h3>3. 配送时效</h3>
+        <table class="ship-table">
+            <thead><tr><th>地区</th><th>默认时效</th><th>备注</th></tr></thead>
+            <tbody>
+                <tr><td>北上广深及省会城市</td><td>1-2 天</td><td>当日达仅限同城次日达服务</td></tr>
+                <tr><td>二三线城市</td><td>2-3 天</td><td>—</td></tr>
+                <tr><td>县级及乡镇</td><td>3-5 天</td><td>部分乡镇需到镇自取</td></tr>
+                <tr><td>港澳台地区</td><td>3-7 天</td><td>含清关时间</td></tr>
+            </tbody>
+        </table>
+
+        <h3>4. 配送时间</h3>
+        <ul class="bullet">
+            <li>下单时可备注「工作日」「周末」「避开午休」等时间偏好，物流尽量配合</li>
+            <li>需精确时段配送可联系客服加购专项服务（10 元/单，仅限一线城市）</li>
+            <li>夜间配送（20:00-22:00）部分城市支持，需备注说明</li>
+        </ul>
+
+        <h3>5. 签收与验收</h3>
+        <ul class="bullet">
+            <li>请在快递员面前开箱验视，发现外包装破损或内件损坏请直接拒收</li>
+            <li>已签收后发现损坏：48 小时内凭照片/视频申请退换，许乐承担往返运费</li>
+            <li>鞋类商品建议当场试穿，尺码不合适可在签收 7 天内申请换货（详见下文）</li>
+            <li>皮具商品请当场检查油边、车线、五金，签收后无法认定运输损伤</li>
+        </ul>
+    </div>
+
+    <!-- 7 天无理由退换 -->
+    <div class="section-block" id="return7">
+        <h2>7 天无理由退换说明</h2>
+        <p>依据《中华人民共和国消费者权益保护法》第二十五条及《网络购买商品七日无理由退货暂行办法》，许乐平台所有自营商品均支持签收后 7 天内无理由退货（部分特殊性质商品除外，详见下文）。本规则参照淘宝、京东主流电商平台通行做法制定，保障消费者「犹豫期」权益。</p>
+
+        <h3>1. 七日无理由退货的适用条件</h3>
+        <ul class="bullet">
+            <li>时间起算：自您签收商品的次日零时起 7×24 小时（168 小时）内提交退货申请</li>
+            <li>商品状态：商品本身未穿着、未洗涤、未使用、未改变性质，外观无污渍、无折痕、无气味、无穿戴痕迹</li>
+            <li>配件齐全：吊牌、合格证、水洗标、原厂包装（含鞋盒、防尘袋、塑封、内托、礼盒、说明书、保修卡）完整</li>
+            <li>赠品返还：订单附赠的赠品、配件等需同步退回</li>
+            <li>鞋类试穿：仅限室内地毯或干净地面短时间试穿，鞋底无磨损、无踩脏痕迹，否则视为影响二次销售</li>
+            <li>皮具试背：保留防尘袋、塑封、内托、吊牌；不可去除油边、不可刮花五金</li>
+            <li>饰品试戴：项链等直接接触皮肤类需保留塑封，不可去除防氧化层</li>
+            <li>服饰试穿：仅可试穿不影响二次销售，不可洗涤、不可去除水洗标</li>
+        </ul>
+        <div class="notice"><strong>法条依据：</strong>《消法》第二十五条第二款规定：消费者退货的商品应当完好。经营者应当自收到退回商品之日起七日内返还消费者支付的商品价款。</div>
+
+        <h3>2. 不适用七日无理由退货的商品（参照淘宝/京东类目规则）</h3>
+        <p>以下商品依据《消法》第二十五条第一款及《暂行办法》第九条，不适用七日无理由退货，商品页会显著标注「不支持7天无理由退货」：</p>
+        <table class="ship-table">
+            <thead><tr><th>商品类型</th><th>不适用原因</th><th>许乐涉及品类</th></tr></thead>
+            <tbody>
+                <tr><td>消费者定作的定制商品</td><td>个性化定制无法二次销售</td><td>刻字饰品、改尺码鞋、改色皮具、定制印字</td></tr>
+                <tr><td>鲜活易腐商品</td><td>易变质不宜长时间保存</td><td>本平台无此类商品</td></tr>
+                <tr><td>在线交付或已拆封的音像/电子产品</td><td>拆封即贬损或激活</td><td>智能鞋垫、智能饰品（已激活）</td></tr>
+                <tr><td>交付的报纸、期刊</td><td>时效性强</td><td>本平台无此类商品</td></tr>
+                <tr><td>拆封后影响人身安全或生命健康的商品</td><td>贴身、卫生考量</td><td>内衣、袜子、贴身饰品（项链等）、已穿鞋垫</td></tr>
+                <tr><td>拆封后品质易改变的商品</td><td>接触皮肤即改变性质</td><td>已试穿的鞋（鞋底有磨损）、已上身服饰</td></tr>
+                <tr><td>一经激活或试用价值贬损较大的商品</td><td>激活即贬值</td><td>已配对蓝牙的智能鞋、已设置密码的饰品</td></tr>
+                <tr><td>销售时已明示临近保质期的商品/有瑕疵的处理品</td><td>已告知瑕疵</td><td>临期、福袋、微瑕专供款</td></tr>
+                <tr><td>其他根据商品性质不宜退货的商品</td><td>性质特殊</td><td>礼品卡已绑定、刻字礼盒</td></tr>
+            </tbody>
+        </table>
+        <div class="notice"><strong>许乐特别承诺：</strong>对上述不适用七日无理由退货的商品，若存在<strong>质量问题</strong>，仍适用国家三包规定（详见下文「消费者权益保障」）。即"不无理由 ≠ 不三包"。</div>
+
+        <h3>3. 退货流程（参照淘宝/京东标准流程）</h3>
+        <div class="timeline">
+            <div class="tl-item">
+                <div class="tl-num">1</div>
+                <div class="tl-body">
+                    <h4>提交申请（7 天内）</h4>
+                    <p>路径一：「我的订单 → 申请售后 → 退货/换货」，选择退换类型与原因，可勾选「不喜欢」「尺码不合」「商品与描述不符」「质量问题」等；路径二：使用下方 <a href="#aftersale">售后申请入口</a> 表单提交。</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-num">2</div>
+                <div class="tl-body">
+                    <h4>卖家审核（48 小时内）</h4>
+                    <p>许乐客服在 1-2 个工作日内审核。质量问题须上传清晰照片或视频，必要时客服会视频通话核验。审核通过后系统推送寄回地址、退货码与上门取件预约链接。</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-num">3</div>
+                <div class="tl-body">
+                    <h4>寄回商品（7 天内寄出）</h4>
+                    <p>审核通过后请在 7 天内寄出，逾期视为放弃退货。建议使用许乐指定物流（顺丰上门取件，享运费险减免），到付件拒收。请将商品装入原包装，附纸条写明订单号与退货码。</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-num">4</div>
+                <div class="tl-body">
+                    <h4>仓库验收（72 小时内）</h4>
+                    <p>许乐仓签收后 1-3 个工作日完成验收，对照溯源码、吊牌、商品状态、配件完整性。验收结果短信通知，如有异议可申请复核。</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-num">5</div>
+                <div class="tl-body">
+                    <h4>退款到账（1-7 个工作日）</h4>
+                    <p>原路退回：支付宝/微信 1-2 工作日到账；银行卡 3-7 工作日到账。赠品等同步返还。换货则在 2-3 工作日内补发新货，原订单运费同步结算。</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>4. 运费承担规则（参照淘宝运费险 / 京东退换无忧）</h3>
+        <table class="ship-table">
+            <thead><tr><th>退换场景</th><th>寄回运费</th><th>原订单运费</th><th>备注</th></tr></thead>
+            <tbody>
+                <tr><td>无理由退货（不喜欢/不想要）</td><td>买家承担</td><td>不退还</td><td>可使用许乐运费险抵扣，详见下文</td></tr>
+                <tr><td>尺码不合换货</td><td>许乐承担首次寄回</td><td>—</td><td>再次换货运费买家承担</td></tr>
+                <tr><td>质量问题退换</td><td>许乐承担往返运费</td><td>全额退还</td><td>含商品本身运费与寄回运费</td></tr>
+                <tr><td>商品与描述不符</td><td>许乐承担往返运费</td><td>全额退还</td><td>需客服判定属实</td></tr>
+                <tr><td>物流损坏拒收</td><td>物流承担</td><td>全额退还</td><td>请在签收前验视</td></tr>
+                <tr><td>发错货/少发漏发</td><td>许乐承担往返运费</td><td>全额退还</td><td>补发或退款二选一</td></tr>
+            </tbody>
+        </table>
+        <div class="notice"><strong>许乐运费险：</strong>每单默认赠送「退货运费险」，无理由退货时寄回运费由保险赔付（单笔最高 25 元，超出自付）。质量问题退换运费由许乐全额承担，不走运费险。</div>
+
+        <h3>5. 退款金额与优惠分摊规则（参照淘宝/京东活动订单退款规则）</h3>
+        <ul class="bullet">
+            <li><strong>满减活动订单部分退货：</strong>按比例分摊优惠后退款。例：订单满 1000-100，退一件商品时按该商品实付金额（已分摊优惠后）退还，剩余订单若不再满足满减门槛，需补回优惠差额</li>
+            <li><strong>满赠订单部分退货：</strong>需同步退回赠品；若赠品已使用，按赠品市值从退款中扣除（如赠品为袜子 ¥30，已使用则在退款扣 ¥30）</li>
+            <li><strong>组合套装退货：</strong>「买二赠一」「鞋袜套装」需整组退回，不接受只退组内单品</li>
+            <li><strong>礼品卡订单：</strong>礼品卡按比例分摊到商品金额内，整单退则礼品卡退回（未过期前提下）</li>
+            <li><strong>礼品卡抵扣订单：</strong>退款时按比例返还礼品卡余额至账户</li>
+            <li><strong>定金预售：</strong>定金支付后未付尾款，定金不退；付尾款后 7 天内退货，定金与尾款一并原路退还</li>
+        </ul>
+
+        <h3>6. 特殊场景处理</h3>
+        <ul class="bullet">
+            <li><strong>赠品处理：</strong>退货时须一并退回赠品（含袜子、鞋撑、防尘袋、礼盒等），赠品损坏或使用按市值扣款</li>
+            <li><strong>多件合并订单：</strong>只退其中一件不影响其他件，但若触发满减门槛差额需补回</li>
+            <li><strong>换货后再次退货：</strong>换货商品签收后仍享 7 天无理由退货（自换货签收次日零时起重新起算）</li>
+            <li><strong>跨境/港澳台订单：</strong>7 天无理由退货同样适用，但寄回运费由买家承担，关税不退</li>
+            <li><strong>质量问题超 7 天：</strong>转入三包流程，按「30 天包换 / 90 天核心部件包换 / 终身维修」处理，详见下文</li>
+            <li><strong>假一赔四：</strong>若经鉴定为假冒品牌商品，许乐按商品成交价 4 倍赔偿，并承担往返运费与鉴定费</li>
+        </ul>
+
+        <h3>7. 消费者提示</h3>
+        <div class="notice">
+            <strong>请知悉：</strong>
+            1. 七日无理由退货不是「无理由退款」，请保持商品完好；<br>
+            2. 退货时请保留原包装与吊牌至少 7 天，验收需对照；<br>
+            3. 若对审核结果有异议，可拨打 12315 投诉或申请许乐第三方调解；<br>
+            4. 恶意退货（如穿过后伪称未穿）将记录至信用档案，严重者限制账号下单。
+        </div>
+    </div>
+
+    <!-- 消费者权益保障 -->
+    <div class="section-block" id="rights">
+        <h2>消费者权益保障</h2>
+        <p>许乐严格遵循《中华人民共和国消费者权益保护法》《产品质量法》《关于修理更换退货权责的三包规定》（即国家三包规定）及相关行业标准，参照淘宝、京东主流电商平台的消费者保障服务，构建"国家三包 + 平台保障 + 匠人承诺"三层保障体系。</p>
+
+        <h3>1. 国家三包规定（许乐执行细则）</h3>
+        <p>三包 = 包修、包换、包退。许乐商品三包期严格按国家规定执行，部分品类延长如下：</p>
+        <table class="ship-table">
+            <thead><tr><th>商品品类</th><th>国家三包期（包修）</th><th>许乐包换期</th><th>许乐包退期</th><th>主要部件</th></tr></thead>
+            <tbody>
+                <tr><td>鞋类（皮鞋/运动鞋）</td><td>90 天（QB/T 2673）</td><td>30 天包换</td><td>7 天无理由 / 15 天质量问题退货</td><td>鞋底、帮面、五金</td></tr>
+                <tr><td>皮具箱包</td><td>60 天（QB/T 1333）</td><td>30 天包换</td><td>7 天无理由 / 15 天质量问题退货</td><td>提手、背带、拉链、油边</td></tr>
+                <tr><td>服饰</td><td>30 天（GB 18401）</td><td>30 天包换</td><td>7 天无理由 / 15 天质量问题退货</td><td>面料、缝线、拉链</td></tr>
+                <tr><td>饰品（925 银/钛钢）</td><td>30 天（行业惯例）</td><td>30 天包换</td><td>7 天无理由 / 15 天质量问题退货</td><td>链条、镶嵌、电镀层</td></tr>
+                <tr><td>智能鞋垫/饰品</td><td>90 天（参照电子件）</td><td>15 天包换</td><td>7 天无理由（未激活）</td><td>电池、电路、传感器</td></tr>
+            </tbody>
+        </table>
+        <div class="notice"><strong>说明：</strong>三包期自销售者开具发票之日起计算；如无发票，以许乐订单时间为准。三包期内因质量问题产生的维修、换货、退货，运费由许乐承担。</div>
+
+        <h3>2. 三包责任情形（参照国家三包规定 + 行业判例）</h3>
+        <h4>2.1 鞋类三包情形</h4>
+        <ul class="bullet">
+            <li><strong>包退（7-15 天内）：</strong>开胶、断底、断帮、严重脱胶（≥2cm）、帮面撕裂、五金脱落、严重色牢度问题</li>
+            <li><strong>包换（30 天内）：</strong>鞋底严重磨损（非外力撞击）、断线、开胶（≤2cm）、皮面开裂（非人为）、五金锈蚀</li>
+            <li><strong>包修（90 天内）：</strong>轻微开胶、补胶、换鞋带、换鞋垫、修拉链、补线</li>
+        </ul>
+        <h4>2.2 皮具箱包三包情形</h4>
+        <ul class="bullet">
+            <li><strong>包退：</strong>皮料严重开裂、油边大面积脱落、拉链整体失效、主承重部位（提手、背带）断裂</li>
+            <li><strong>包换：</strong>车线断裂（≥5cm）、五金锈蚀、皮面脱色（非正常磨损）、内衬脱落</li>
+            <li><strong>包修：</strong>补油边、补车线、换拉链头、换五金件、换背带扣</li>
+        </ul>
+        <h4>2.3 服饰三包情形</h4>
+        <ul class="bullet">
+            <li><strong>包退：</strong>严重色牢度不合格（染色染到皮肤）、面料抽纱（≥3cm）、严重破洞（非人为）</li>
+            <li><strong>包换：</strong>缝制开线、拉链失效、纽扣脱落（≥3 颗）、印花开裂</li>
+            <li><strong>包修：</strong>补线、换拉链、换纽扣、印花修补</li>
+        </ul>
+        <h4>2.4 饰品三包情形</h4>
+        <ul class="bullet">
+            <li><strong>包退：</strong>镶嵌脱落、链条断裂（非拉扯）、925 银异常氧化发黑（非正常佩戴磨损）、电镀层大面积脱落</li>
+            <li><strong>包换：</strong>电镀层局部脱落（≤30%）、链条轻微变形、扣件失效</li>
+            <li><strong>包修：</strong>抛光、重镀、重镶嵌、换链扣、修开口</li>
+        </ul>
+        <div class="notice"><strong>「人为损坏」判定：</strong>由许乐品控工程师初判。包括但不限于：暴力拉扯、刀割、火烧、化学品腐蚀、宠物咬痕、明显跌落撞击痕迹。如对判定有异议，可申请第三方检测机构（中纺标、SGS、CTTC 等）复检，复检支持诉求则费用由许乐承担。</div>
+
+        <h3>3. 许乐平台保障服务（参照淘宝/京东消费者保障服务）</h3>
+        <table class="ship-table">
+            <thead><tr><th>保障项</th><th>对应淘宝/京东服务</th><th>许乐执行标准</th></tr></thead>
+            <tbody>
+                <tr><td>实拍保证</td><td>实拍图认证</td><td>商品页主图与实物一致，如有不符全额退货</td></tr>
+                <tr><td>品质承诺</td><td>品质承诺服务</td><td>承诺面料/材质/工艺与详情页描述一致，违规赔偿 10% 商品金额</td></tr>
+                <tr><td>假一赔四</td><td>假一赔四</td><td>鉴定为假冒品牌按成交价 4 倍赔偿</td></tr>
+                <tr><td>破损包退</td><td>破损包退</td><td>物流破损无需鉴定，直接退货退款</td></tr>
+                <tr><td>24 小时发货</td><td>闪电发货</td><td>订单支付后 24 小时内发货，超时补偿 10 元礼品卡</td></tr>
+                <tr><td>运费险</td><td>退货运费险</td><td>每单赠送，退货寄回运费保险赔付（最高 25 元）</td></tr>
+                <tr><td>价格保护</td><td>价保服务</td><td>签收后 7 天内降价，差价补偿为礼品卡</td></tr>
+                <tr><td>溯源保障</td><td>—（许乐独有）</td><td>每件商品附 12 位溯源码，可查用料、工艺、匠人档案</td></tr>
+                <tr><td>匠人共创建</td><td>—（许乐独有）</td><td>所有自营商品由行业资深匠人共创，品控由匠人终审</td></tr>
+            </tbody>
+        </table>
+
+        <h3>4. 消费者维权途径</h3>
+        <p>当您与许乐发生消费争议时，请按以下顺序维权：</p>
+        <ul class="bullet">
+            <li><strong>第一步：</strong>联系许乐在线客服或拨打 400-XXX-XULOVE，1 个工作日内响应</li>
+            <li><strong>第二步：</strong>提交售后申请（<a href="#aftersale" style="color:#b8860b;text-decoration:underline;">点击进入售后入口</a>），由品控与客服联合处理</li>
+            <li><strong>第三步：</strong>对处理结果不满意，可申请许乐「匠人品控委员会」复核（由 5 位资深匠人投票判定）</li>
+            <li><strong>第四步：</strong>向第三方检测机构送检，凭检测报告索赔，检测费由败诉方承担</li>
+            <li><strong>第五步：</strong>向 12315（全国市场监管投诉热线）投诉，或登录全国 12315 平台 www.12315.cn</li>
+            <li><strong>第六步：</strong>依据《消法》第三十九条，可向人民法院提起诉讼</li>
+        </ul>
+        <div class="notice"><strong>许乐承诺：</strong>对消费者合理诉求不推诿、不拖延。对事实清楚的投诉，3 个工作日内给出解决方案。</div>
+    </div>
+
+    <!-- 质量问题包换 -->
+    <div class="section-block" id="quality">
+        <h2>三包与终身维修</h2>
+        <p>许乐商品均经过「四审三抽」品控流程，但若出现以下质量问题，许乐提供更长期的售后保障：</p>
+
+        <h3>1. 30 天包换范围</h3>
+        <ul class="bullet">
+            <li>鞋类：开胶、断底、帮面撕裂、五金脱落、严重脱胶</li>
+            <li>皮具：油边脱落、车线断裂、五金锈蚀、皮料开裂（非人为）</li>
+            <li>服饰：面料抽纱、色牢度严重不合格（褪色染皮肤）、缝制开线</li>
+            <li>饰品：925 银氧化发黑（非正常佩戴磨损）、镶嵌脱落、链条断裂</li>
+        </ul>
+
+        <h3>2. 90 天核心部件包换</h3>
+        <ul class="bullet">
+            <li>鞋类大底/中底结构性损坏（非外力撞击）</li>
+            <li>皮具主承重部位（提手、背带连接处）断裂</li>
+            <li>饰品主体结构断裂（非拉扯）</li>
+        </ul>
+
+        <h3>3. 终身成本价维修</h3>
+        <p>超出包换期后，许乐仍为所有自营商品提供终身成本价维修服务：</p>
+        <ul class="bullet">
+            <li>鞋类换底、补胶、换楦：按实际成本 + 15% 服务费</li>
+            <li>皮具换油边、补车线、换五金：按实际成本 + 15% 服务费</li>
+            <li>饰品抛光、重镀、重镶嵌：按实际成本 + 15% 服务费</li>
+            <li>维修报价确认后开工，维修完成寄回运费买家承担</li>
+        </ul>
+        <div class="notice"><strong>说明：</strong>「人为损坏」由许乐品控工程师判定，如对判定有异议可申请第三方检测机构复检，复检支持诉求则费用由许乐承担。</div>
+    </div>
+
+    <!-- 售后申请入口 -->
+    <div class="section-block" id="aftersale">
+        <h2>售后申请入口</h2>
+        <p>请填写以下信息提交售后申请。带 <span style="color:#c00">*</span> 为必填。</p>
+        <div class="aftersale-form">
+            <h3>售后申请表</h3>
+            <form onsubmit="return false">
+                <div class="form-grid2">
+                    <div class="form-row">
+                        <label>订单号 <span class="req">*</span></label>
+                        <input type="text" placeholder="如 XUL20260920001">
+                    </div>
+                    <div class="form-row">
+                        <label>溯源码 <span class="req">*</span></label>
+                        <input type="text" placeholder="商品吊牌上的 12 位溯源码">
+                    </div>
+                </div>
+                <div class="form-grid2">
+                    <div class="form-row">
+                        <label>申请人手机号 <span class="req">*</span></label>
+                        <input type="tel" placeholder="11 位手机号">
+                    </div>
+                    <div class="form-row">
+                        <label>申请类型 <span class="req">*</span></label>
+                        <select>
+                            <option>7 天无理由退货</option>
+                            <option>7 天无理由换货</option>
+                            <option>质量问题退货</option>
+                            <option>质量问题换货</option>
+                            <option>30 天包换</option>
+                            <option>90 天核心部件包换</option>
+                            <option>终身维修</option>
+                            <option>仅退款（未收到货）</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-grid2">
+                    <div class="form-row">
+                        <label>换货商品（如选换货）</label>
+                        <input type="text" placeholder="SKU 或商品名 + 尺码/颜色">
+                    </div>
+                    <div class="form-row">
+                        <label>退款金额（如选退款）</label>
+                        <input type="text" placeholder="系统将自动计算">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>问题描述 <span class="req">*</span></label>
+                    <textarea placeholder="请详细描述问题：何时发现、何部位、何种现象、是否影响使用。质量问题建议附清晰照片或视频。"></textarea>
+                </div>
+                <div class="form-row">
+                    <label>问题照片 / 视频（最多 5 张）</label>
+                    <div class="upload-box">
+                        点击或拖拽图片到此区域上传<br>
+                        支持 JPG / PNG / MP4，单文件 ≤ 10MB
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>期望处理方式</label>
+                    <select>
+                        <option>尽快处理（标准 1 工作日内审核）</option>
+                        <option>加急处理（仅质量问题，当日审核）</option>
+                        <option>稍后联系（指定时间联系）</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label><input type="checkbox" style="width:auto;margin-right:6px;"> 我已阅读并同意《7 天无理由退换货规则》与《售后服务条款》</label>
+                </div>
+                <button class="submit-btn">提交售后申请</button>
+                <button type="reset" class="reset-btn">重置</button>
+            </form>
+            <div class="notice" style="margin-top:24px;">
+                <strong>提交后：</strong>
+                1. 系统将在 1 个工作日内审核并通过短信通知结果；<br>
+                2. 审核通过后会推送寄回地址与退货码，请 7 天内寄回；<br>
+                3. 仓库签收验收后 1-2 个工作日完成退款或补发；<br>
+                4. 紧急问题可直接拨打 <strong>400-XXX-XULOVE</strong> 或在线客服。
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-home">← 返回首页</a>
+</div>
+</div>
+<!-- /main-wrap -->
+
+<footer>
+    <div class="footer-bottom">
+        <p>©2026 许乐有限公司 版权所有 · xulove.com</p>
+        <p>营业执照：XXXXXXXXXXXXXXXXXX | ICP 备案号：鲁ICP备XXXXXXXX号</p>
+        <p>《用户服务协议》｜《隐私政策》｜<a href="#rights">《消费者权益保障》</a>｜<a href="#return7">《7 天无理由退换货规则》</a></p>
+    </div>
+</footer>
+</body>
+</html>
