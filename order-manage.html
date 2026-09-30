@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单管理 - 许乐商家后台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft Yahei", Arial, sans-serif;
+            background: #fafafa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ============ Header ============ */
+        header {
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+        }
+
+        .header-top {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-mark a {
+            display: flex;
+            gap: 4px;
+        }
+
+        .logo-xu, .logo-le {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 6px;
+        }
+
+        .logo-xu {
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+        }
+
+        .logo-le {
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+        }
+
+        .sub-tag {
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: 10px;
+        }
+
+        .seller-nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        .seller-nav a {
+            font-size: 18px;
+            color: #555;
+            padding: 22px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .seller-nav a:hover {
+            color: #cf3024;
+        }
+
+        .seller-nav a.active {
+            color: #cf3024;
+            border-bottom: 2px solid #cf3024;
+            font-weight: bold;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            font-size: 20px;
+        }
+
+        .header-icons span {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .header-icons span:hover {
+            transform: scale(1.2);
+        }
+
+        /* ============ Main Container ============ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 22px;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            border-radius: 2px;
+        }
+
+        /* ============ Order Status Tabs ============ */
+        .order-tabs {
+            background: #fff;
+            border-radius: 8px 8px 0 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            overflow-x: auto;
+        }
+
+        .order-tab {
+            padding: 16px 24px;
+            font-size: 15px;
+            color: #555;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .order-tab:hover {
+            color: #cf3024;
+        }
+
+        .order-tab.active {
+            color: #cf3024;
+            border-bottom: 3px solid #cf3024;
+            font-weight: bold;
+        }
+
+        .tab-count {
+            display: inline-block;
+            background: #f5f5f5;
+            color: #888;
+            font-size: 12px;
+            padding: 1px 8px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-weight: normal;
+        }
+
+        .order-tab.active .tab-count {
+            background: #fff1f0;
+            color: #cf3024;
+        }
+
+        /* ============ Filter Bar ============ */
+        .filter-bar {
+            background: #fff;
+            padding: 20px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            color: #555;
+            white-space: nowrap;
+        }
+
+        .filter-input, .filter-select {
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #333;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .filter-input:focus, .filter-select:focus {
+            border-color: #cf3024;
+        }
+
+        .filter-input {
+            width: 180px;
+        }
+
+        .date-input {
+            width: 150px;
+        }
+
+        .date-separator {
+            color: #888;
+        }
+
+        /* ============ Buttons ============ */
+        .btn {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            font-family: inherit;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            color: #fff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #555;
+            border: 1px solid #ccc;
+        }
+
+        .btn-secondary:hover {
+            color: #cf3024;
+            border-color: #cf3024;
+        }
+
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 12px;
+        }
+
+        /* ============ Order Table ============ */
+        .order-table-wrap {
+            background: #fff;
+            border-radius: 0 0 8px 8px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #fafafa;
+            color: #666;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e8e8e8;
+            white-space: nowrap;
+        }
+
+        th.checkbox-col, td.checkbox-col {
+            width: 40px;
+            text-align: center;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            color: #333;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover td {
+            background: #fafafa;
+        }
+
+        .order-no {
+            color: #1890ff;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #f0f0f0, #e8e8e8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .product-name {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .buyer-info {
+            font-size: 13px;
+            color: #666;
+            font-family: Arial, sans-serif;
+        }
+
+        .amount {
+            font-weight: bold;
+            color: #cf3024;
+            font-size: 15px;
+        }
+
+        .order-time {
+            font-size: 12px;
+            color: #888;
+            font-family: Arial, sans-serif;
+        }
+
+        /* ============ Status Badges ============ */
+        .status-badge {
+            display: inline-block;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-weight: normal;
+        }
+
+        .status-green {
+            background: #f6ffed;
+            color: #52c41a;
+            border: 1px solid #b7eb8f;
+        }
+
+        .status-orange {
+            background: #fff7e6;
+            color: #fa8c16;
+            border: 1px solid #ffd591;
+        }
+
+        .status-red {
+            background: #fff1f0;
+            color: #f5222d;
+            border: 1px solid #ffa39e;
+        }
+
+        .status-blue {
+            background: #e6f4ff;
+            color: #1890ff;
+            border: 1px solid #91caff;
+        }
+
+        .status-gray {
+            background: #fafafa;
+            color: #888;
+            border: 1px solid #e8e8e8;
+        }
+
+        .table-action {
+            color: #1890ff;
+            cursor: pointer;
+            font-size: 13px;
+            margin-right: 8px;
+            display: inline-block;
+        }
+
+        .table-action:hover {
+            text-decoration: underline;
+        }
+
+        .table-action.danger {
+            color: #f5222d;
+        }
+
+        /* ============ Checkbox ============ */
+        .checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #cf3024;
+        }
+
+        /* ============ Pagination ============ */
+        .pagination {
+            background: #fff;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .pagination-info {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .pagination-pages {
+            display: flex;
+            gap: 6px;
+        }
+
+        .page-btn {
+            min-width: 32px;
+            height: 32px;
+            border: 1px solid #ccc;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            padding: 0 8px;
+        }
+
+        .page-btn:hover {
+            color: #cf3024;
+            border-color: #cf3024;
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .page-btn:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+            border-color: #eee;
+        }
+
+        .page-btn:disabled:hover {
+            color: #ccc;
+            border-color: #eee;
+        }
+
+        /* ============ Batch Operations Bar ============ */
+        .batch-bar {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 16px 24px;
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            position: sticky;
+            bottom: 16px;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .batch-bar.hidden {
+            display: none;
+        }
+
+        .batch-select-all {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .batch-info {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .batch-info strong {
+            color: #cf3024;
+        }
+
+        .batch-actions {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        /* ============ Footer ============ */
+        footer {
+            background: #fff;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+            padding: 30px 24px;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        .footer-bottom p:last-child {
+            margin-bottom: 0;
+            color: #666;
+        }
+
+        /* ============ Responsive ============ */
+        @media (max-width: 992px) {
+            .filter-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .filter-group {
+                width: 100%;
+            }
+            .filter-input, .date-input {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 12px 16px;
+                gap: 12px;
+            }
+            .seller-nav {
+                order: 3;
+                width: 100%;
+                gap: 16px;
+                overflow-x: auto;
+            }
+            .seller-nav a {
+                font-size: 15px;
+                padding: 8px 0;
+                white-space: nowrap;
+            }
+            .container {
+                padding: 16px;
+            }
+            table {
+                font-size: 12px;
+            }
+            th, td {
+                padding: 8px;
+            }
+            .product-thumb {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+            .batch-bar {
+                position: static;
+            }
+            .batch-actions {
+                margin-left: 0;
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            .pagination {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <div class="logo-mark">
+                    <a href="index.html"><span class="logo-xu">许</span><span class="logo-le">乐</span></a>
+                </div>
+                <span class="sub"><span class="sub-tag">商家后台</span></span>
+            </div>
+            <div class="seller-nav">
+                <a href="seller.html">工作台</a>
+                <a href="product-manage.html">商品管理</a>
+                <a href="product-upload.html">上传产品</a>
+                <a href="order-manage.html" class="active">订单管理</a>
+                <a href="brands.html#apply">品牌信息</a>
+            </div>
+            <div class="header-icons">
+                <span title="返回前台" onclick="window.location.href='index.html'">🏠</span>
+                <span title="消息通知">🔔</span>
+                <span title="账户设置">⚙️</span>
+                <span title="账户">👤</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">订单管理</h1>
+
+        <!-- 1. Order Status Tabs -->
+        <div class="order-tabs" id="orderTabs">
+            <div class="order-tab active" data-status="all">全部<span class="tab-count">45</span></div>
+            <div class="order-tab" data-status="pending-pay">待付款<span class="tab-count">3</span></div>
+            <div class="order-tab" data-status="pending-ship">待发货<span class="tab-count">12</span></div>
+            <div class="order-tab" data-status="shipped">已发货<span class="tab-count">20</span></div>
+            <div class="order-tab" data-status="signed">已签收<span class="tab-count">8</span></div>
+            <div class="order-tab" data-status="refunding">退款中<span class="tab-count">2</span></div>
+        </div>
+
+        <!-- 2. Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <span class="filter-label">日期范围：</span>
+                <input type="date" class="filter-input date-input" placeholder="开始日期">
+                <span class="date-separator">至</span>
+                <input type="date" class="filter-input date-input" placeholder="结束日期">
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">订单号：</span>
+                <input type="text" class="filter-input" placeholder="输入订单号搜索">
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">商品名称：</span>
+                <input type="text" class="filter-input" placeholder="输入商品名称搜索">
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">状态：</span>
+                <select class="filter-select">
+                    <option value="">全部状态</option>
+                    <option value="pending-pay">待付款</option>
+                    <option value="pending-ship">待发货</option>
+                    <option value="shipped">已发货</option>
+                    <option value="signed">已签收</option>
+                    <option value="refunding">退款中</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="searchOrders()">🔍 搜索</button>
+            <button class="btn btn-secondary" onclick="resetFilters()">重置</button>
+        </div>
+
+        <!-- 3. Order List Table -->
+        <div class="order-table-wrap">
+            <table id="orderTable">
+                <thead>
+                    <tr>
+                        <th class="checkbox-col"><input type="checkbox" class="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
+                        <th>订单号</th>
+                        <th>商品信息</th>
+                        <th>买家</th>
+                        <th>实付金额</th>
+                        <th>下单时间</th>
+                        <th>订单状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="orderBody">
+                    <tr data-status="pending-ship">
+                        <td class="checkbox-col"><input type="checkbox" class="checkbox row-check" onclick="updateBatchBar()"></td>
+                        <td class="order-no">XL20260928-001</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumb">👟</div>
+                                <div class="product-name">云踏轻量跑鞋 CT-R001<br><span style="color:#888;">黑色42码</span></div>
+                            </div>
+                        </td>
+                        <td class="buyer-info">用户18***52</td>
+                        <td class="amount">¥299</td>
+                        <td class="order-time">2026-09-28<br>14:23</td>
+                        <td><span class="status-badge status-orange">待发货</span></td>
+                        <td>
+                            <span class="table-action" onclick="shipOrder(this)">发货</span>
+                            <span class="table-action" onclick="viewDetail(this)">详情</span>
+                        </td>
+                    </tr>
+                    <tr data-status="pending-ship">
+                        <td class="checkbox-col"><input type="checkbox" class="checkbox row-check" onclick="updateBatchBar()"></td>
+                        <td class="order-no">XL20260928-002</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumb">👟</div>
+                                <div class="product-name">云踏休闲板鞋 CT-C003<br><span style="color:#888;">白色41码</span></div>
+                            </div>
+                        </td>
+                        <td class="buyer-info">用户13***88</td>
+                        <td class="amount">¥259</td>
+                        <td class="order-time">2026-09-28<br>13:15</td>
+                        <td><span class="status-badge status-orange">待发货</span></td>
+                        <td>
+                            <span class="table-action" onclick="shipOrder(this)">发货</span>
+                            <span class="table-action" onclick="viewDetail(this)">详情</span>
+                        </td>
+                    </tr>
+                    <tr data-status="shipped">
+                        <td class="checkbox-col"><input type="checkbox" class="checkbox row-check" onclick="updateBatchBar()"></td>
+                        <td class="order-no">XL20260927-008</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumb">👟</div>
+                                <div class="product-name">云踏轻量跑鞋 CT-R001<br><span style="color:#888;">灰蓝43码</span></div>
+                            </div>
+                        </td>
+                        <td class="buyer-info">用户15***63</td>
+                        <td class="amount">¥299</td>
+                        <td class="order-time">2026-09-27<br>20:30</td>
+                        <td><span class="status-badge status-blue">已发货</span></td>
+                        <td>
+                            <span class="table-action" onclick="viewLogistics(this)">查看物流</span>
+                            <span class="table-action" onclick="viewDetail(this)">详情</span>
+                        </td>
+                    </tr>
+                    <tr data-status="signed">
+                        <td class="checkbox-col"><input type="checkbox" class="checkbox row-check" onclick="updateBatchBar()"></td>
+                        <td class="order-no">XL20260927-006</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumb">🏀</div>
+                                <div class="product-name">云踏篮球鞋 CT-B002<br><span style="color:#888;">黑色44码</span></div>
+                            </div>
+                        </td>
+                        <td class="buyer-info">用户19***71</td>
+                        <td class="amount">¥459</td>
+                        <td class="order-time">2026-09-27<br>16:42</td>
+                        <td><span class="status-badge status-green">已签收</span></td>
+                        <td>
+                            <span class="table-action" onclick="viewReview(this)">评价</span>
+                            <span class="table-action" onclick="viewDetail(this)">详情</span>
+                        </td>
+                    </tr>
+                    <tr data-status="refunding">
+                        <td class="checkbox-col"><input type="checkbox" class="checkbox row-check" onclick="updateBatchBar()"></td>
+                        <td class="order-no">XL20260926-012</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumb">👟</div>
+                                <div class="product-name">云踏透气跑鞋 CT-R002<br><span style="color:#888;">白色40码</span></div>
+                            </div>
+                        </td>
+                        <td class="buyer-info">用户11***09</td>
+                        <td class="amount">¥329</td>
+                        <td class="order-time">2026-09-26<br>11:08</td>
+                        <td><span class="status-badge status-red">退款中</span></td>
+                        <td>
+                            <span class="table-action danger" onclick="handleRefund(this)">处理退款</span>
+                            <span class="table-action" onclick="viewDetail(this)">详情</span>
+                        </td>
+                    </tr>
+                    <tr data-status="signed">
+                        <td class="checkbox-col"><input type="checkbox" class="checkbox row-check" onclick="updateBatchBar()"></td>
+                        <td class="order-no">XL20260925-019</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumb">👟</div>
+                                <div class="product-name">云踏轻量跑鞋 CT-R001<br><span style="color:#888;">黑色42码</span></div>
+                            </div>
+                        </td>
+                        <td class="buyer-info">用户14***36</td>
+                        <td class="amount">¥299</td>
+                        <td class="order-time">2026-09-25<br>09:20</td>
+                        <td><span class="status-badge status-green">已签收</span></td>
+                        <td>
+                            <span class="table-action" onclick="viewReview(this)">评价</span>
+                            <span class="table-action" onclick="viewDetail(this)">详情</span>
+                        </td>
+                    </tr>
+                    <tr data-status="shipped">
+                        <td class="checkbox-col"><input type="checkbox" class="checkbox row-check" onclick="updateBatchBar()"></td>
+                        <td class="order-no">XL20260924-031</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumb">🥾</div>
+                                <div class="product-name">云踏户外鞋 CT-O001<br><span style="color:#888;">棕色42码</span></div>
+                            </div>
+                        </td>
+                        <td class="buyer-info">用户17***55</td>
+                        <td class="amount">¥399</td>
+                        <td class="order-time">2026-09-24<br>15:33</td>
+                        <td><span class="status-badge status-blue">已发货</span></td>
+                        <td>
+                            <span class="table-action" onclick="viewLogistics(this)">查看物流</span>
+                            <span class="table-action" onclick="viewDetail(this)">详情</span>
+                        </td>
+                    </tr>
+                    <tr data-status="pending-pay">
+                        <td class="checkbox-col"><input type="checkbox" class="checkbox row-check" onclick="updateBatchBar()"></td>
+                        <td class="order-no">XL20260924-025</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumb">👟</div>
+                                <div class="product-name">云踏休闲板鞋 CT-C003<br><span style="color:#888;">白色39码</span></div>
+                            </div>
+                        </td>
+                        <td class="buyer-info">用户12***47</td>
+                        <td class="amount">¥259</td>
+                        <td class="order-time">2026-09-24<br>10:15</td>
+                        <td><span class="status-badge status-gray">待付款</span></td>
+                        <td>
+                            <span class="table-action" onclick="remindPay(this)">催付</span>
+                            <span class="table-action" onclick="viewDetail(this)">详情</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 4. Pagination -->
+        <div class="pagination">
+            <div class="pagination-info">共 <strong style="color:#cf3024;">45</strong> 条记录，当前显示第 1-8 条</div>
+            <div class="pagination-pages">
+                <button class="page-btn" disabled>‹</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn" onclick="goToPage(2)">2</button>
+                <button class="page-btn" onclick="goToPage(3)">3</button>
+                <button class="page-btn" onclick="goToPage(4)">4</button>
+                <button class="page-btn" onclick="goToPage(5)">5</button>
+                <button class="page-btn" onclick="goToPage(2)">›</button>
+            </div>
+        </div>
+
+        <!-- 5. Batch Operations Bar -->
+        <div class="batch-bar" id="batchBar">
+            <label class="batch-select-all">
+                <input type="checkbox" class="checkbox" id="selectAllBottom" onclick="toggleSelectAll(this)">
+                全选
+            </label>
+            <span class="batch-info">已选 <strong id="selectedCount">0</strong> 项</span>
+            <div class="batch-actions">
+                <button class="btn btn-primary btn-sm" onclick="batchShip()">📦 批量发货</button>
+                <button class="btn btn-secondary btn-sm" onclick="batchExport()">📥 批量导出</button>
+                <button class="btn btn-secondary btn-sm" onclick="batchPrint">🖨️ 批量打印</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>©2026 许乐有限公司 版权所有 · xulove.com · 商家后台</p>
+            <p>商家服务热线：400-xxx-xxxx | 邮箱：seller@xulove.com</p>
+            <p>《许乐平台商家服务协议》｜《商家行为规范》｜《商品发布规范》</p>
+        </div>
+    </footer>
+
+    <script>
+        // ============ Tab Switching ============
+        const tabs = document.querySelectorAll('.order-tab');
+        const orderRows = document.querySelectorAll('#orderBody tr');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                const status = this.getAttribute('data-status');
+                filterOrders(status);
+            });
+        });
+
+        function filterOrders(status) {
+            orderRows.forEach(row => {
+                if (status === 'all' || row.getAttribute('data-status') === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // ============ Search ============
+        function searchOrders() {
+            const orderInput = document.querySelector('input[placeholder="输入订单号搜索"]').value;
+            const productInput = document.querySelector('input[placeholder="输入商品名称搜索"]').value;
+            const statusSelect = document.querySelector('.filter-select').value;
+            
+            orderRows.forEach(row => {
+                const orderNo = row.querySelector('.order-no').textContent.toLowerCase();
+                const productName = row.querySelector('.product-name').textContent.toLowerCase();
+                const rowStatus = row.getAttribute('data-status');
+                
+                const matchOrder = !orderInput || orderNo.includes(orderInput.toLowerCase());
+                const matchProduct = !productInput || productName.includes(productInput.toLowerCase());
+                const matchStatus = !statusSelect || rowStatus === statusSelect;
+                
+                if (matchOrder && matchProduct && matchStatus) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function resetFilters() {
+            document.querySelectorAll('.filter-input').forEach(input => input.value = '');
+            document.querySelector('.filter-select').value = '';
+            tabs.forEach(t => t.classList.remove('active'));
+            document.querySelector('.order-tab[data-status="all"]').classList.add('active');
+            filterOrders('all');
+        }
+
+        // ============ Select All ============
+        function toggleSelectAll(source) {
+            const checkboxes = document.querySelectorAll('.row-check');
+            const visibleRows = Array.from(checkboxes).filter(cb => cb.closest('tr').style.display !== 'none');
+            visibleRows.forEach(cb => {
+                cb.checked = source.checked;
+            });
+            // Sync both select-all checkboxes
+            document.getElementById('selectAll').checked = source.checked;
+            const bottomCheckbox = document.getElementById('selectAllBottom');
+            if (bottomCheckbox && bottomCheckbox !== source) {
+                bottomCheckbox.checked = source.checked;
+            }
+            updateBatchBar();
+        }
+
+        // ============ Batch Bar Update ============
+        function updateBatchBar() {
+            const checked = document.querySelectorAll('.row-check:checked');
+            document.getElementById('selectedCount').textContent = checked.length;
+            
+            // Update select-all checkbox state
+            const visibleCheckboxes = Array.from(document.querySelectorAll('.row-check')).filter(cb => cb.closest('tr').style.display !== 'none');
+            const allChecked = visibleCheckboxes.length > 0 && visibleCheckboxes.every(cb => cb.checked);
+            document.getElementById('selectAll').checked = allChecked;
+            document.getElementById('selectAllBottom').checked = allChecked;
+        }
+
+        // ============ Batch Operations ============
+        function batchShip() {
+            const checked = document.querySelectorAll('.row-check:checked');
+            if (checked.length === 0) {
+                alert('请先选择需要发货的订单');
+                return;
+            }
+            if (confirm('确认对选中的 ' + checked.length + ' 个订单进行批量发货操作？')) {
+                alert('批量发货成功！共处理 ' + checked.length + ' 个订单，物流单号将稍后生成。');
+            }
+        }
+
+        function batchExport() {
+            const checked = document.querySelectorAll('.row-check:checked');
+            if (checked.length === 0) {
+                alert('请先选择需要导出的订单');
+                return;
+            }
+            if (confirm('确认导出选中的 ' + checked.length + ' 个订单数据？')) {
+                alert('导出成功！订单数据已生成 Excel 文件。');
+            }
+        }
+
+        function batchPrint() {
+            const checked = document.querySelectorAll('.row-check:checked');
+            if (checked.length === 0) {
+                alert('请先选择需要打印的订单');
+                return;
+            }
+            if (confirm('确认打印选中的 ' + checked.length + ' 个订单的发货单？')) {
+                alert('正在生成打印预览，共 ' + checked.length + ' 份发货单...');
+            }
+        }
+
+        // ============ Single Order Actions ============
+        function shipOrder(element) {
+            const row = element.closest('tr');
+            const orderNo = row.querySelector('.order-no').textContent;
+            if (confirm('确认对订单 ' + orderNo + ' 进行发货操作？')) {
+                alert('发货成功！订单 ' + orderNo + ' 已标记为已发货状态。');
+                const statusCell = row.querySelector('.status-badge');
+                statusCell.className = 'status-badge status-blue';
+                statusCell.textContent = '已发货';
+                element.textContent = '查看物流';
+                element.setAttribute('onclick', 'viewLogistics(this)');
+                row.setAttribute('data-status', 'shipped');
+            }
+        }
+
+        function viewLogistics(element) {
+            const row = element.closest('tr');
+            const orderNo = row.querySelector('.order-no').textContent;
+            alert('订单 ' + orderNo + ' 物流信息：\n\n快递公司：顺丰速运\n运单号：SF' + Math.floor(Math.random() * 9000000000 + 1000000000) + '\n\n物流轨迹：\n2026-09-28 09:00 已揽收\n2026-09-28 14:00 运输中\n2026-09-29 08:00 到达转运中心');
+        }
+
+        function viewReview(element) {
+            const row = element.closest('tr');
+            const orderNo = row.querySelector('.order-no').textContent;
+            alert('订单 ' + orderNo + ' 评价详情：\n\n买家评分：⭐⭐⭐⭐⭐ (5.0)\n评价内容：鞋子很轻便，跑步很舒服，下次还来！\n评价时间：2026-09-28');
+        }
+
+        function handleRefund(element) {
+            const row = element.closest('tr');
+            const orderNo = row.querySelector('.order-no').textContent;
+            if (confirm('确认处理订单 ' + orderNo + ' 的退款申请？\n\n退款原因：商品尺寸不符\n退款金额：¥329')) {
+                const choice = confirm('点击"确定"同意退款，点击"取消"拒绝退款');
+                if (choice) {
+                    alert('退款已同意！订单 ' + orderNo + ' 退款金额 ¥329 将原路退回买家账户。');
+                } else {
+                    const reason = prompt('请输入拒绝退款的原因：');
+                    if (reason) {
+                        alert('退款已拒绝。原因：' + reason);
+                    }
+                }
+            }
+        }
+
+        function remindPay(element) {
+            const row = element.closest('tr');
+            const orderNo = row.querySelector('.order-no').textContent;
+            if (confirm('确认向订单 ' + orderNo + ' 的买家发送催付提醒？')) {
+                alert('催付提醒已发送！系统将通过短信和应用内消息通知买家。');
+            }
+        }
+
+        function viewDetail(element) {
+            const row = element.closest('tr');
+            const orderNo = row.querySelector('.order-no').textContent;
+            const product = row.querySelector('.product-name').innerHTML.replace('<br>', ' ');
+            const buyer = row.querySelector('.buyer-info').textContent;
+            const amount = row.querySelector('.amount').textContent;
+            const time = row.querySelector('.order-time').innerHTML.replace('<br>', ' ');
+            const status = row.querySelector('.status-badge').textContent;
+            alert('订单详情\n\n订单号：' + orderNo + '\n商品：' + product + '\n买家：' + buyer + '\n金额：' + amount + '\n下单时间：' + time + '\n状态：' + status);
+        }
+
+        // ============ Pagination ============
+        function goToPage(pageNum) {
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.disabled = false;
+            });
+            const pageButtons = document.querySelectorAll('.pagination-pages .page-btn');
+            pageButtons.forEach(btn => {
+                if (btn.textContent == pageNum) {
+                    btn.classList.add('active');
+                }
+            });
+            // Disable prev on page 1, next on last page
+            if (pageNum === 1) {
+                pageButtons[0].disabled = true;
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ============ Header Icons ============
+        document.querySelectorAll('.header-icons span').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const title = this.getAttribute('title');
+                if (title === '返回前台') {
+                    window.location.href = 'index.html';
+                } else if (title === '账户设置') {
+                    alert('账户设置功能开发中...');
+                } else if (title === '账户') {
+                    alert('请先登录');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

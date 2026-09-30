@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品管理 | 许乐商家后台 XULOVE</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft Yahei", Arial, sans-serif; }
+        body { background: #fafafa; color: #000; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        input, select, textarea, button { font-family: inherit; }
+
+        /* ============ 头部 ============ */
+        header { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 18px 40px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+        .header-top { display: flex; align-items: center; gap: 40px; max-width: 1280px; margin: 0 auto; }
+        .logo { display: flex; align-items: center; gap: 14px; }
+        .logo-mark {
+            display: inline-flex;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(207,48,36,0.18);
+        }
+        .logo-xu {
+            color: #fff;
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+            font-size: 30px; font-weight: 900;
+            padding: 8px 11px; line-height: 1;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .logo-le {
+            color: #fff;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            font-size: 30px; font-weight: 900;
+            padding: 8px 11px; line-height: 1;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .logo .sub { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #888; }
+        .logo .sub-tag { color: #659ee3; font-weight: 600; background: #eef4fb; padding: 3px 8px; border-radius: 3px; font-size: 12px; }
+
+        .seller-nav { display: flex; gap: 32px; font-size: 18px; font-weight: 500; }
+        .seller-nav a { color: #333; padding: 6px 2px; position: relative; transition: color .2s; }
+        .seller-nav a:hover { color: #cf3024; }
+        .seller-nav a.active { color: #cf3024; border-bottom: 2px solid #cf3024; }
+
+        .header-icons { margin-left: auto; display: flex; gap: 18px; font-size: 24px; cursor: pointer; }
+        .header-icons span { transition: transform .2s; }
+        .header-icons span:hover { transform: scale(1.12); }
+
+        /* ============ 主容器 ============ */
+        .page { max-width: 1280px; margin: 0 auto; padding: 24px 40px 60px; }
+
+        /* 页面标题 */
+        .page-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .page-head h1 { font-size: 28px; font-weight: 700; }
+        .page-head .crumb { font-size: 13px; color: #888; margin-top: 6px; }
+        .page-head .crumb a:hover { color: #cf3024; }
+
+        /* ============ 状态汇总条 ============ */
+        .status-bar {
+            display: flex;
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .status-tab {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 12px;
+            font-size: 15px;
+            color: #555;
+            cursor: pointer;
+            transition: all .2s;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+        .status-tab:hover { background: #fafafa; color: #cf3024; }
+        .status-tab.active {
+            color: #cf3024;
+            border-bottom-color: #cf3024;
+            background: #fff5f4;
+            font-weight: 700;
+        }
+        .status-tab .count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 22px;
+            height: 20px;
+            padding: 0 6px;
+            background: #f0f0f0;
+            color: #666;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-tab.active .count { background: #cf3024; color: #fff; }
+        .status-tab.warning .count { background: #fa8c16; color: #fff; }
+        .status-tab.off .count { background: #f5222d; color: #fff; }
+
+        /* ============ 筛选条 ============ */
+        .filter-bar {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-bar .form-input,
+        .filter-bar .form-select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+            background: #fff;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .filter-bar .form-input:focus,
+        .filter-bar .form-select:focus { border-color: #4a7eb8; }
+        .filter-bar .form-input { min-width: 220px; }
+        .filter-bar .form-select { min-width: 140px; }
+        .filter-bar label { font-size: 13px; color: #666; }
+        .filter-bar .btn-sm {
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all .2s;
+        }
+        .btn-sm.btn-search {
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            color: #fff;
+            font-weight: 600;
+        }
+        .btn-sm.btn-search:hover { box-shadow: 0 3px 8px rgba(207,48,36,0.3); }
+        .btn-sm.btn-reset { background: #fff; color: #666; border-color: #ccc; }
+        .btn-sm.btn-reset:hover { border-color: #4a7eb8; color: #4a7eb8; }
+
+        /* ============ 商品表格 ============ */
+        .table-wrap {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .batch-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 20px;
+            border-bottom: 1px solid #eee;
+            background: #fafafa;
+            font-size: 14px;
+            color: #555;
+            flex-wrap: wrap;
+        }
+        .batch-bar label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .batch-bar .batch-actions { display: flex; gap: 8px; }
+        .batch-bar .batch-btn {
+            padding: 6px 14px;
+            border: 1px solid #d9d9d9;
+            background: #fff;
+            border-radius: 3px;
+            font-size: 13px;
+            color: #555;
+            cursor: pointer;
+            transition: all .2s;
+        }
+        .batch-bar .batch-btn:hover { border-color: #4a7eb8; color: #4a7eb8; }
+        .batch-bar .batch-btn.danger:hover { border-color: #f5222d; color: #f5222d; }
+        .batch-bar .selected-count { color: #cf3024; font-weight: 600; }
+
+        table { width: 100%; border-collapse: collapse; }
+        thead th {
+            background: #fafafa;
+            color: #555;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 14px;
+            border-bottom: 1px solid #e8e8e8;
+            white-space: nowrap;
+        }
+        thead th:first-child { padding-left: 20px; width: 40px; }
+        thead th:last-child { padding-right: 20px; }
+        tbody td {
+            padding: 14px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            color: #333;
+            vertical-align: middle;
+        }
+        tbody td:first-child { padding-left: 20px; }
+        tbody td:last-child { padding-right: 20px; }
+        tbody tr { transition: background .15s; }
+        tbody tr:hover { background: #fafafa; }
+        tbody tr:last-child td { border-bottom: none; }
+
+        /* 商品图片 */
+        .prod-img {
+            width: 56px; height: 56px;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: #f5f5f5;
+            color: #bfbfbf;
+            flex-shrink: 0;
+        }
+        .prod-img.c1 { background: linear-gradient(135deg, #d6e8ff 0%, #a8c8eb 100%); }
+        .prod-img.c2 { background: linear-gradient(135deg, #ffd6d6 0%, #e8a8a8 100%); }
+        .prod-img.c3 { background: linear-gradient(135deg, #d6f5d6 0%, #a8e0a8 100%); }
+        .prod-img.c4 { background: linear-gradient(135deg, #fff5d6 0%, #e8d8a8 100%); }
+        .prod-img.c5 { background: linear-gradient(135deg, #e8d6ff 0%, #b8a0e0 100%); }
+
+        .prod-name { font-weight: 600; color: #000; margin-bottom: 2px; }
+        .prod-model { font-size: 12px; color: #888; }
+
+        /* 价格、库存、销量 */
+        .price { color: #cf3024; font-weight: 700; font-size: 15px; }
+        .stock-warn { color: #f5222d; font-weight: 600; }
+        .stock-zero { color: #bfbfbf; }
+
+        /* 状态徽章 */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.5;
+            white-space: nowrap;
+        }
+        .badge-green { background: #52c41a; }
+        .badge-orange { background: #fa8c16; }
+        .badge-red { background: #f5222d; }
+        .badge-blue { background: #4a7eb8; }
+        .badge-gray { background: #bfbfbf; }
+
+        /* 平台监管列 */
+        .supervision { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+        .supervision .sup-icon { font-size: 14px; }
+        .supervision.normal { color: #52c41a; }
+        .supervision.warn { color: #fa8c16; }
+        .supervision.review { color: #4a7eb8; }
+        .supervision.off { color: #f5222d; }
+        .supervision.violation { color: #f5222d; font-weight: 600; }
+        .supervision.none { color: #bfbfbf; }
+        .supervision .sup-reason {
+            display: block;
+            font-size: 11px;
+            color: #888;
+            margin-top: 2px;
+        }
+        .supervision .tooltip {
+            position: relative;
+            cursor: help;
+        }
+        .supervision .tooltip:hover::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 3px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        /* 操作按钮 */
+        .row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .row-actions .act-btn {
+            padding: 4px 10px;
+            border: 1px solid #d9d9d9;
+            background: #fff;
+            border-radius: 3px;
+            font-size: 12px;
+            color: #555;
+            cursor: pointer;
+            transition: all .2s;
+        }
+        .row-actions .act-btn:hover { border-color: #4a7eb8; color: #4a7eb8; }
+        .row-actions .act-btn.edit:hover { border-color: #4a7eb8; color: #4a7eb8; }
+        .row-actions .act-btn.off:hover { border-color: #fa8c16; color: #fa8c16; }
+        .row-actions .act-btn.del:hover { border-color: #f5222d; color: #f5222d; }
+        .row-actions .act-btn.view:hover { border-color: #4a7eb8; color: #4a7eb8; }
+
+        /* ============ 分页 ============ */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: #fff;
+            border-top: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .pagination .page-info { font-size: 13px; color: #888; }
+        .pagination .page-numbers { display: flex; gap: 6px; }
+        .pagination .page-num {
+            min-width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+            background: #fff;
+            transition: all .2s;
+        }
+        .pagination .page-num:hover { border-color: #cf3024; color: #cf3024; }
+        .pagination .page-num.active {
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            color: #fff;
+            border-color: transparent;
+            font-weight: 700;
+        }
+
+        /* ============ 右上角按钮 ============ */
+        .btn-upload {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            color: #fff;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(207,48,36,0.28);
+            transition: all .2s;
+        }
+        .btn-upload:hover { box-shadow: 0 5px 14px rgba(207,48,36,0.4); transform: translateY(-1px); }
+
+        /* ============ 页脚 ============ */
+        footer { background: #fff; border-top: 1px solid #eee; padding: 32px 40px; margin-top: 40px; }
+        .footer-bottom { border-top: 1px solid #ddd; padding-top: 20px; font-size: 13px; line-height: 2; color: #555; text-align: center; }
+        .footer-bottom a:hover { color: #cf3024; }
+
+        /* ============ 响应式 ============ */
+        @media (max-width: 768px) {
+            .header-top { flex-wrap: wrap; gap: 16px; }
+            .seller-nav { order: 3; width: 100%; overflow-x: auto; gap: 20px; font-size: 16px; }
+            .header-icons { margin-left: 0; }
+            .page { padding: 20px 16px 40px; }
+            .page-head { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .status-bar { flex-direction: column; }
+            .status-tab { border-bottom: 1px solid #eee; border-left: 3px solid transparent; }
+            .status-tab.active { border-bottom-color: #eee; border-left-color: #cf3024; }
+            .filter-bar { flex-direction: column; align-items: stretch; }
+            .filter-bar .form-input, .filter-bar .form-select { width: 100%; min-width: 0; }
+            .table-wrap { overflow-x: auto; }
+            table { min-width: 900px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-top">
+        <div class="logo">
+            <div class="logo-mark">
+                <a href="index.html"><span class="logo-xu">许</span><span class="logo-le">乐</span></a>
+            </div>
+            <span class="sub"><span class="sub-tag">商家后台</span></span>
+        </div>
+        <div class="seller-nav">
+            <a href="seller.html">工作台</a>
+            <a href="product-manage.html" class="active">商品管理</a>
+            <a href="product-upload.html">上传产品</a>
+            <a href="order-manage.html">订单管理</a>
+            <a href="brands.html#apply">品牌信息</a>
+        </div>
+        <div class="header-icons">
+            <span title="返回前台">🏠</span>
+            <span title="消息通知">🔔</span>
+            <span title="账户设置">⚙️</span>
+        </div>
+    </div>
+</header>
+
+<div class="page">
+    <div class="page-head">
+        <div>
+            <h1>商品管理</h1>
+            <div class="crumb"><a href="seller.html">商家工作台</a> / 商品管理</div>
+        </div>
+        <a href="product-upload.html" class="btn-upload">＋ 上传新产品</a>
+    </div>
+
+    <!-- 状态汇总条 -->
+    <div class="status-bar">
+        <div class="status-tab active" data-status="all">全部 <span class="count">34</span></div>
+        <div class="status-tab" data-status="onsale">在售 <span class="count">28</span></div>
+        <div class="status-tab" data-status="pending">待审核 <span class="count">2</span></div>
+        <div class="status-tab warning" data-status="warning">预警 <span class="count">1</span></div>
+        <div class="status-tab off" data-status="offshelf">平台下架 <span class="count">0</span></div>
+        <div class="status-tab" data-status="draft">草稿 <span class="count">3</span></div>
+    </div>
+
+    <!-- 筛选条 -->
+    <div class="filter-bar">
+        <input type="text" class="form-input" placeholder="搜索商品名称">
+        <select class="form-select">
+            <option>全部分类</option>
+            <option>鞋履</option>
+            <option>服饰</option>
+            <option>箱包</option>
+            <option>饰品</option>
+            <option>运动装备</option>
+        </select>
+        <select class="form-select">
+            <option>全部状态</option>
+            <option>在售</option>
+            <option>待审核</option>
+            <option>预警</option>
+            <option>平台下架</option>
+            <option>草稿</option>
+        </select>
+        <label>更新时间</label>
+        <input type="date" class="form-input" style="min-width:auto">
+        <span style="color:#ccc">至</span>
+        <input type="date" class="form-input" style="min-width:auto">
+        <button class="btn-sm btn-search">🔍 搜索</button>
+        <button class="btn-sm btn-reset">重置</button>
+    </div>
+
+    <!-- 表格 -->
+    <div class="table-wrap">
+        <div class="batch-bar">
+            <label><input type="checkbox" id="selectAll"> 全选</label>
+            <span>已选 <span class="selected-count" id="selectedCount">0</span> 项</span>
+            <div class="batch-actions">
+                <button class="batch-btn">批量下架</button>
+                <button class="batch-btn danger">批量删除</button>
+                <button class="batch-btn">批量导出</button>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>商品图片</th>
+                    <th>商品名称/型号</th>
+                    <th>分类</th>
+                    <th>售价</th>
+                    <th>库存</th>
+                    <th>销量</th>
+                    <th>状态</th>
+                    <th>平台监管</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" class="row-check"></td>
+                    <td><div class="prod-img c1">👟</div></td>
+                    <td><div class="prod-name">云踏轻量跑鞋</div><div class="prod-model">CT-R001</div></td>
+                    <td>鞋履&gt;跑步鞋</td>
+                    <td><span class="price">¥299</span></td>
+                    <td>580</td>
+                    <td>126</td>
+                    <td><span class="badge badge-green">在售</span></td>
+                    <td><div class="supervision normal"><span class="sup-icon">✅</span>正常</div></td>
+                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="row-check"></td>
+                    <td><div class="prod-img c2">👟</div></td>
+                    <td><div class="prod-name">云踏休闲板鞋</div><div class="prod-model">CT-C003</div></td>
+                    <td>鞋履&gt;休闲鞋</td>
+                    <td><span class="price">¥259</span></td>
+                    <td>320</td>
+                    <td>89</td>
+                    <td><span class="badge badge-green">在售</span></td>
+                    <td><div class="supervision normal"><span class="sup-icon">✅</span>正常</div></td>
+                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="row-check"></td>
+                    <td><div class="prod-img c3">🏀</div></td>
+                    <td><div class="prod-name">云踏篮球鞋</div><div class="prod-model">CT-B002</div></td>
+                    <td>鞋履&gt;篮球鞋</td>
+                    <td><span class="price">¥459</span></td>
+                    <td>150</td>
+                    <td>45</td>
+                    <td><span class="badge badge-green">在售</span></td>
+                    <td><div class="supervision normal"><span class="sup-icon">✅</span>正常</div></td>
+                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="row-check"></td>
+                    <td><div class="prod-img c4">👟</div></td>
+                    <td><div class="prod-name">云踏透气跑鞋</div><div class="prod-model">CT-R002</div></td>
+                    <td>鞋履&gt;跑步鞋</td>
+                    <td><span class="price">¥329</span></td>
+                    <td>280</td>
+                    <td>67</td>
+                    <td><span class="badge badge-green">在售</span></td>
+                    <td><div class="supervision warn"><span class="sup-icon tooltip" data-tip="图片不清晰，3天内修改">⚠️</span>图片预警</div></td>
+                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="row-check"></td>
+                    <td><div class="prod-img c5">🥾</div></td>
+                    <td><div class="prod-name">云踏户外鞋</div><div class="prod-model">CT-O001</div></td>
+                    <td>鞋履&gt;户外鞋</td>
+                    <td><span class="price">¥399</span></td>
+                    <td>90</td>
+                    <td>23</td>
+                    <td><span class="badge badge-green">在售</span></td>
+                    <td><div class="supervision normal"><span class="sup-icon">✅</span>正常</div></td>
+                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="row-check"></td>
+                    <td><div class="prod-img c1">👟</div></td>
+                    <td><div class="prod-name">云踏复古板鞋</div><div class="prod-model">CT-C005</div></td>
+                    <td>鞋履&gt;休闲鞋</td>
+                    <td><span class="price">¥279</span></td>
+                    <td class="stock-zero">0</td>
+                    <td>0</td>
+                    <td><span class="badge badge-orange">待审核</span></td>
+                    <td><div class="supervision review"><span class="sup-icon">⏳</span>审核中</div></td>
+                    <td><div class="row-actions"><button class="act-btn view">查看</button></div></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="row-check"></td>
+                    <td><div class="prod-img c3">👟</div></td>
+                    <td><div class="prod-name">云踏训练鞋</div><div class="prod-model">CT-T001</div></td>
+                    <td>鞋履&gt;训练鞋</td>
+                    <td><span class="price">¥349</span></td>
+                    <td class="stock-zero">0</td>
+                    <td>0</td>
+                    <td><span class="badge badge-orange">待审核</span></td>
+                    <td><div class="supervision review"><span class="sup-icon">⏳</span>审核中</div></td>
+                    <td><div class="row-actions"><button class="act-btn view">查看</button></div></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="row-check"></td>
+                    <td><div class="prod-img c4">🩴</div></td>
+                    <td><div class="prod-name">云踏凉鞋</div><div class="prod-model">CT-S001</div></td>
+                    <td>鞋履&gt;凉鞋</td>
+                    <td><span class="price">¥199</span></td>
+                    <td>120</td>
+                    <td>15</td>
+                    <td><span class="badge badge-gray">草稿</span></td>
+                    <td><div class="supervision none">-</div></td>
+                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn del">删除</button></div></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="row-check"></td>
+                    <td><div class="prod-img c5">🥾</div></td>
+                    <td><div class="prod-name">云踏棉鞋</div><div class="prod-model">CT-W001</div></td>
+                    <td>鞋履&gt;棉鞋</td>
+                    <td><span class="price">¥329</span></td>
+                    <td>60</td>
+                    <td>0</td>
+                    <td><span class="badge badge-gray">草稿</span></td>
+                    <td><div class="supervision none">-</div></td>
+                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn del">删除</button></div></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="row-check"></td>
+                    <td><div class="prod-img c2">🩴</div></td>
+                    <td><div class="prod-name">云踏拖鞋</div><div class="prod-model">CT-F001</div></td>
+                    <td>鞋履&gt;拖鞋</td>
+                    <td><span class="price">¥99</span></td>
+                    <td>200</td>
+                    <td>8</td>
+                    <td><span class="badge badge-green">在售</span></td>
+                    <td><div class="supervision normal"><span class="sup-icon">✅</span>正常</div></td>
+                    <td><div class="row-actions"><button class="act-btn edit">编辑</button><button class="act-btn off">下架</button><button class="act-btn del">删除</button></div></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 分页 -->
+        <div class="pagination">
+            <div class="page-info">共 34 条 · 每页 10 条</div>
+            <div class="page-numbers">
+                <span class="page-num">‹</span>
+                <span class="page-num active">1</span>
+                <span class="page-num">2</span>
+                <span class="page-num">3</span>
+                <span class="page-num">4</span>
+                <span class="page-num">›</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-bottom">
+        <p>©2026 许乐有限公司 版权所有 · xulove.com · 商家后台</p>
+        <p>商家服务热线：400-xxx-xxxx | 邮箱：seller@xulove.com</p>
+        <p>《许乐平台商家服务协议》｜《商家行为规范》｜《商品发布规范》</p>
+    </div>
+</footer>
+
+<script>
+    // 状态 Tab 切换
+    document.querySelectorAll('.status-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.status-tab').forEach(function(t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+            // 演示：根据状态过滤行
+            var status = tab.getAttribute('data-status');
+            var rows = document.querySelectorAll('tbody tr');
+            rows.forEach(function(row) {
+                var badge = row.querySelector('.badge');
+                if (!badge) { row.style.display = ''; return; }
+                var text = badge.textContent.trim();
+                var show = false;
+                if (status === 'all') { show = true; }
+                else if (status === 'onsale') { show = text === '在售'; }
+                else if (status === 'pending') { show = text === '待审核'; }
+                else if (status === 'warning') {
+                    var sup = row.querySelector('.supervision');
+                    show = sup && sup.classList.contains('warn');
+                }
+                else if (status === 'offshelf') { show = text === '平台下架'; }
+                else if (status === 'draft') { show = text === '草稿'; }
+                row.style.display = show ? '' : 'none';
+            });
+        });
+    });
+
+    // 全选 / 反选
+    var selectAll = document.getElementById('selectAll');
+    var rowChecks = document.querySelectorAll('.row-check');
+    var selectedCount = document.getElementById('selectedCount');
+
+    function updateSelectedCount() {
+        var n = 0;
+        rowChecks.forEach(function(c) { if (c.checked) n++; });
+        selectedCount.textContent = n;
+    }
+
+    selectAll.addEventListener('change', function() {
+        rowChecks.forEach(function(c) {
+            // 只勾选可见行
+            if (c.closest('tr').style.display !== 'none') {
+                c.checked = selectAll.checked;
+            }
+        });
+        updateSelectedCount();
+    });
+
+    rowChecks.forEach(function(c) {
+        c.addEventListener('change', updateSelectedCount);
+    });
+
+    // 行点击高亮
+    rowChecks.forEach(function(c) {
+        c.addEventListener('click', function(e) { e.stopPropagation(); });
+    });
+
+    // 分页点击
+    document.querySelectorAll('.page-num').forEach(function(pg) {
+        pg.addEventListener('click', function() {
+            if (pg.textContent === '‹' || pg.textContent === '›') return;
+            document.querySelectorAll('.page-num').forEach(function(p) { p.classList.remove('active'); });
+            pg.classList.add('active');
+        });
+    });
+
+    // 表格行 hover 效果由 CSS 处理，这里补充点击行勾选
+    document.querySelectorAll('tbody tr').forEach(function(row) {
+        row.addEventListener('click', function(e) {
+            // 避免点击操作按钮时触发
+            if (e.target.closest('.row-actions') || e.target.tagName === 'INPUT') return;
+            var cb = row.querySelector('.row-check');
+            if (cb) { cb.checked = !cb.checked; updateSelectedCount(); }
+        });
+    });
+
+    // 操作按钮提示
+    document.querySelectorAll('.act-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var action = btn.textContent.trim();
+            var row = btn.closest('tr');
+            var name = row.querySelector('.prod-name').textContent;
+            if (action === '删除') {
+                if (confirm('确认删除商品「' + name + '」？此操作不可恢复。')) {
+                    row.style.opacity = '0.4';
+                }
+            } else if (action === '下架') {
+                if (confirm('确认下架商品「' + name + '」？下架后商品将不在前台展示。')) {
+                    var badge = row.querySelector('.badge');
+                    if (badge) {
+                        badge.className = 'badge badge-gray';
+                        badge.textContent = '已下架';
+                    }
+                }
+            } else if (action === '编辑') {
+                window.location.href = 'product-upload.html';
+            } else if (action === '查看') {
+                alert('商品「' + name + '」正在审核中，预计2个工作日内出结果。');
+            }
+        });
+    });
+
+    // 批量按钮
+    document.querySelectorAll('.batch-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var action = btn.textContent.trim();
+            var n = parseInt(selectedCount.textContent, 10);
+            if (n === 0) {
+                alert('请先勾选要操作的商品');
+                return;
+            }
+            if (action.indexOf('删除') !== -1) {
+                if (!confirm('确认批量删除 ' + n + ' 个商品？此操作不可恢复。')) return;
+                rowChecks.forEach(function(c) {
+                    if (c.checked) c.closest('tr').style.opacity = '0.4';
+                });
+            } else {
+                alert('已对 ' + n + ' 个商品执行「' + action + '」操作');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

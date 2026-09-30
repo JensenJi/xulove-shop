@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家工作台 - 许乐平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft Yahei", Arial, sans-serif;
+            background: #fafafa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ============ Header ============ */
+        header {
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+        }
+
+        .header-top {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-mark a {
+            display: flex;
+            gap: 4px;
+        }
+
+        .logo-xu, .logo-le {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 6px;
+        }
+
+        .logo-xu {
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+        }
+
+        .logo-le {
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+        }
+
+        .sub-tag {
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: 10px;
+        }
+
+        .seller-nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        .seller-nav a {
+            font-size: 18px;
+            color: #555;
+            padding: 22px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .seller-nav a:hover {
+            color: #cf3024;
+        }
+
+        .seller-nav a.active {
+            color: #cf3024;
+            border-bottom: 2px solid #cf3024;
+            font-weight: bold;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            font-size: 20px;
+        }
+
+        .header-icons span {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .header-icons span:hover {
+            transform: scale(1.2);
+        }
+
+        /* ============ Main Container ============ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* ============ Welcome Bar ============ */
+        .welcome-bar {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+        }
+
+        .welcome-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .welcome-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .badges {
+            display: flex;
+            gap: 10px;
+        }
+
+        .badge {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .badge-green {
+            background: #f6ffed;
+            color: #52c41a;
+            border: 1px solid #b7eb8f;
+        }
+
+        .badge-gold {
+            background: #fffbe6;
+            color: #b8860b;
+            border: 1px solid #ffe58f;
+        }
+
+        .welcome-date {
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* ============ Stats Overview ============ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.red {
+            background: #fff1f0;
+            color: #cf3024;
+        }
+
+        .stat-icon.blue {
+            background: #e6f4ff;
+            color: #1890ff;
+        }
+
+        .stat-icon.green {
+            background: #f6ffed;
+            color: #52c41a;
+        }
+
+        .stat-icon.gold {
+            background: #fffbe6;
+            color: #b8860b;
+        }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .stat-trend {
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .trend-up {
+            color: #52c41a;
+        }
+
+        .trend-warn {
+            color: #fa8c16;
+        }
+
+        .trend-info {
+            color: #1890ff;
+        }
+
+        /* ============ Section Title ============ */
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            border-radius: 2px;
+        }
+
+        /* ============ Supervision Panel ============ */
+        .supervision-panel {
+            background: #fff1f0;
+            border-left: 4px solid #cf3024;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .supervision-panel .section-title {
+            color: #cf3024;
+            margin-bottom: 16px;
+        }
+
+        .supervision-panel .section-title::before {
+            background: #cf3024;
+        }
+
+        .supervision-list {
+            list-style: none;
+        }
+
+        .supervision-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #ffccc7;
+            font-size: 14px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .supervision-list li:last-child {
+            border-bottom: none;
+        }
+
+        .supervision-list .item-desc {
+            flex: 1;
+        }
+
+        .supervision-list .item-tag {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .tag-pass {
+            background: #f6ffed;
+            color: #52c41a;
+        }
+
+        .tag-warn {
+            background: #fffbe6;
+            color: #fa8c16;
+        }
+
+        .tag-ok {
+            background: #e6f4ff;
+            color: #1890ff;
+        }
+
+        /* ============ Quick Actions ============ */
+        .quick-actions {
+            margin-bottom: 24px;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .quick-btn {
+            background: #fff;
+            border-radius: 8px;
+            padding: 28px 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            min-height: 120px;
+            justify-content: center;
+        }
+
+        .quick-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            border: 1px solid #e84a3e;
+        }
+
+        .quick-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .quick-icon.red {
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+        }
+
+        .quick-icon.blue {
+            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
+        }
+
+        .quick-icon.green {
+            background: linear-gradient(135deg, #73d13d 0%, #389e0d 100%);
+        }
+
+        .quick-icon.gold {
+            background: linear-gradient(135deg, #ffc53d 0%, #b8860b 100%);
+        }
+
+        .quick-text {
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* ============ Panel Layout ============ */
+        .panel-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .panel {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .panel-header h3 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .panel-link {
+            font-size: 13px;
+            color: #1890ff;
+        }
+
+        .panel-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ============ Table ============ */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #fafafa;
+            color: #666;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            color: #333;
+        }
+
+        tr:hover td {
+            background: #fafafa;
+        }
+
+        .order-no {
+            color: #1890ff;
+            font-family: Arial, sans-serif;
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-weight: normal;
+        }
+
+        .status-green {
+            background: #f6ffed;
+            color: #52c41a;
+            border: 1px solid #b7eb8f;
+        }
+
+        .status-orange {
+            background: #fff7e6;
+            color: #fa8c16;
+            border: 1px solid #ffd591;
+        }
+
+        .status-red {
+            background: #fff1f0;
+            color: #f5222d;
+            border: 1px solid #ffa39e;
+        }
+
+        .status-blue {
+            background: #e6f4ff;
+            color: #1890ff;
+            border: 1px solid #91caff;
+        }
+
+        .status-gray {
+            background: #fafafa;
+            color: #888;
+            border: 1px solid #e8e8e8;
+        }
+
+        .table-action {
+            color: #1890ff;
+            cursor: pointer;
+            font-size: 13px;
+            margin-right: 8px;
+        }
+
+        .table-action:hover {
+            text-decoration: underline;
+        }
+
+        /* ============ Product Status Bar ============ */
+        .status-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .status-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-bar-label {
+            width: 90px;
+            font-size: 13px;
+            color: #555;
+            text-align: right;
+        }
+
+        .status-bar-track {
+            flex: 1;
+            height: 24px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .status-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+            transition: width 0.6s ease;
+        }
+
+        .fill-green { background: #52c41a; }
+        .fill-orange { background: #fa8c16; }
+        .fill-yellow { background: #fadb14; color: #555; }
+        .fill-red { background: #f5222d; }
+        .fill-gray { background: #bbb; }
+
+        .status-bar-count {
+            width: 40px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* ============ Announcements ============ */
+        .announcement-list {
+            list-style: none;
+        }
+
+        .announcement-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .announcement-list li:last-child {
+            border-bottom: none;
+        }
+
+        .announcement-date {
+            font-size: 12px;
+            color: #888;
+            background: #fafafa;
+            padding: 2px 8px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .announcement-text {
+            font-size: 14px;
+            color: #333;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .announcement-text:hover {
+            color: #cf3024;
+        }
+
+        .announcement-new {
+            font-size: 10px;
+            color: #fff;
+            background: #f5222d;
+            padding: 1px 5px;
+            border-radius: 3px;
+        }
+
+        /* ============ Settlement ============ */
+        .settlement-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .settlement-item {
+            text-align: center;
+            padding: 16px;
+            background: #fafafa;
+            border-radius: 6px;
+        }
+
+        .settlement-label {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .settlement-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .settlement-value.red {
+            color: #cf3024;
+        }
+
+        .settlement-value.green {
+            color: #52c41a;
+        }
+
+        .settlement-value.blue {
+            color: #1890ff;
+        }
+
+        .settlement-note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* ============ Footer ============ */
+        footer {
+            background: #fff;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+            padding: 30px 24px;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        .footer-bottom p:last-child {
+            margin-bottom: 0;
+            color: #666;
+        }
+
+        /* ============ Buttons ============ */
+        .btn {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
+            color: #fff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #555;
+            border: 1px solid #ccc;
+        }
+
+        .btn-secondary:hover {
+            color: #cf3024;
+            border-color: #cf3024;
+        }
+
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 12px;
+        }
+
+        /* ============ Responsive ============ */
+        @media (max-width: 992px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .quick-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .panel-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 12px 16px;
+                gap: 12px;
+            }
+            .seller-nav {
+                order: 3;
+                width: 100%;
+                gap: 16px;
+                overflow-x: auto;
+            }
+            .seller-nav a {
+                font-size: 15px;
+                padding: 8px 0;
+                white-space: nowrap;
+            }
+            .container {
+                padding: 16px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .quick-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .welcome-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .welcome-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .settlement-grid {
+                grid-template-columns: 1fr;
+            }
+            table {
+                font-size: 12px;
+            }
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <div class="logo-mark">
+                    <a href="index.html"><span class="logo-xu">许</span><span class="logo-le">乐</span></a>
+                </div>
+                <span class="sub"><span class="sub-tag">商家后台</span></span>
+            </div>
+            <div class="seller-nav">
+                <a href="seller.html" class="active">工作台</a>
+                <a href="product-manage.html">商品管理</a>
+                <a href="product-upload.html">上传产品</a>
+                <a href="order-manage.html">订单管理</a>
+                <a href="brands.html#apply">品牌信息</a>
+            </div>
+            <div class="header-icons">
+                <span title="返回前台" onclick="window.location.href='index.html'">🏠</span>
+                <span title="消息通知">🔔</span>
+                <span title="账户设置">⚙️</span>
+                <span title="账户">👤</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 1. Welcome Bar -->
+        <div class="welcome-bar">
+            <div class="welcome-left">
+                <div class="welcome-title">欢迎回来，云踏科技</div>
+                <div class="badges">
+                    <span class="badge badge-green">正常经营</span>
+                    <span class="badge badge-gold">B级品牌</span>
+                </div>
+            </div>
+            <div class="welcome-date">今天是 2026年09月30日 星期三</div>
+        </div>
+
+        <!-- 2. Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon red">📦</div>
+                <div class="stat-info">
+                    <div class="stat-number">28<span style="font-size:14px;color:#888;font-weight:normal;"> 款</span></div>
+                    <div class="stat-label">在售商品</div>
+                    <div class="stat-trend trend-up">↑ +3 本周新增</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">🚚</div>
+                <div class="stat-info">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">待发货订单</div>
+                    <div class="stat-trend trend-warn">需及时处理</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">💰</div>
+                <div class="stat-info">
+                    <div class="stat-number">¥48,650</div>
+                    <div class="stat-label">本月销售额</div>
+                    <div class="stat-trend trend-up">↑ +12% vs 上月</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon gold">⭐</div>
+                <div class="stat-info">
+                    <div class="stat-number">4.8<span style="font-size:14px;color:#888;font-weight:normal;">/5.0</span></div>
+                    <div class="stat-label">品质评分</div>
+                    <div class="stat-trend trend-info">平台行业均值 4.5</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Platform Supervision Panel -->
+        <div class="supervision-panel">
+            <div class="section-title">平台监管动态</div>
+            <ul class="supervision-list">
+                <li>
+                    <span>⚠️</span>
+                    <span class="item-desc"><strong>1件商品被平台预警：</strong>"云踏透气跑鞋 CT-R002" - 图片不清晰，请在3天内修改</span>
+                    <span class="item-tag tag-warn">待处理</span>
+                </li>
+                <li>
+                    <span>🔴</span>
+                    <span class="item-desc"><strong>0件商品被平台下架</strong></span>
+                    <span class="item-tag tag-ok">正常</span>
+                </li>
+                <li>
+                    <span>✅</span>
+                    <span class="item-desc"><strong>最近一次品控审核：</strong>2026-09-15 通过</span>
+                    <span class="item-tag tag-pass">已通过</span>
+                </li>
+                <li>
+                    <span>📋</span>
+                    <span class="item-desc"><strong>品质合规率：</strong>96.4% <span style="color:#888;">(要求 ≥95%)</span></span>
+                    <span class="item-tag tag-pass">达标</span>
+                </li>
+                <li>
+                    <span>⏰</span>
+                    <span class="item-desc"><strong>下次定期复查：</strong>2026-10-15</span>
+                    <span class="item-tag tag-warn">15天后</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 4. Quick Actions -->
+        <div class="quick-actions">
+            <div class="section-title">快捷操作</div>
+            <div class="quick-grid">
+                <a href="product-upload.html" class="quick-btn">
+                    <div class="quick-icon red">➕</div>
+                    <div class="quick-text">上传新产品</div>
+                </a>
+                <a href="product-manage.html" class="quick-btn">
+                    <div class="quick-icon blue">📋</div>
+                    <div class="quick-text">管理商品</div>
+                </a>
+                <a href="order-manage.html" class="quick-btn">
+                    <div class="quick-icon green">📦</div>
+                    <div class="quick-text">处理订单</div>
+                </a>
+                <a href="brand-detail.html" class="quick-btn">
+                    <div class="quick-icon gold">🏷️</div>
+                    <div class="quick-text">查看品牌主页</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- 5 & 6. Recent Orders + Product Status Summary -->
+        <div class="panel-row">
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>最新订单</h3>
+                    <a href="order-manage.html" class="panel-link">查看全部 →</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>商品</th>
+                            <th>买家</th>
+                            <th>金额</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="order-no">XL20260929-003</td>
+                            <td>云踏轻量跑鞋 CT-R001</td>
+                            <td>用户18***52</td>
+                            <td>¥299</td>
+                            <td><span class="status-badge status-orange">待发货</span></td>
+                            <td><span class="table-action">发货</span></td>
+                        </tr>
+                        <tr>
+                            <td class="order-no">XL20260928-007</td>
+                            <td>云踏篮球鞋 CT-B002</td>
+                            <td>用户13***88</td>
+                            <td>¥459</td>
+                            <td><span class="status-badge status-blue">已发货</span></td>
+                            <td><span class="table-action">查看物流</span></td>
+                        </tr>
+                        <tr>
+                            <td class="order-no">XL20260927-012</td>
+                            <td>云踏休闲板鞋 CT-C003</td>
+                            <td>用户15***63</td>
+                            <td>¥259</td>
+                            <td><span class="status-badge status-green">已完成</span></td>
+                            <td><span class="table-action">评价</span></td>
+                        </tr>
+                        <tr>
+                            <td class="order-no">XL20260926-019</td>
+                            <td>云踏透气跑鞋 CT-R002</td>
+                            <td>用户19***71</td>
+                            <td>¥329</td>
+                            <td><span class="status-badge status-red">退款中</span></td>
+                            <td><span class="table-action">处理退款</span></td>
+                        </tr>
+                        <tr>
+                            <td class="order-no">XL20260925-024</td>
+                            <td>云踏户外鞋 CT-O001</td>
+                            <td>用户11***09</td>
+                            <td>¥399</td>
+                            <td><span class="status-badge status-green">已完成</span></td>
+                            <td><span class="table-action">评价</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>商品状态汇总</h3>
+                </div>
+                <div class="status-bars">
+                    <div class="status-bar-item">
+                        <span class="status-bar-label">在售</span>
+                        <div class="status-bar-track">
+                            <div class="status-bar-fill fill-green" style="width: 70%;">28</div>
+                        </div>
+                        <span class="status-bar-count">28</span>
+                    </div>
+                    <div class="status-bar-item">
+                        <span class="status-bar-label">待审核</span>
+                        <div class="status-bar-track">
+                            <div class="status-bar-fill fill-orange" style="width: 5%;">2</div>
+                        </div>
+                        <span class="status-bar-count">2</span>
+                    </div>
+                    <div class="status-bar-item">
+                        <span class="status-bar-label">预警</span>
+                        <div class="status-bar-track">
+                            <div class="status-bar-fill fill-yellow" style="width: 3%;">1</div>
+                        </div>
+                        <span class="status-bar-count">1</span>
+                    </div>
+                    <div class="status-bar-item">
+                        <span class="status-bar-label">平台下架</span>
+                        <div class="status-bar-track">
+                            <div class="status-bar-fill fill-red" style="width: 1%;">0</div>
+                        </div>
+                        <span class="status-bar-count">0</span>
+                    </div>
+                    <div class="status-bar-item">
+                        <span class="status-bar-label">草稿</span>
+                        <div class="status-bar-track">
+                            <div class="status-bar-fill fill-gray" style="width: 8%;">3</div>
+                        </div>
+                        <span class="status-bar-count">3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7 & 8. Announcements + Settlement -->
+        <div class="panel-row">
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>平台公告</h3>
+                    <a href="#" class="panel-link">更多 →</a>
+                </div>
+                <ul class="announcement-list">
+                    <li>
+                        <span class="announcement-date">09-28</span>
+                        <span class="announcement-text">关于国庆期间商家发货时效调整的通知</span>
+                        <span class="announcement-new">新</span>
+                    </li>
+                    <li>
+                        <span class="announcement-date">09-20</span>
+                        <span class="announcement-text">新版商品发布规范上线，请及时学习</span>
+                    </li>
+                    <li>
+                        <span class="announcement-date">09-10</span>
+                        <span class="announcement-text">第三季度品控复查通知</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>结算概览</h3>
+                </div>
+                <div class="settlement-grid" style="grid-template-columns: 1fr;">
+                    <div class="settlement-item">
+                        <div class="settlement-label">本期待结算</div>
+                        <div class="settlement-value red">¥12,300</div>
+                    </div>
+                    <div class="settlement-item">
+                        <div class="settlement-label">已结算</div>
+                        <div class="settlement-value green">¥36,350</div>
+                    </div>
+                    <div class="settlement-item">
+                        <div class="settlement-label">下次结算日</div>
+                        <div class="settlement-value blue">10-15</div>
+                        <div class="settlement-note">2026年10月15日</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>©2026 许乐有限公司 版权所有 · xulove.com · 商家后台</p>
+            <p>商家服务热线：400-xxx-xxxx | 邮箱：seller@xulove.com</p>
+            <p>《许乐平台商家服务协议》｜《商家行为规范》｜《商品发布规范》</p>
+        </div>
+    </footer>
+
+    <script>
+        // Header icon interactions
+        document.querySelectorAll('.header-icons span').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const title = this.getAttribute('title');
+                if (title === '返回前台') {
+                    window.location.href = 'index.html';
+                } else if (title === '账户设置') {
+                    alert('账户设置功能开发中...');
+                } else if (title === '账户') {
+                    alert('请先登录');
+                }
+            });
+        });
+
+        // Table row click - show order detail prompt
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', function(e) {
+                if (e.target.classList.contains('table-action')) return;
+                const orderNo = this.querySelector('.order-no').textContent;
+                console.log('查看订单：' + orderNo);
+            });
+        });
+
+        // Table action buttons
+        document.querySelectorAll('.table-action').forEach(action => {
+            action.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const text = this.textContent;
+                const row = this.closest('tr');
+                const orderNo = row.querySelector('.order-no').textContent;
+                if (text === '发货') {
+                    if (confirm('确认对订单 ' + orderNo + ' 进行发货操作？')) {
+                        alert('发货成功！物流单号将稍后生成。');
+                    }
+                } else if (text === '查看物流') {
+                    alert('订单 ' + orderNo + ' 物流信息：\n顺丰快递 SF1234567890\n当前状态：运输中');
+                } else if (text === '评价') {
+                    alert('订单 ' + orderNo + ' 已完成，暂无新评价。');
+                } else if (text === '处理退款') {
+                    if (confirm('确认处理订单 ' + orderNo + ' 的退款申请？')) {
+                        alert('退款处理页面打开中...');
+                    }
+                }
+            });
+        });
+
+        // Announcement click
+        document.querySelectorAll('.announcement-text').forEach(item => {
+            item.addEventListener('click', function() {
+                alert('公告详情：\n\n' + this.textContent);
+            });
+        });
+
+        // Quick action button ripple effect
+        document.querySelectorAll('.quick-btn').forEach(btn => {
+            btn.addEventListener('mousedown', function() {
+                this.style.transform = 'translateY(0) scale(0.98)';
+            });
+            btn.addEventListener('mouseup', function() {
+                this.style.transform = '';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+
+        // Animate status bars on load
+        window.addEventListener('load', function() {
+            document.querySelectorAll('.status-bar-fill').forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
