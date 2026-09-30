@@ -11,41 +11,387 @@
         ul { list-style: none; }
         input, select, textarea, button { font-family: inherit; }
 
-        /* ============ 头部 ============ */
-        header { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 18px 40px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
-        .header-top { display: flex; align-items: center; gap: 40px; max-width: 1280px; margin: 0 auto; }
-        .logo { display: flex; align-items: center; gap: 14px; }
+        /* ============ 头部（与首页一致） ============ */
+        header {
+            padding: 24px 40px;
+            background: #fff;
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+        .logo { line-height: 1; }
         .logo-mark {
             display: inline-flex;
-            border-radius: 10px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(207,48,36,0.18);
+            box-shadow: 0 8px 20px rgba(207,48,36,0.22), 0 2px 6px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 12%;
+            bottom: 12%;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #fff 0 4px, transparent 4px 7px);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 2;
         }
         .logo-xu {
             color: #fff;
             background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
-            font-size: 30px; font-weight: 900;
-            padding: 8px 11px; line-height: 1;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            font-size: 56px; font-weight: 900;
+            padding: 14px 18px; line-height: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .logo-le {
             color: #fff;
             background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
-            font-size: 30px; font-weight: 900;
-            padding: 8px 11px; line-height: 1;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            font-size: 56px; font-weight: 900;
+            padding: 14px 18px; line-height: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        .logo .sub { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #888; }
-        .logo .sub-tag { color: #659ee3; font-weight: 600; background: #eef4fb; padding: 3px 8px; border-radius: 3px; font-size: 12px; }
-
-        .seller-nav { display: flex; gap: 32px; font-size: 18px; font-weight: 500; }
-        .seller-nav a { color: #333; padding: 6px 2px; position: relative; transition: color .2s; }
-        .seller-nav a:hover { color: #cf3024; }
-        .seller-nav a.active { color: #cf3024; border-bottom: 2px solid #cf3024; }
-
-        .header-icons { margin-left: auto; display: flex; gap: 18px; font-size: 24px; cursor: pointer; }
-        .header-icons span { transition: transform .2s; }
-        .header-icons span:hover { transform: scale(1.12); }
+        .logo .sub {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #888;
+            margin-top: 12px;
+        }
+        .logo .sub-url { color: #cf3024; font-weight: 700; }
+        .logo .sub-sep { color: #ccc; margin: 0 6px; }
+        .logo .sub-tag { color: #659ee3; font-weight: 600; }
+        .search-wrap {
+            flex: 1;
+            display: flex;
+        }
+        .search-wrap input {
+            flex: 1;
+            padding: 14px 16px;
+            border: 1px solid #ccc;
+            border-right: none;
+            font-size: 18px;
+        }
+        .search-wrap button {
+            padding: 14px 28px;
+            border: 1px solid #ccc;
+            background: #fff;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .header-icons {
+            display: flex;
+            gap: 24px;
+            font-size: 32px;
+        }
+        .header-icons span {
+            cursor: pointer;
+        }
+        /* 主导航 */
+        nav ul {
+            display: flex;
+            gap: 48px;
+            list-style: none;
+            font-size: 24px;
+            font-weight: 500;
+            align-items: center;
+        }
+        nav ul li {
+            cursor: pointer;
+        }
+        nav ul li.has-dropdown { position: relative; }
+        nav ul li.has-dropdown > ul.dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 140px;
+            padding: 8px 0;
+            z-index: 100;
+            flex-direction: column;
+            gap: 0;
+        }
+        nav ul li.has-dropdown:hover > ul.dropdown { display: flex; }
+        nav ul li.has-dropdown > ul.dropdown li {
+            font-size: 15px;
+            padding: 8px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        nav ul li.has-dropdown > ul.dropdown li:hover { background: #fafafa; color: #b8860b; }
+        nav ul li.has-dropdown > ul.dropdown li a { display: block; }
+        /* 商家子导航 */
+        .seller-subnav {
+            background: #fafafa;
+            border-bottom: 1px solid #eee;
+            padding: 12px 40px;
+            font-size: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+        .seller-subnav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        .seller-subnav a {
+            color: #333;
+            padding: 6px 2px;
+            position: relative;
+            transition: color .2s;
+        }
+        .seller-subnav a:hover { color: #cf3024; }
+        .seller-subnav a.active {
+            color: #cf3024;
+            border-bottom: 2px solid #cf3024;
+        }
+        /* 面包屑导航 */
+        .breadcrumb {
+            padding: 16px 40px;
+            font-size: 13px;
+            color: #888;
+            background: #fff;
+        }
+        .breadcrumb-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        .breadcrumb a { color: #666; }
+        .breadcrumb a:hover { color: #cf3024; }
+        /* ============ 注册/登录弹窗 ============ */
+        .modal-mask {
+            position: fixed;
+            left: 0; top: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+        .modal-mask.show {
+            display: flex;
+        }
+        .modal-box {
+            width: 480px;
+            background: #fff;
+            padding: 32px;
+            border-radius: 8px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-box h2 {
+            margin-bottom: 8px;
+        }
+        .modal-sub {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .member-benefits {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #5d4037;
+            border-radius: 4px;
+        }
+        .member-benefits strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #b8860b;
+        }
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .auth-tabs .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #888;
+            border-bottom: 2px solid transparent;
+        }
+        .auth-tabs .tab.active {
+            color: #000;
+            border-bottom-color: #000;
+            font-weight: bold;
+        }
+        .auth-panel {
+            display: none;
+        }
+        .auth-panel.active {
+            display: block;
+        }
+        .form-item {
+            margin-bottom: 16px;
+        }
+        .form-item label {
+            display: block;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        .form-item input[type="text"],
+        .form-item input[type="tel"],
+        .form-item input[type="email"],
+        .form-item input[type="password"],
+        .form-item input[type="date"],
+        .form-item select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-item-row {
+            display: flex;
+            gap: 8px;
+        }
+        .form-item-row > input {
+            flex: 1;
+        }
+        .form-item-row > button {
+            padding: 0 16px;
+            border: 1px solid #ccc;
+            background: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .form-item-row > button:disabled {
+            color: #999;
+            cursor: not-allowed;
+        }
+        .gender-radio {
+            display: flex;
+            gap: 24px;
+            padding: 8px 0;
+            font-size: 15px;
+        }
+        .gender-radio label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+        }
+        .agree-check {
+            margin: 16px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .agree-check input {
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        .agree-check a {
+            color: #b8860b;
+            text-decoration: underline;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #000;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .submit-btn:hover {
+            background: #222;
+        }
+        .third-party {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .third-party .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            margin: 16px 0;
+        }
+        .third-party .divider::before,
+        .third-party .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #eee;
+        }
+        .third-party .divider span {
+            padding: 0 12px;
+        }
+        .third-party-icons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            font-size: 32px;
+        }
+        .third-party-icons span {
+            cursor: pointer;
+        }
+        /* 协议预览弹窗 */
+        .terms-modal {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 640px;
+            max-width: 90vw;
+            max-height: 80vh;
+            background: #fff;
+            border-radius: 8px;
+            z-index: 300;
+            overflow: hidden;
+            flex-direction: column;
+        }
+        .terms-modal.show {
+            display: flex;
+        }
+        .terms-modal .terms-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .terms-modal .terms-close {
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 1;
+        }
+        .terms-modal .terms-body {
+            padding: 24px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+        }
+        .terms-modal .terms-body h4 {
+            margin: 16px 0 8px;
+            font-size: 16px;
+        }
+        .terms-modal .terms-body p {
+            margin-bottom: 12px;
+        }
 
         /* ============ 主容器 ============ */
         .page { max-width: 1280px; margin: 0 auto; padding: 24px 40px 60px; }
@@ -355,15 +701,54 @@
         }
         .btn-upload:hover { box-shadow: 0 5px 14px rgba(207,48,36,0.4); transform: translateY(-1px); }
 
-        /* ============ 页脚 ============ */
-        footer { background: #fff; border-top: 1px solid #eee; padding: 32px 40px; margin-top: 40px; }
-        .footer-bottom { border-top: 1px solid #ddd; padding-top: 20px; font-size: 13px; line-height: 2; color: #555; text-align: center; }
-        .footer-bottom a:hover { color: #cf3024; }
+        /* ============ 页脚（与首页一致） ============ */
+        footer {
+            background: #fff;
+            border-top: 1px solid #eee;
+            padding: 60px 40px;
+            margin-top: 40px;
+        }
+        .social-icons {
+            display: flex;
+            gap: 20px;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .footer-column li {
+            margin-bottom: 14px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .footer-column li:hover {
+            color: #b8860b;
+        }
+        .footer-bottom {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #444;
+        }
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
 
         /* ============ 响应式 ============ */
         @media (max-width: 768px) {
             .header-top { flex-wrap: wrap; gap: 16px; }
-            .seller-nav { order: 3; width: 100%; overflow-x: auto; gap: 20px; font-size: 16px; }
+            .seller-subnav-inner { flex-wrap: wrap; gap: 16px; font-size: 14px; }
+            nav ul { flex-wrap: wrap; gap: 24px; font-size: 18px; }
+            .logo-xu, .logo-le { font-size: 40px; padding: 10px 12px; }
             .header-icons { margin-left: 0; }
             .page { padding: 20px 16px 40px; }
             .page-head { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -382,31 +767,95 @@
 <header>
     <div class="header-top">
         <div class="logo">
-            <div class="logo-mark">
-                <a href="index.html"><span class="logo-xu">许</span><span class="logo-le">乐</span></a>
-            </div>
-            <span class="sub"><span class="sub-tag">商家后台</span></span>
+            <a href="index.html" style="display:block;">
+                <div class="logo-mark">
+                    <span class="logo-xu">许</span><span class="logo-le">乐</span>
+                </div>
+                <span class="sub"><span class="sub-url">https://xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服饰 箱包 饰品</span></span>
+            </a>
         </div>
-        <div class="seller-nav">
-            <a href="seller.html">工作台</a>
-            <a href="product-manage.html" class="active">商品管理</a>
-            <a href="product-upload.html">上传产品</a>
-            <a href="order-manage.html">订单管理</a>
-            <a href="brands.html#apply">品牌信息</a>
+        <div class="search-wrap">
+            <input placeholder="搜索鞋履、服饰、箱包、饰品、品牌…">
+            <button>搜索</button>
         </div>
         <div class="header-icons">
-            <span title="返回前台">🏠</span>
-            <span title="消息通知">🔔</span>
-            <span title="账户设置">⚙️</span>
+            <span id="openRegister" title="注册/登录">👤</span>
+            <span title="购物车">🛒</span>
         </div>
     </div>
+    <nav>
+        <ul>
+            <li class="has-dropdown">女士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">裙装</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">男士专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">鞋履</a></li>
+                    <li><a href="category.html?cat=clothing">上衣</a></li>
+                    <li><a href="category.html?cat=clothing">裤装</a></li>
+                    <li><a href="category.html?cat=clothing">外套</a></li>
+                    <li><a href="category.html?cat=bags">箱包</a></li>
+                    <li><a href="category.html?cat=accessories">饰品</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">儿童专区
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">童鞋</a></li>
+                    <li><a href="category.html?cat=clothing">童装</a></li>
+                    <li><a href="category.html?cat=accessories">配饰</a></li>
+                </ul>
+            </li>
+            <li><a href="brands.html">品牌集合</a></li>
+            <li class="has-dropdown"><a href="category.html?cat=shoes">运动鞋款</a>
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=shoes">跑步鞋</a></li>
+                    <li><a href="category.html?cat=shoes">篮球鞋</a></li>
+                    <li><a href="category.html?cat=shoes">板鞋</a></li>
+                    <li><a href="category.html?cat=shoes">休闲鞋</a></li>
+                    <li><a href="category.html?cat=shoes">户外鞋</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown">运动装备
+                <ul class="dropdown">
+                    <li><a href="category.html?cat=clothing">运动上衣</a></li>
+                    <li><a href="category.html?cat=clothing">运动裤</a></li>
+                    <li><a href="category.html?cat=bags">运动包</a></li>
+                    <li><a href="category.html?cat=accessories">运动配件</a></li>
+                </ul>
+            </li>
+            <li style="margin-left:auto;"><a href="faq.html">帮助与客服</a></li>
+        </ul>
+    </nav>
 </header>
+
+<div class="seller-subnav">
+    <div class="seller-subnav-inner">
+        <a href="seller.html">工作台</a>
+        <a href="product-manage.html" class="active">商品管理</a>
+        <a href="product-upload.html">上传产品</a>
+        <a href="order-manage.html">订单管理</a>
+        <a href="brands.html#apply">品牌信息</a>
+        <span style="float:right;"><a href="sitemap.html">网站地图</a> | <a href="index.html">返回前台</a></span>
+    </div>
+</div>
+
+<div class="breadcrumb">
+    <div class="breadcrumb-inner">
+        <a href="index.html">首页</a> &gt; <a href="seller.html">商家后台</a> &gt; <a href="product-manage.html">商品管理</a>
+    </div>
+</div>
 
 <div class="page">
     <div class="page-head">
         <div>
             <h1>商品管理</h1>
-            <div class="crumb"><a href="seller.html">商家工作台</a> / 商品管理</div>
         </div>
         <a href="product-upload.html" class="btn-upload">＋ 上传新产品</a>
     </div>
@@ -615,12 +1064,156 @@
 </div>
 
 <footer>
+    <div class="social-icons">
+        <span title="小红书">📕</span>
+        <span title="抖音">🎵</span>
+        <span title="微博">🌐</span>
+        <span title="微信视频号">📺</span>
+    </div>
+    <div class="footer-grid">
+        <div class="footer-column">
+            <h3>关于许乐</h3>
+            <ul>
+                <li><a href="about.html">平台介绍</a></li>
+                <li><a href="about.html#join">加入我们</a></li>
+                <li><a href="about.html#app">下载 APP</a></li>
+                <li><a href="about.html#qc">品控流程</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>客户服务</h3>
+            <ul>
+                <li><a href="faq.html">常见问题</a></li>
+                <li><a href="faq.html#contact">联系客服</a></li>
+                <li><a href="shipping.html">配送与退换货政策</a></li>
+                <li><a href="shipping.html#return7">7 天无理由退换说明</a></li>
+                <li><a href="shipping.html#aftersale">售后申请入口</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>实用工具</h3>
+            <ul>
+                <li><a href="size-chart.html">尺码对照表</a></li>
+                <li><a href="affiliate.html">联盟推广</a></li>
+                <li><a href="sitemap.html">网站地图</a></li>
+                <li><a href="survey.html">用户调研</a></li>
+                <li><a href="gift-card.html">电子礼品卡</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>商城浏览</h3>
+            <ul>
+                <li><a href="brands.html">品牌大全</a></li>
+                <li><a href="category.html?cat=clothing">服饰</a></li>
+                <li><a href="category.html?cat=new">最近到货</a></li>
+                <li><a href="category.html?cat=bags">包袋</a></li>
+                <li><a href="category.html?cat=shoes">鞋履</a></li>
+                <li><a href="category.html?cat=accessories">饰品</a></li>
+                <li><a href="category.html?cat=all">全部分类</a></li>
+            </ul>
+        </div>
+    </div>
     <div class="footer-bottom">
-        <p>©2026 许乐有限公司 版权所有 · xulove.com · 商家后台</p>
-        <p>商家服务热线：400-xxx-xxxx | 邮箱：seller@xulove.com</p>
-        <p>《许乐平台商家服务协议》｜《商家行为规范》｜《商品发布规范》</p>
+        <p>©2026 许乐有限公司 版权所有 · xulove.com</p>
+        <p>营业执照：XXXXXXXXXXXXXXXXXX | ICP 备案号：鲁ICP备XXXXXXXX号</p>
+        <p><a href="javascript:void(0)" data-terms="service">《用户服务协议》</a>｜<a href="javascript:void(0)" data-terms="privacy">《隐私政策》</a>｜《消费者权益保障》｜《7 天无理由退换货规则》</p>
+        <p>温馨提示：本平台商品支持 7 天无理由退换（贴身商品除外），保护消费者合法权益。所有商品用料与工艺均有溯源档案。</p>
     </div>
 </footer>
+
+<!-- 注册弹窗 -->
+<div class="modal-mask" id="registerModal">
+    <div class="modal-box">
+        <h2>欢迎来到许乐</h2>
+        <div class="modal-sub">注册后可查看完整工艺档案与商品溯源信息</div>
+        <div class="member-benefits">
+            <strong>🎁 注册后可使用的功能</strong>
+            1. 查看完整工艺档案与溯源信息 · 2. 收藏商品与关注设计师 · 3. 订单管理与售后一键直达
+        </div>
+        <div class="auth-tabs">
+            <div class="tab active" data-tab="register">注册</div>
+            <div class="tab" data-tab="login">登录</div>
+        </div>
+        <div class="auth-panel active" data-panel="register">
+            <div class="form-item">
+                <label>手机号</label>
+                <input type="tel" placeholder="请输入 11 位手机号" maxlength="11">
+            </div>
+            <div class="form-item">
+                <label>短信验证码</label>
+                <div class="form-item-row">
+                    <input type="text" placeholder="请输入 6 位验证码" maxlength="6">
+                    <button id="sendCodeBtn">获取验证码</button>
+                </div>
+            </div>
+            <div class="form-item">
+                <label>登录密码</label>
+                <input type="password" placeholder="6-16 位字母+数字组合">
+            </div>
+            <div class="form-item">
+                <label>邮箱（选填，用于订单通知与权益发放）</label>
+                <input type="email" placeholder="name@example.com">
+            </div>
+            <div class="form-item">
+                <label>姓名 / 昵称</label>
+                <input type="text" placeholder="展示在评价与会员档案">
+            </div>
+            <div class="form-item">
+                <label>性别（用于精准推荐）</label>
+                <div class="gender-radio">
+                    <label><input type="radio" name="gender" value="female"> 女</label>
+                    <label><input type="radio" name="gender" value="male"> 男</label>
+                    <label><input type="radio" name="gender" value="other"> 其他/不公开</label>
+                </div>
+            </div>
+            <div class="form-item">
+                <label>生日（选填，用于个性化推荐）</label>
+                <input type="date">
+            </div>
+            <div class="form-item">
+                <label>邀请码（选填）</label>
+                <input type="text" placeholder="无邀请码可留空">
+            </div>
+            <div class="agree-check">
+                <input type="checkbox" id="agree">
+                <label for="agree">我已阅读并同意 <a href="javascript:void(0)" data-terms="service">《用户服务协议》</a> 与 <a href="javascript:void(0)" data-terms="privacy">《隐私政策》</a>，未注册手机号视为同意「一键注册」</label>
+            </div>
+            <button class="submit-btn">立即注册</button>
+        </div>
+        <div class="auth-panel" data-panel="login">
+            <div class="form-item">
+                <label>手机号 / 邮箱</label>
+                <input type="text" placeholder="请输入手机号或邮箱">
+            </div>
+            <div class="form-item">
+                <label>密码</label>
+                <input type="password" placeholder="请输入登录密码">
+            </div>
+            <div class="agree-check">
+                <input type="checkbox" id="remember"><label for="remember">7 天免登录</label>
+                <a href="javascript:void(0)" style="float:right;color:#b8860b;">忘记密码？</a>
+            </div>
+            <button class="submit-btn">立即登录</button>
+        </div>
+        <div class="third-party">
+            <div class="divider"><span>其他方式登录</span></div>
+            <div class="third-party-icons">
+                <span title="微信登录">💚</span>
+                <span title="支付宝登录">💙</span>
+                <span title="Apple ID 登录">🍎</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 协议预览弹窗 -->
+<div class="terms-modal" id="termsModal">
+    <div class="terms-header">
+        <h3 id="termsTitle">协议</h3>
+        <span class="terms-close" id="termsClose">×</span>
+    </div>
+    <div class="terms-body" id="termsBody"></div>
+</div>
 
 <script>
     // 状态 Tab 切换
@@ -745,6 +1338,94 @@
             }
         });
     });
+</script>
+
+<script>
+    // ============ 注册/登录弹窗交互 ============
+    (function () {
+        var mask = document.getElementById('registerModal');
+        var openBtn = document.getElementById('openRegister');
+        if (!mask || !openBtn) return;
+
+        function openModal() { mask.classList.add('show'); }
+        function closeModal() { mask.classList.remove('show'); }
+        openBtn.addEventListener('click', openModal);
+        mask.addEventListener('click', function (e) {
+            if (e.target === mask) closeModal();
+        });
+
+        // Tab 切换
+        mask.querySelectorAll('.auth-tabs .tab').forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                mask.querySelectorAll('.auth-tabs .tab').forEach(function (t) { t.classList.remove('active'); });
+                mask.querySelectorAll('.auth-panel').forEach(function (p) { p.classList.remove('active'); });
+                tab.classList.add('active');
+                var name = tab.dataset.tab;
+                var panel = mask.querySelector('.auth-panel[data-panel="' + name + '"]');
+                if (panel) panel.classList.add('active');
+            });
+        });
+
+        // 验证码倒计时
+        var sendBtn = document.getElementById('sendCodeBtn');
+        var countdown = 0;
+        if (sendBtn) {
+            sendBtn.addEventListener('click', function () {
+                if (countdown > 0) return;
+                countdown = 60;
+                var tick = function () {
+                    if (countdown <= 0) {
+                        sendBtn.disabled = false;
+                        sendBtn.textContent = '获取验证码';
+                        return;
+                    }
+                    sendBtn.disabled = true;
+                    sendBtn.textContent = countdown + 's 后重发';
+                    countdown--;
+                    setTimeout(tick, 1000);
+                };
+                tick();
+            });
+        }
+
+        // 协议预览弹窗
+        var termsModal = document.getElementById('termsModal');
+        var termsTitle = document.getElementById('termsTitle');
+        var termsBody = document.getElementById('termsBody');
+        var termsClose = document.getElementById('termsClose');
+
+        var TERMS = {
+            service: {
+                title: '用户服务协议',
+                html: '<h4>一、协议范围</h4><p>本协议是您与许乐有限公司（xulove.com，以下简称“许乐”）就许乐平台所提供服务所订立的协议。您在许乐平台注册、登录、浏览、下单即视为同意本协议。</p><h4>二、账户与注册</h4><p>2.1 注册需提供有效手机号，并完成短信验证码验证。</p><p>2.2 您应保证注册信息真实、准确，如因信息不实导致损失由您自行承担。</p><p>2.3 账号仅限本人使用，不得转让、出借或售卖。</p><h4>三、订单与商品</h4><p>3.1 许乐平台商品每件附用料与工艺溯源信息，可查批次与工厂。</p><p>3.2 商品价格、可购数量以订单提交时页面显示为准。</p><p>3.3 商品图片与色彩显示可能因显示器不同存在差异，最终以实物为准。</p><h4>四、退换货</h4><p>4.1 除贴身商品外，支持签收后 7 天内无理由退换。</p><p>4.2 质量问题 30 天内包换，详见《7 天无理由退换货规则》。</p><h4>五、知识产权</h4><p>许乐平台所有内容（包括但不限于文字、图片、音频、视频、版面设计）版权归许乐所有，未经授权不得复制、转载。</p><h4>六、免责声明</h4><p>因不可抗力（自然灾害、政策变化、网络故障等）导致服务中断，许乐不承担责任。</p><h4>七、协议变更</h4><p>许乐有权根据法律法规与业务调整修订本协议，修订后将在平台公示，公示期满视为您同意修订内容。</p>'
+            },
+            privacy: {
+                title: '隐私政策',
+                html: '<h4>一、信息收集</h4><p>我们收集的信息包括：您主动提供的手机号、邮箱、姓名、性别、生日、邀请码；以及订单、收货、设备日志等自动采集的信息。</p><h4>二、信息使用</h4><p>2.1 用于完成订单、客服沟通、退换货处理。</p><p>2.2 用于个性化商品推荐与活动通知（您可在「我的-消息设置」关闭）。</p><p>2.3 用于平台运营数据分析与品控溯源。</p><h4>三、信息共享</h4><p>除以下情形外，我们不会向第三方共享您的个人信息：</p><p>3.1 为完成订单与配送，向物流与工厂合作方共享必要信息；</p><p>3.2 取得您单独同意的其他情形。</p><h4>四、信息保护</h4><p>我们采用 SSL 加密、数据脱敏、权限分级等措施保护您的信息安全。</p><h4>五、您的权利</h4><p>您有权查询、更正、删除个人信息，注销账号后我们将按法律要求处理。</p><h4>六、Cookie 使用</h4><p>我们使用 Cookie 优化您的浏览体验，您可在浏览器设置中关闭。</p><h4>七、联系我们</h4><p>隐私相关问题可发送至 privacy@xulove.com，我们将在 15 个工作日内回复。</p>'
+            }
+        };
+
+        function openTerms(key) {
+            var t = TERMS[key];
+            if (!t) return;
+            termsTitle.textContent = t.title;
+            termsBody.innerHTML = t.html;
+            termsModal.classList.add('show');
+        }
+        function closeTerms() { if (termsModal) termsModal.classList.remove('show'); }
+        if (termsClose) termsClose.addEventListener('click', closeTerms);
+        if (termsModal) {
+            termsModal.addEventListener('click', function (e) {
+                if (e.target === termsModal) closeTerms();
+            });
+        }
+        document.querySelectorAll('[data-terms]').forEach(function (el) {
+            el.addEventListener('click', function () { openTerms(el.dataset.terms); });
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') { closeModal(); closeTerms(); }
+        });
+    })();
 </script>
 
 </body>

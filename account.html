@@ -311,6 +311,11 @@
 
         /* ===== 个人中心页面样式 ===== */
         .account-wrap { max-width: 1200px; margin: 0 auto; padding: 32px 40px 60px; }
+        .breadcrumb { max-width: 1200px; margin: 0 auto; padding: 16px 40px; font-size: 13px; color: #888; }
+        .breadcrumb-inner a { color: #666; }
+        .breadcrumb-inner a:hover { color: #cf3024; }
+        .breadcrumb .sep { margin: 0 8px; color: #ccc; }
+        .breadcrumb .current { color: #333; font-weight: 500; }
 
         /* 1. 用户档案头部 */
         .profile-header {
@@ -687,10 +692,18 @@
                     <li><a href="category.html?cat=accessories">运动配件</a></li>
                 </ul>
             </li>
-            <li style="margin-left:auto;"><a href="faq.html">帮助与客服</a></li>
+            <li style="margin-left:auto;"><a href="sitemap.html">网站地图</a></li>
+            <li><a href="faq.html">帮助与客服</a></li>
         </ul>
     </nav>
 </header>
+
+<!-- 面包屑 -->
+<div class="breadcrumb">
+    <div class="breadcrumb-inner">
+        <a href="index.html">首页</a> <span class="sep">></span> <span class="current">个人中心</span>
+    </div>
+</div>
 
 <div class="account-wrap">
     <!-- 1. 用户档案头部 -->
