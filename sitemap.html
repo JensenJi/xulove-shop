@@ -144,6 +144,230 @@
         .price-tags label:hover { color: #b8860b; }
         .price-tags input { margin: 0; }
         .page { flex: 1; min-width: 0; max-width: 1000px; margin: 0; padding: 0; }
+            /* 弹窗：注册弹窗 */
+        .modal-mask {
+            position: fixed;
+            left: 0; top: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .modal-mask.show {
+            display: flex;
+        }
+        .modal-box {
+            width: 480px;
+            background: #fff;
+            padding: 32px;
+            border-radius: 8px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-box h2 {
+            margin-bottom: 8px;
+        }
+        .modal-sub {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        /* 会员权益展示 */
+        .member-benefits {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #5d4037;
+            border-radius: 4px;
+        }
+        .member-benefits strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #b8860b;
+        }
+        /* Tab 切换 */
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .auth-tabs .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #888;
+            border-bottom: 2px solid transparent;
+        }
+        .auth-tabs .tab.active {
+            color: #000;
+            border-bottom-color: #000;
+            font-weight: bold;
+        }
+        .auth-panel {
+            display: none;
+        }
+        .auth-panel.active {
+            display: block;
+        }
+        .form-item {
+            margin-bottom: 16px;
+        }
+        .form-item label {
+            display: block;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        .form-item input[type="text"],
+        .form-item input[type="tel"],
+        .form-item input[type="email"],
+        .form-item input[type="password"],
+        .form-item input[type="date"],
+        .form-item select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-item-row {
+            display: flex;
+            gap: 8px;
+        }
+        .form-item-row > input {
+            flex: 1;
+        }
+        .form-item-row > button {
+            padding: 0 16px;
+            border: 1px solid #ccc;
+            background: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .form-item-row > button:disabled {
+            color: #999;
+            cursor: not-allowed;
+        }
+        .gender-radio {
+            display: flex;
+            gap: 24px;
+            padding: 8px 0;
+            font-size: 15px;
+        }
+        .gender-radio label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+        }
+        .agree-check {
+            margin: 16px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .agree-check input {
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        .agree-check a {
+            color: #b8860b;
+            text-decoration: underline;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #000;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .submit-btn:hover {
+            background: #222;
+        }
+        /* 第三方登录 */
+        .third-party {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .third-party .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            margin: 16px 0;
+        }
+        .third-party .divider::before,
+        .third-party .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #eee;
+        }
+        .third-party .divider span {
+            padding: 0 12px;
+        }
+        .third-party-icons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            font-size: 32px;
+        }
+        .third-party-icons span {
+            cursor: pointer;
+        }
+        /* 协议预览弹窗 */
+        .terms-modal {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 640px;
+            max-width: 90vw;
+            max-height: 80vh;
+            background: #fff;
+            border-radius: 8px;
+            z-index: 200;
+            overflow: hidden;
+            flex-direction: column;
+        }
+        .terms-modal.show {
+            display: flex;
+        }
+        .terms-modal .terms-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .terms-modal .terms-close {
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 1;
+        }
+        .terms-modal .terms-body {
+            padding: 24px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+        }
+        .terms-modal .terms-body h4 {
+            margin: 16px 0 8px;
+            font-size: 16px;
+        }
+        .terms-modal .terms-body p {
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
@@ -160,7 +384,7 @@
             <button>搜索</button>
         </div>
         <div class="header-icons">
-            <span>👤</span>
+            <span id="openRegister" title="注册/登录">👤</span>
             <span>🛒</span>
         </div>
     </div>
@@ -285,22 +509,22 @@
     <!-- 主导航 -->
     <div class="section-block" id="main-nav">
         <h2>主导航</h2>
-        <p>许乐站点的核心入口，覆盖人群专区、品类集合与营销活动。每个入口对应首页的对应锚点或独立页面。</p>
+        <p>许乐站点的核心入口，覆盖五大品类集合、品牌大全与客户服务，每个入口均对应可访问的独立页面。</p>
         <div class="link-grid">
-            <a class="link-card" href="index.html#women">
-                <div class="lc-title">女士专区 →</div>
-                <div class="lc-desc">女士鞋履、服饰、箱包、饰品一站式浏览，按场景与风格分类。</div>
-                <span class="lc-tag">人群专区</span>
+            <a class="link-card" href="category.html?cat=clothing">
+                <div class="lc-title">服饰单品 →</div>
+                <div class="lc-desc">男女装与童装，含 A 类婴幼儿安全标准款，面料成分与工艺参数完整标注。</div>
+                <span class="lc-tag">品类页</span>
             </a>
-            <a class="link-card" href="index.html#men">
-                <div class="lc-title">男士专区 →</div>
-                <div class="lc-desc">男士运动鞋、商务皮具、功能服饰与配饰，参数透明可溯源。</div>
-                <span class="lc-tag">人群专区</span>
+            <a class="link-card" href="category.html?cat=bags">
+                <div class="lc-title">箱包系列 →</div>
+                <div class="lc-desc">手提包、双肩包与功能箱包，皮质用料、五金工艺与产地信息可溯源。</div>
+                <span class="lc-tag">品类页</span>
             </a>
-            <a class="link-card" href="index.html#kids">
-                <div class="lc-title">儿童专区 →</div>
-                <div class="lc-desc">儿童鞋服，A 类婴幼儿标准，甲醛 ≤ 20 mg/kg，安全优先。</div>
-                <span class="lc-tag">人群专区</span>
+            <a class="link-card" href="category.html?cat=accessories">
+                <div class="lc-title">时尚饰品 →</div>
+                <div class="lc-desc">项链、耳饰等配饰，材质、镀层与保养说明透明公示。</div>
+                <span class="lc-tag">品类页</span>
             </a>
             <a class="link-card" href="brands.html">
                 <div class="lc-title">品牌集合 →</div>
@@ -490,27 +714,27 @@
     <!-- 法务信息 -->
     <div class="section-block" id="legal">
         <h2>法务信息</h2>
-        <p>许乐平台规则与消费者权益保障条款。以下为法务信息虚拟页面入口，条款以页面公示为准。</p>
+        <p>许乐平台规则与消费者权益保障条款。用户服务协议与隐私政策点击即可在弹窗内查看全文，消费者权益与退换货规则请见配送与退换货政策页面。</p>
         <div class="link-grid">
-            <a class="link-card" href="legal.html#terms">
+            <a class="link-card" href="javascript:void(0)" data-terms="service">
                 <div class="lc-title">用户服务协议 →</div>
                 <div class="lc-desc">许乐平台与用户之间的服务权利义务约定，含账号、订单、支付等条款。</div>
-                <span class="lc-tag">虚拟页</span>
+                <span class="lc-tag">站内弹窗</span>
             </a>
-            <a class="link-card" href="legal.html#privacy">
+            <a class="link-card" href="javascript:void(0)" data-terms="privacy">
                 <div class="lc-title">隐私政策 →</div>
                 <div class="lc-desc">用户个人信息收集、存储、使用、共享与跨境传输的完整规则。</div>
-                <span class="lc-tag">虚拟页</span>
+                <span class="lc-tag">站内弹窗</span>
             </a>
-            <a class="link-card" href="legal.html#consumer">
+            <a class="link-card" href="shipping.html#rights">
                 <div class="lc-title">消费者权益保障 →</div>
                 <div class="lc-desc">许乐对消费者知情权、选择权、公平交易权、监督权的承诺与机制。</div>
-                <span class="lc-tag">虚拟页</span>
+                <span class="lc-tag">配送政策页</span>
             </a>
-            <a class="link-card" href="legal.html#return7-rule">
+            <a class="link-card" href="shipping.html#return7">
                 <div class="lc-title">7 天无理由退换货规则 →</div>
                 <div class="lc-desc">7 天无理由退换的适用范围、例外商品、流程、运费承担细则。</div>
-                <span class="lc-tag">虚拟页</span>
+                <span class="lc-tag">配送政策页</span>
             </a>
         </div>
         <div class="seo-note">
@@ -577,13 +801,239 @@
 </div>
 <!-- /main-wrap -->
 
+<!-- 注册弹窗 -->
+<div class="modal-mask" id="registerModal">
+    <div class="modal-box">
+        <h2>欢迎来到许乐</h2>
+        <div class="modal-sub">注册后可查看完整工艺档案与商品溯源信息</div>
+
+        <!-- 会员权益展示 -->
+        <div class="member-benefits">
+            <strong>🎁 注册后可使用的功能</strong>
+            1. 查看完整工艺档案与溯源信息 · 2. 收藏商品与关注设计师 · 3. 订单管理与售后一键直达
+        </div>
+
+        <!-- Tab 切换 -->
+        <div class="auth-tabs">
+            <div class="tab active" data-tab="register">注册</div>
+            <div class="tab" data-tab="login">登录</div>
+        </div>
+
+        <!-- 注册面板 -->
+        <div class="auth-panel active" data-panel="register">
+            <div class="form-item">
+                <label>手机号</label>
+                <input type="tel" placeholder="请输入 11 位手机号" maxlength="11">
+            </div>
+            <div class="form-item">
+                <label>短信验证码</label>
+                <div class="form-item-row">
+                    <input type="text" placeholder="请输入 6 位验证码" maxlength="6">
+                    <button id="sendCodeBtn">获取验证码</button>
+                </div>
+            </div>
+            <div class="form-item">
+                <label>登录密码</label>
+                <input type="password" placeholder="6-16 位字母+数字组合">
+            </div>
+            <div class="form-item">
+                <label>邮箱（选填，用于订单通知与权益发放）</label>
+                <input type="email" placeholder="name@example.com">
+            </div>
+            <div class="form-item">
+                <label>姓名 / 昵称</label>
+                <input type="text" placeholder="展示在评价与会员档案">
+            </div>
+            <div class="form-item">
+                <label>性别（用于精准推荐）</label>
+                <div class="gender-radio">
+                    <label><input type="radio" name="gender" value="female"> 女</label>
+                    <label><input type="radio" name="gender" value="male"> 男</label>
+                    <label><input type="radio" name="gender" value="other"> 其他/不公开</label>
+                </div>
+            </div>
+            <div class="form-item">
+                <label>生日（选填，用于个性化推荐）</label>
+                <input type="date">
+            </div>
+            <div class="form-item">
+                <label>邀请码（选填）</label>
+                <input type="text" placeholder="无邀请码可留空">
+            </div>
+            <div class="agree-check">
+                <input type="checkbox" id="agree">
+                <label for="agree">我已阅读并同意 <a href="javascript:void(0)" data-terms="service">《用户服务协议》</a> 与 <a href="javascript:void(0)" data-terms="privacy">《隐私政策》</a>，未注册手机号视为同意「一键注册」</label>
+            </div>
+            <button class="submit-btn">立即注册</button>
+        </div>
+
+        <!-- 登录面板 -->
+        <div class="auth-panel" data-panel="login">
+            <div class="form-item">
+                <label>手机号 / 邮箱</label>
+                <input type="text" placeholder="请输入手机号或邮箱">
+            </div>
+            <div class="form-item">
+                <label>密码</label>
+                <input type="password" placeholder="请输入登录密码">
+            </div>
+            <div class="agree-check">
+                <input type="checkbox" id="remember"><label for="remember">7 天免登录</label>
+                <a href="javascript:void(0)" style="float:right;color:#b8860b;">忘记密码？</a>
+            </div>
+            <button class="submit-btn">立即登录</button>
+        </div>
+
+        <!-- 第三方登录 -->
+        <div class="third-party">
+            <div class="divider"><span>其他方式登录</span></div>
+            <div class="third-party-icons">
+                <span title="微信登录">💚</span>
+                <span title="支付宝登录">💙</span>
+                <span title="Apple ID 登录">🍎</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 协议预览弹窗 -->
+<div class="terms-modal" id="termsModal">
+    <div class="terms-header">
+        <h3 id="termsTitle">协议</h3>
+        <span class="terms-close" id="termsClose">×</span>
+    </div>
+    <div class="terms-body" id="termsBody"></div>
+</div>
+
 <footer>
     <div class="footer-bottom">
         <p>©2026 许乐有限公司 版权所有 · xulove.com</p>
         <p>营业执照：XXXXXXXXXXXXXXXXXX | ICP 备案号：鲁ICP备XXXXXXXX号</p>
-        <p><a href="legal.html#terms">《用户服务协议》</a>｜<a href="legal.html#privacy">《隐私政策》</a>｜<a href="legal.html#consumer">《消费者权益保障》</a>｜<a href="legal.html#return7-rule">《7 天无理由退换货规则》</a></p>
+        <p><a href="javascript:void(0)" data-terms="service"><a href="javascript:void(0)" data-terms="service">《用户服务协议》</a></a>｜<a href="javascript:void(0)" data-terms="privacy"><a href="javascript:void(0)" data-terms="privacy">《隐私政策》</a></a>｜<a href="shipping.html#rights">《消费者权益保障》</a>｜<a href="shipping.html#return7">《7 天无理由退换货规则》</a></p>
         <p>温馨提示：本平台商品支持 7 天无理由退换（贴身商品除外），保护消费者合法权益</p>
     </div>
 </footer>
+<script>
+    // ============ 注册弹窗交互 ============
+    const mask = document.getElementById('registerModal');
+    const openBtn = document.getElementById('openRegister');
+    const openBtn2 = document.getElementById('openRegister2');
+    function openModal() { mask.classList.add('show'); }
+    function closeModal() { mask.classList.remove('show'); }
+    openBtn.addEventListener('click', openModal);
+    if (openBtn2) openBtn2.addEventListener('click', openModal);
+    mask.addEventListener('click', function(e){
+        if (e.target === mask) closeModal();
+    });
+    document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape') { closeModal(); closeTerms(); }
+    });
+
+    // ============ Tab 切换 ============
+    document.querySelectorAll('.auth-tabs .tab').forEach(function(tab){
+        tab.addEventListener('click', function(){
+            document.querySelectorAll('.auth-tabs .tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            const name = tab.dataset.tab;
+            document.querySelector('.auth-panel[data-panel="' + name + '"]').classList.add('active');
+        });
+    });
+
+    // ============ 验证码倒计时 ============
+    const sendBtn = document.getElementById('sendCodeBtn');
+    let countdown = 0;
+    sendBtn.addEventListener('click', function(){
+        if (countdown > 0) return;
+        // 演示：实际应校验手机号并请求后端
+        countdown = 60;
+        const tick = function(){
+            if (countdown <= 0) {
+                sendBtn.disabled = false;
+                sendBtn.textContent = '获取验证码';
+                return;
+            }
+            sendBtn.disabled = true;
+            sendBtn.textContent = countdown + 's 后重发';
+            countdown--;
+            setTimeout(tick, 1000);
+        };
+        tick();
+    });
+
+    // ============ 协议预览弹窗 ============
+    const termsModal = document.getElementById('termsModal');
+    const termsTitle = document.getElementById('termsTitle');
+    const termsBody = document.getElementById('termsBody');
+    const termsClose = document.getElementById('termsClose');
+
+    const TERMS = {
+        service: {
+            title: '用户服务协议',
+            html: `
+                <h4>一、协议范围</h4>
+                <p>本协议是您与许乐有限公司（xulove.com，以下简称"许乐"）就许乐平台所提供服务所订立的协议。您在许乐平台注册、登录、浏览、下单即视为同意本协议。</p>
+                <h4>二、账户与注册</h4>
+                <p>2.1 注册需提供有效手机号，并完成短信验证码验证。</p>
+                <p>2.2 您应保证注册信息真实、准确，如因信息不实导致损失由您自行承担。</p>
+                <p>2.3 账号仅限本人使用，不得转让、出借或售卖。</p>
+                <h4>三、订单与商品</h4>
+                <p>3.1 许乐平台商品每件附用料与工艺溯源信息，可查批次与工厂。</p>
+                <p>3.2 商品价格、可购数量以订单提交时页面显示为准。</p>
+                <p>3.3 商品图片与色彩显示可能因显示器不同存在差异，最终以实物为准。</p>
+                <h4>四、退换货</h4>
+                <p>4.1 除贴身商品外，支持签收后 7 天内无理由退换。</p>
+                <p>4.2 质量问题 30 天内包换，详见《7 天无理由退换货规则》。</p>
+                <h4>五、知识产权</h4>
+                <p>许乐平台所有内容（包括但不限于文字、图片、音频、视频、版面设计）版权归许乐所有，未经授权不得复制、转载。</p>
+                <h4>六、免责声明</h4>
+                <p>因不可抗力（自然灾害、政策变化、网络故障等）导致服务中断，许乐不承担责任。</p>
+                <h4>七、协议变更</h4>
+                <p>许乐有权根据法律法规与业务调整修订本协议，修订后将在平台公示，公示期满视为您同意修订内容。</p>
+            `
+        },
+        privacy: {
+            title: '隐私政策',
+            html: `
+                <h4>一、信息收集</h4>
+                <p>我们收集的信息包括：您主动提供的手机号、邮箱、姓名、性别、生日、邀请码；以及订单、收货、设备日志等自动采集的信息。</p>
+                <h4>二、信息使用</h4>
+                <p>2.1 用于完成订单、客服沟通、退换货处理。</p>
+                <p>2.2 用于个性化商品推荐与活动通知（您可在「我的-消息设置」关闭）。</p>
+                <p>2.3 用于平台运营数据分析与品控溯源。</p>
+                <h4>三、信息共享</h4>
+                <p>除以下情形外，我们不会向第三方共享您的个人信息：</p>
+                <p>3.1 为完成订单与配送，向物流与工厂合作方共享必要信息；</p>
+                <p>3.2 取得您单独同意的其他情形。</p>
+                <h4>四、信息保护</h4>
+                <p>我们采用 SSL 加密、数据脱敏、权限分级等措施保护您的信息安全。</p>
+                <h4>五、您的权利</h4>
+                <p>您有权查询、更正、删除个人信息，注销账号后我们将按法律要求处理。</p>
+                <h4>六、Cookie 使用</h4>
+                <p>我们使用 Cookie 优化您的浏览体验，您可在浏览器设置中关闭。</p>
+                <h4>七、联系我们</h4>
+                <p>隐私相关问题可发送至 privacy@xulove.com，我们将在 15 个工作日内回复。</p>
+            `
+        }
+    };
+
+    function openTerms(key) {
+        const t = TERMS[key];
+        if (!t) return;
+        termsTitle.textContent = t.title;
+        termsBody.innerHTML = t.html;
+        termsModal.classList.add('show');
+    }
+    function closeTerms() { termsModal.classList.remove('show'); }
+    termsClose.addEventListener('click', closeTerms);
+    termsModal.addEventListener('click', function(e){
+        if (e.target === termsModal) closeTerms();
+    });
+    document.querySelectorAll('[data-terms]').forEach(function(el){
+        el.addEventListener('click', function(){
+            openTerms(el.dataset.terms);
+        });
+    });
+</script>
 </body>
 </html>
