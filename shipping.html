@@ -254,6 +254,8 @@
             display: flex;
             gap: 8px;
         }
+        .field-hint { font-size: 12px; color: #888; margin-top: 6px; line-height: 1.5; }
+
         .form-item-row > input {
             flex: 1;
         }
@@ -392,7 +394,7 @@
             <div class="logo-mark">
                 <span class="logo-xu">许</span><span class="logo-le">乐</span>
             </div>
-            <span class="sub"><span class="sub-url">https://xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服饰 箱包 饰品</span></span>
+            <span class="sub"><span class="sub-url">https://www.xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服装 箱包 饰品</span></span>
         </div>
         <div class="search-wrap">
             <input placeholder="搜索鞋履、服饰、箱包、饰品、品牌…">
@@ -905,8 +907,12 @@
                 <input type="email" placeholder="name@example.com">
             </div>
             <div class="form-item">
-                <label>姓名 / 昵称</label>
-                <input type="text" placeholder="展示在评价与会员档案">
+                <label>用户名</label>
+                <div class="form-item-row">
+                    <input type="text" id="regUsername" placeholder="小写字母+数字，可修改" maxlength="20">
+                    <button type="button" id="regenUsername">换一个</button>
+                </div>
+                <div class="field-hint" id="usernameHint">系统随机生成，可修改；用户名唯一，先到先得</div>
             </div>
             <div class="form-item">
                 <label>性别（用于精准推荐）</label>
@@ -1097,6 +1103,47 @@
             openTerms(el.dataset.terms);
         });
     });
+
+    // ============ 用户名：随机生成 + 可修改 + 唯一占用 ============
+    var USER_KEY = 'xulove_taken_usernames';
+    function getTakenUsers(){ try{ return JSON.parse(localStorage.getItem(USER_KEY)) || []; } catch(e){ return []; } }
+    function saveTakenUsers(arr){ try{ localStorage.setItem(USER_KEY, JSON.stringify(arr)); } catch(e){} }
+    function randUser(){
+        var letters = 'abcdefghijklmnopqrstuvwxyz';
+        var nums = '0123456789';
+        var taken = getTakenUsers();
+        for (var t = 0; t < 100; t++) {
+            var s = 'user';
+            for (var i = 0; i < 6; i++) {
+                s += Math.random() < 0.5 ? letters[Math.floor(Math.random() * 26)] : nums[Math.floor(Math.random() * 10)];
+            }
+            if (taken.indexOf(s) === -1) return s;
+        }
+        return 'user' + Date.now().toString(36).slice(-6);
+    }
+    var regUsername = document.getElementById('regUsername');
+    var regenBtn = document.getElementById('regenUsername');
+    function fillRandUser(){ if (regUsername) regUsername.value = randUser(); }
+    // 打开注册弹窗时自动填充随机用户名
+    if (openBtn) openBtn.addEventListener('click', function(){ setTimeout(fillRandUser, 60); });
+    if (openBtn2) openBtn2.addEventListener('click', function(){ setTimeout(fillRandUser, 60); });
+    if (regenBtn) regenBtn.addEventListener('click', fillRandUser);
+
+    // 注册提交：校验用户名格式与唯一占用
+    var regSubmit = document.querySelector('.auth-panel[data-panel="register"] .submit-btn');
+    if (regSubmit && regUsername) {
+        regSubmit.addEventListener('click', function(){
+            var name = (regUsername.value || '').trim();
+            if (!name) { alert('请填写用户名'); return; }
+            if (!/^[a-z0-9_]{3,20}$/.test(name)) { alert('用户名只能包含小写字母、数字和下划线，3-20 位'); return; }
+            var taken = getTakenUsers();
+            if (taken.indexOf(name) !== -1) { alert('该用户名已被占用，请修改后再试'); return; }
+            taken.push(name);
+            saveTakenUsers(taken);
+            alert('注册成功！用户名「' + name + '」已为您保留，他人无法再使用。');
+        });
+    }
+
 </script>
 <nav class="mobile-bottom-nav"><a class="mbn-item" href="index.html"><span class="mbn-icon">🏠</span><span>首页</span></a><a class="mbn-item" href="category.html"><span class="mbn-icon">📂</span><span>分类</span></a><a class="mbn-item" href="category.html?cat=new"><span class="mbn-icon">🛒</span><span>购物车</span></a><a class="mbn-item" href="account.html"><span class="mbn-icon">👤</span><span>我的</span></a></nav>
 
