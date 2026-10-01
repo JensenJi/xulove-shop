@@ -1119,6 +1119,7 @@
             .spec-list { grid-template-columns: 1fr; }
         }
     </style>
+<link rel="stylesheet" href="mobile.css">
 </head>
 <body>
 <header>
@@ -1136,7 +1137,7 @@
         <div class="header-icons">
             <span id="openRegister" title="注册/登录">👤</span>
             <span title="购物车">🛒</span>
-        </div>
+        <span class="mobile-menu-btn" id="mdOpen">☰</span></div>
     </div>
     <nav>
         <ul>
@@ -1190,6 +1191,7 @@
         </ul>
     </nav>
 </header>
+<div class="mobile-search-bar"><input placeholder="搜索鞋履、服饰、箱包、饰品、品牌…"></div>
 
 <div class="page-wrap">
     <!-- 1. 面包屑 -->
@@ -1917,6 +1919,56 @@
             openTerms(el.dataset.terms);
         });
     });
+</script>
+<nav class="mobile-bottom-nav"><a class="mbn-item" href="index.html"><span class="mbn-icon">🏠</span><span>首页</span></a><a class="mbn-item" href="category.html"><span class="mbn-icon">📂</span><span>分类</span></a><a class="mbn-item" href="category.html?cat=new"><span class="mbn-icon">🛒</span><span>购物车</span></a><a class="mbn-item" href="account.html"><span class="mbn-icon">👤</span><span>我的</span></a></nav>
+
+<!-- 移动端抽屉菜单 -->
+<div class="mobile-drawer-mask" id="mdMask"></div>
+<aside class="mobile-drawer" id="mdDrawer">
+    <div class="md-head">
+        <div class="md-logo">许乐 XULOVE</div>
+        <span class="md-close" id="mdClose">×</span>
+    </div>
+    <div class="md-section">
+        <div class="md-section-title">逛一逛</div>
+        <a class="md-link" href="index.html">首页</a>
+        <a class="md-link" href="category.html">全部分类</a>
+        <a class="md-link" href="category.html?cat=shoes">运动鞋款</a>
+        <a class="md-link" href="category.html?cat=clothing">服饰</a>
+        <a class="md-link" href="category.html?cat=bags">箱包</a>
+        <a class="md-link" href="category.html?cat=accessories">饰品</a>
+        <a class="md-link" href="brands.html">品牌集合</a>
+    </div>
+    <div class="md-section">
+        <div class="md-section-title">我的</div>
+        <a class="md-link" href="account.html">个人中心</a>
+        <a class="md-link" href="seller.html">商家后台</a>
+        <a class="md-link" href="affiliate.html">联盟推广</a>
+    </div>
+    <div class="md-section">
+        <div class="md-section-title">服务</div>
+        <a class="md-link" href="sitemap.html">网站地图</a>
+        <a class="md-link" href="faq.html">帮助与客服</a>
+        <a class="md-link" href="shipping.html">配送与退换</a>
+        <a class="md-link" href="size-chart.html">尺码表</a>
+    </div>
+</aside>
+
+<script>
+// 移动端：汉堡菜单 + 抽屉 + 搜索
+(function(){
+    var drawer = document.getElementById('mdDrawer');
+    var mask = document.getElementById('mdMask');
+    function openDrawer(){ drawer.classList.add('open'); mask.classList.add('show'); document.body.style.overflow='hidden'; }
+    function closeDrawer(){ drawer.classList.remove('open'); mask.classList.remove('show'); document.body.style.overflow=''; }
+    var btn = document.getElementById('mdOpen');
+    if (btn) btn.addEventListener('click', openDrawer);
+    var cls = document.getElementById('mdClose');
+    if (cls) cls.addEventListener('click', closeDrawer);
+    if (mask) mask.addEventListener('click', closeDrawer);
+    // 抽屉内链接点击后关闭
+    if (drawer) drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeDrawer); });
+})();
 </script>
 </body>
 </html>
