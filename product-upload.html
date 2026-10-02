@@ -927,7 +927,7 @@
         <div class="form-row">
             <div class="form-label"><span class="req">*</span>商品名称</div>
             <div class="form-control">
-                <input type="text" class="form-input" placeholder="请填写商品全称，建议包含品牌+品名+型号">
+                <input type="text" class="form-input" id="puName" placeholder="请填写商品全称，建议包含品牌+品名+型号">
                 <div class="form-note">示例：云踏轻量飞织跑鞋 CT-R001 男款 黑色</div>
             </div>
         </div>
@@ -936,7 +936,7 @@
             <div class="form-label"><span class="req">*</span>商品分类</div>
             <div class="form-control">
                 <div class="field-grid">
-                    <select class="form-select">
+                    <select class="form-select" id="puCat1">
                         <option>请选择一级分类</option>
                         <option selected>鞋履</option>
                         <option>服饰</option>
@@ -944,7 +944,7 @@
                         <option>饰品</option>
                         <option>运动装备</option>
                     </select>
-                    <select class="form-select">
+                    <select class="form-select" id="puCat2">
                         <option>请选择二级分类</option>
                         <option selected>跑步鞋</option>
                         <option>休闲鞋</option>
@@ -963,13 +963,13 @@
             <div class="form-row">
                 <div class="form-label">商品型号</div>
                 <div class="form-control">
-                    <input type="text" class="form-input" placeholder="如 CT-R001">
+                    <input type="text" class="form-input" id="puModel" placeholder="如 CT-R001">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-label"><span class="req">*</span>库存数量</div>
                 <div class="form-control">
-                    <input type="number" class="form-input" placeholder="0" min="0">
+                    <input type="number" class="form-input" id="puStock" placeholder="0" min="0">
                     <div class="form-note">所有规格库存之和</div>
                 </div>
             </div>
@@ -981,7 +981,7 @@
                 <div class="form-control">
                     <div class="input-prefix">
                         <span class="prefix">¥</span>
-                        <input type="text" class="form-input" placeholder="299">
+                        <input type="text" class="form-input" id="puPrice" placeholder="299">
                     </div>
                 </div>
             </div>
@@ -1353,12 +1353,12 @@
         <div class="auth-panel active" data-panel="register">
             <div class="form-item">
                 <label>手机号</label>
-                <input type="tel" placeholder="请输入 11 位手机号" maxlength="11">
+                <input type="tel" id="regPhone" placeholder="请输入 11 位手机号" maxlength="11">
             </div>
             <div class="form-item">
                 <label>短信验证码</label>
                 <div class="form-item-row">
-                    <input type="text" placeholder="请输入 6 位验证码" maxlength="6">
+                    <input type="text" id="regCode" placeholder="请输入 6 位验证码" maxlength="6" inputmode="numeric">
                     <button id="sendCodeBtn">获取验证码</button>
                 </div>
             </div>
@@ -1553,6 +1553,84 @@
             // 不实际插入，仅演示样式
         });
     });
+
+    // ============ 提交审核（测试模式：写入本地数据，与商品管理/商家工作台共享） ============
+    // 说明：当前为静态演示站，商品保存在浏览器本地（xulove_products_v1），
+    // 提交后可在「商品管理」页看到该商品处于「待审核」；正式上线后改为提交到平台后端。
+    var PU_STORE_KEY = 'xulove_products_v1';
+    // 与 product-manage.html 的 SEED 保持一致（首次提交时初始化，避免种子数据丢失）
+    var PU_SEED = [
+        { id: 'p001', icon: '👟', color: 'c1', name: '云踏轻量跑鞋', model: 'CT-R001', category: '鞋履>跑步鞋', price: 299, stock: 580, sales: 126, status: 'onsale',  sup: 'normal', supNote: '', updated: '2026-09-28' },
+        { id: 'p002', icon: '👟', color: 'c2', name: '云踏休闲板鞋', model: 'CT-C003', category: '鞋履>休闲鞋', price: 259, stock: 320, sales: 89,  status: 'onsale',  sup: 'normal', supNote: '', updated: '2026-09-27' },
+        { id: 'p003', icon: '🏀', color: 'c3', name: '云踏篮球鞋',   model: 'CT-B002', category: '鞋履>篮球鞋', price: 459, stock: 150, sales: 45,  status: 'onsale',  sup: 'normal', supNote: '', updated: '2026-09-26' },
+        { id: 'p004', icon: '👟', color: 'c4', name: '云踏透气跑鞋', model: 'CT-R002', category: '鞋履>跑步鞋', price: 329, stock: 280, sales: 67,  status: 'onsale',  sup: 'warn',   supNote: '图片不清晰，请在3天内修改', updated: '2026-09-25' },
+        { id: 'p005', icon: '🥾', color: 'c5', name: '云踏户外鞋',   model: 'CT-O001', category: '鞋履>户外鞋', price: 399, stock: 90,  sales: 23,  status: 'onsale',  sup: 'normal', supNote: '', updated: '2026-09-24' },
+        { id: 'p006', icon: '👟', color: 'c1', name: '云踏复古板鞋', model: 'CT-C005', category: '鞋履>休闲鞋', price: 279, stock: 0,   sales: 0,   status: 'pending', sup: 'review', supNote: '', updated: '2026-09-23' },
+        { id: 'p007', icon: '👟', color: 'c3', name: '云踏训练鞋',   model: 'CT-T001', category: '鞋履>训练鞋', price: 349, stock: 0,   sales: 0,   status: 'pending', sup: 'review', supNote: '', updated: '2026-09-22' },
+        { id: 'p008', icon: '🩴', color: 'c4', name: '云踏凉鞋',     model: 'CT-S001', category: '鞋履>凉鞋',   price: 199, stock: 120, sales: 15,  status: 'draft',   sup: 'none',   supNote: '', updated: '2026-09-20' },
+        { id: 'p009', icon: '🥾', color: 'c5', name: '云踏棉鞋',     model: 'CT-W001', category: '鞋履>棉鞋',   price: 329, stock: 60,  sales: 0,   status: 'draft',   sup: 'none',   supNote: '', updated: '2026-09-18' },
+        { id: 'p010', icon: '🩴', color: 'c2', name: '云踏拖鞋',     model: 'CT-F001', category: '鞋履>拖鞋',   price: 99,  stock: 200, sales: 8,   status: 'onsale',  sup: 'normal', supNote: '', updated: '2026-09-15' }
+    ];
+    var puSubmitBtn = document.querySelector('.btn-submit');
+    if (puSubmitBtn) {
+        puSubmitBtn.addEventListener('click', function () {
+            var nameEl = document.getElementById('puName');
+            var cat1El = document.getElementById('puCat1');
+            var cat2El = document.getElementById('puCat2');
+            var modelEl = document.getElementById('puModel');
+            var stockEl = document.getElementById('puStock');
+            var priceEl = document.getElementById('puPrice');
+
+            var name = nameEl.value.trim();
+            var c1 = cat1El.value, c2 = cat2El.value;
+            var model = modelEl.value.trim();
+            var stock = parseInt(stockEl.value, 10);
+            var price = parseFloat(priceEl.value);
+
+            if (!name) { alert('请填写商品名称'); nameEl.focus(); return; }
+            if (c1.indexOf('请选择') === 0 || c2.indexOf('请选择') === 0) { alert('请选择完整的商品分类（一级 + 二级）'); return; }
+            if (isNaN(stock) || stock < 0) { alert('请填写正确的库存数量（0 或正整数）'); stockEl.focus(); return; }
+            if (isNaN(price) || price <= 0) { alert('请填写正确的售价（大于 0 的数字）'); priceEl.focus(); return; }
+
+            var d = new Date();
+            var today = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+
+            var list = [];
+            try {
+                var raw = localStorage.getItem(PU_STORE_KEY);
+                if (raw) {
+                    var parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) list = parsed;
+                }
+            } catch (e) { list = []; }
+            if (list.length === 0) list = PU_SEED.map(function (p) { return Object.assign({}, p); });
+
+            var product = {
+                id: 'pu' + Date.now().toString(36),
+                icon: '🆕', color: 'c1',
+                name: name,
+                model: model || '未填型号',
+                category: c1 + '>' + c2,
+                price: Math.round(price * 100) / 100,
+                stock: stock,
+                sales: 0,
+                status: 'pending',
+                sup: 'review',
+                supNote: '',
+                updated: today
+            };
+            list.unshift(product);
+            try {
+                localStorage.setItem(PU_STORE_KEY, JSON.stringify(list));
+            } catch (e) {
+                alert('本地存储不可用，无法保存测试数据，请更换浏览器后再试');
+                return;
+            }
+            if (confirm('提交成功（测试模式）！\n商品「' + name + '」已进入待审核状态，可在「商品管理」页查看。\n\n是否立即前往商品管理页查看？')) {
+                location.href = 'product-manage.html';
+            }
+        });
+    }
 </script>
 
 <script>
@@ -1587,6 +1665,11 @@
         if (sendBtn) {
             sendBtn.addEventListener('click', function () {
                 if (countdown > 0) return;
+                var phoneEl = document.getElementById('regPhone');
+                var phoneVal = phoneEl ? (phoneEl.value || '').trim() : '';
+                if (!/^1[3-9]\d{9}$/.test(phoneVal)) { alert('请先输入正确的 11 位手机号'); return; }
+                window.__xuloveTestCode = '123456';
+                alert('【测试模式】验证码已生成：123456\n当前为静态演示页，暂未接入短信通道；正式上线后将自动发送短信。');
                 countdown = 60;
                 var tick = function () {
                     if (countdown <= 0) {
@@ -1728,7 +1811,15 @@
         var regSubmit = document.querySelector('.auth-panel[data-panel="register"] .submit-btn');
         if (regSubmit) {
             regSubmit.addEventListener('click', function(){
+                var phoneEl = document.getElementById('regPhone');
+                var codeEl = document.getElementById('regCode');
+                var phoneVal = phoneEl ? (phoneEl.value || '').trim() : '';
+                var codeVal = codeEl ? (codeEl.value || '').trim() : '';
+                if (!/^1[3-9]\d{9}$/.test(phoneVal)) { alert('请输入正确的 11 位手机号'); return; }
+                if (!codeVal) { alert('请输入 6 位短信验证码（测试码：123456）'); return; }
+                if (codeVal !== '123456') { alert('验证码不正确，测试阶段固定为 123456'); return; }
                 var name = (regUsername.value || '').trim();
+
                 if (!name) { alert('请填写用户名'); return; }
                 if (!/^[a-z0-9_]{3,20}$/.test(name)) { alert('用户名只能包含小写字母、数字和下划线，3-20 位'); return; }
                 var taken = getTakenUsers();
