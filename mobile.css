@@ -6,13 +6,13 @@
 /* ---------- 基础重置 ---------- */
 @media (max-width: 768px) {
     html { -webkit-text-size-adjust: 100%; }
-    body { font-size: 14px; padding-bottom: 64px; /* 给底部导航留位 */ }
+    body { font-size: 14px; padding-bottom: 64px; /* 给底部导航留位 */ overflow-x: hidden; max-width: 100%; }
 
     /* 隐藏桌面主导航，显示移动端顶部栏 */
     header nav { display: none !important; }
     .header-top { padding: 10px 14px !important; gap: 8px; flex-wrap: nowrap; }
     /* 手机端 logo 改为纯文字，不再显示蓝红图标块 */
-    .logo { font-size: 14px !important; flex-shrink: 1; min-width: 0; }
+    .logo { font-size: 14px !important; flex: 1 1 auto !important; min-width: 0 !important; overflow: hidden; }
     .logo-mark { display: none !important; }
     .logo .sub {
         display: flex !important;
@@ -20,11 +20,23 @@
         gap: 2px;
         align-items: flex-start;
         line-height: 1.3;
+        min-width: 0; max-width: 100%;
     }
     .logo .sub .sub-sep { display: none !important; }
-    .logo .sub-url { font-size: 13px !important; color: #222 !important; font-weight: 700; }
-    .logo .sub-tag { font-size: 11px !important; color: #888 !important; font-weight: 500; letter-spacing: 1px; }
+    .logo .sub-url {
+        display: block; max-width: 100%;
+        font-size: 13px !important; color: #222 !important; font-weight: 700;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .logo .sub-tag {
+        display: block; max-width: 100%;
+        font-size: 11px !important; color: #888 !important; font-weight: 500; letter-spacing: 1px;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
     .header-icons { gap: 14px !important; font-size: 20px !important; flex-shrink: 0; }
+    /* 顶部栏整体防溢出，避免文字遮挡头像/购物车图标 */
+    .header-top { min-width: 0; overflow: hidden; }
+    header { padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box; }
 
     /* 搜索框在移动端：顶部栏内隐藏，用搜索图标展开 */
     .search-wrap { display: none !important; }
@@ -63,7 +75,7 @@
     .banner-features { flex-wrap: wrap; gap: 6px 14px !important; font-size: 12px !important; }
 
     /* 两栏布局变单栏 */
-    .main-wrap { flex-direction: column !important; padding: 16px 12px 24px !important; gap: 16px; }
+    .main-wrap { flex-direction: column !important; align-items: stretch !important; padding: 16px 12px 24px !important; gap: 16px; }
     .side-filter {
         width: 100% !important; position: static !important;
         padding: 14px !important; box-sizing: border-box;
@@ -99,9 +111,9 @@
     .status-tab { padding: 6px 10px !important; font-size: 13px; }
     .batch-bar { padding: 10px 12px !important; flex-wrap: wrap; gap: 8px; }
 
-    /* 面板卡片 */
-    .panel { padding: 16px !important; }
-    .panel-row { flex-direction: column !important; }
+    /* 面板卡片（桌面是 grid，flex-direction 无效，必须改 display） */
+    .panel { padding: 16px !important; max-width: 100%; box-sizing: border-box; }
+    .panel-row { display: block !important; }
     .stat-card { padding: 14px !important; }
     .stat-num { font-size: 24px !important; }
 
@@ -127,31 +139,40 @@
     .brand-hero { padding: 30px 16px !important; }
 }
 
+/* ---------- 汉堡按钮：仅手机端显示（桌面有完整导航） ---------- */
+.mobile-menu-btn { display: none; }
+
 /* ---------- 移动端底部导航 ---------- */
 .mobile-bottom-nav {
     display: none; /* 桌面端隐藏 */
 }
 
 @media (max-width: 768px) {
+    .mobile-menu-btn { display: inline-flex !important; }
     .mobile-bottom-nav {
-        display: flex;
-        position: fixed;
+        display: flex !important;
+        position: fixed !important;
         left: 0; right: 0; bottom: 0;
+        width: 100%; max-width: 100vw;
         height: 60px;
+        box-sizing: border-box;
         background: #fff;
         border-top: 1px solid #e8e8e8;
         box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
-        z-index: 200;
+        z-index: 250;
         padding-bottom: env(safe-area-inset-bottom);
+        transform: none;
     }
     .mbn-item {
-        flex: 1;
+        flex: 1 1 0;
+        min-width: 0;
         display: flex; flex-direction: column;
         align-items: center; justify-content: center;
-        gap: 2px;
+        gap: 3px;
         text-decoration: none;
         color: #888;
         font-size: 11px;
+        white-space: nowrap;
         -webkit-tap-highlight-color: transparent;
     }
     .mbn-item .mbn-icon { font-size: 20px; line-height: 1; }
@@ -172,7 +193,7 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
-.mobile-drawer.open { transform: translateX(0); }
+.mobile-drawer.open { display: block; transform: translateX(0); }
 .mobile-drawer-mask {
     display: none;
     position: fixed; inset: 0;
@@ -200,4 +221,151 @@
 /* 管理页（seller/订单/商品）在桌面端隐藏底部导航，保持沉浸 */
 @media (min-width: 769px) {
     body.is-admin .mobile-bottom-nav { display: none !important; }
+}
+
+/* ============================================================
+   个人中心 account.html 移动端专项
+   原则：所有 flex 子项 min-width:0 + 标签 nowrap，
+   从布局宽度根治中文逐字竖排，不靠缩字号。
+   ============================================================ */
+@media (max-width: 768px) {
+    .account-wrap { padding: 14px 12px 24px !important; box-sizing: border-box; }
+    .breadcrumb { padding: 10px 14px !important; }
+
+    /* —— 用户档案卡 —— */
+    .profile-header { flex-direction: column !important; align-items: stretch !important; gap: 16px !important; padding: 18px 16px !important; box-sizing: border-box; }
+    .profile-left { gap: 14px !important; min-width: 0; }
+    .avatar { width: 54px !important; height: 54px !important; font-size: 22px !important; flex-shrink: 0; margin: 0; }
+    .profile-info { min-width: 0; flex: 1; }
+    .profile-info h2 {
+        font-size: 18px !important; margin-bottom: 8px !important; line-height: 1.3;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .profile-meta { flex-wrap: wrap !important; gap: 6px 10px !important; }
+    .member-badge, .reg-date { white-space: nowrap; }
+
+    /* 4 项统计均分，防止撑破容器、标签竖排 */
+    .profile-stats { width: 100%; gap: 4px !important; justify-content: space-between; }
+    .stat { flex: 1 1 0; min-width: 0; }
+    .stat .num { font-size: 19px !important; }
+    .stat .lbl { display: block; font-size: 11px !important; white-space: nowrap; }
+
+    /* —— 解锁更多权益 —— */
+    .upgrade-panel { padding: 18px 16px !important; box-sizing: border-box; }
+    .upgrade-title { font-size: 18px !important; }
+    .upgrade-sub { font-size: 13px !important; line-height: 1.6; }
+    .upgrade-cards { flex-direction: column !important; gap: 12px !important; }
+    .upgrade-card { padding: 14px !important; gap: 12px !important; box-sizing: border-box; }
+    .upgrade-icon { width: 42px !important; height: 42px !important; font-size: 20px !important; }
+    .upgrade-content { min-width: 0; flex: 1; }
+    .upgrade-content h4 { font-size: 15px !important; white-space: nowrap; }
+    .upgrade-content p {
+        font-size: 12px !important; white-space: nowrap;
+        overflow: hidden; text-overflow: ellipsis;
+    }
+    .upgrade-btn { flex-shrink: 0; padding: 7px 12px !important; font-size: 12px !important; white-space: nowrap; }
+
+    /* —— 通用卡片 —— */
+    .card-section { padding: 16px !important; box-sizing: border-box; }
+    .section-header { margin-bottom: 14px !important; gap: 10px; }
+    .card-section .section-title { font-size: 17px !important; white-space: nowrap; }
+    .section-link { font-size: 13px !important; white-space: nowrap; flex-shrink: 0; }
+
+    /* —— 我的订单：4 图标均分收入卡片内 —— */
+    .order-status-row { gap: 4px !important; }
+    .order-status { flex: 1 1 0; min-width: 0; }
+    .status-circle { width: 46px !important; height: 46px !important; font-size: 20px !important; margin-bottom: 6px !important; }
+    .status-label { display: block; font-size: 12px !important; white-space: nowrap; }
+
+    /* —— 最近订单：5 列 grid 改为纵向卡片 —— */
+    .order-item {
+        display: flex !important; flex-direction: column; align-items: stretch;
+        gap: 8px !important; padding: 12px !important; box-sizing: border-box;
+    }
+    .order-no { font-size: 12px !important; }
+    .order-product { min-width: 0; gap: 10px !important; }
+    .order-img { width: 56px !important; height: 56px !important; }
+    .order-name { font-size: 13px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .order-amount { font-size: 16px !important; }
+    .order-action { padding: 8px 14px !important; font-size: 13px !important; white-space: nowrap; align-self: stretch; text-align: center; box-sizing: border-box; }
+
+    /* —— 我的收藏：2 列，名称完整横排 —— */
+    .fav-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+    .fav-img { height: 130px !important; }
+    .fav-info { padding: 10px !important; }
+    .fav-name { height: auto !important; min-height: 36px; font-size: 13px !important; }
+
+    /* —— 关注的品牌（横向滑动卡） —— */
+    .brand-card { flex: 0 0 120px !important; padding: 16px 10px !important; }
+    .brand-logo { width: 48px !important; height: 48px !important; font-size: 20px !important; }
+    .brand-name { font-size: 14px !important; white-space: nowrap; }
+    .brand-followed { white-space: nowrap; }
+
+    /* —— 常用功能：2 列 —— */
+    .quick-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+    .quick-item { height: 84px !important; }
+    .quick-icon { font-size: 26px !important; margin-bottom: 6px !important; }
+    .quick-text { font-size: 13px !important; white-space: nowrap; }
+
+    /* —— 最近浏览 —— */
+    .viewed-card { flex: 0 0 130px !important; }
+    .viewed-img { height: 100px !important; }
+    .viewed-name { height: auto !important; min-height: 36px; font-size: 13px !important; }
+}
+
+/* ============================================================
+   其他页面横向溢出兜底（seller / order-manage / product-upload /
+   brand-detail / affiliate / sitemap / size-chart / survey / about）
+   ============================================================ */
+@media (max-width: 768px) {
+    html, body { max-width: 100%; overflow-x: hidden; }
+    img, video, table { max-width: 100%; }
+
+    /* 二级导航条（sitemap / about 等）：条目横滑，不撑宽页面 */
+    .sub-nav { padding: 10px 12px !important; }
+    .sub-nav ul { gap: 20px !important; flex-wrap: nowrap !important; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .sub-nav li { white-space: nowrap; font-size: 14px !important; }
+
+    /* order-manage 筛选栏：日期输入框可收缩、组内换行 */
+    .filter-group { flex-wrap: wrap !important; }
+    .filter-input, .filter-select, .date-input {
+        min-width: 0 !important; width: auto !important;
+        flex: 1 1 130px; box-sizing: border-box;
+    }
+
+    /* product-upload：长标题允许正常换行（不与序号挤一行） */
+    .form-section { padding: 20px 16px !important; }
+    .section-head { flex-wrap: wrap; align-items: flex-start !important; }
+    .section-head .section-title { white-space: normal !important; font-size: 17px !important; }
+    .section-title small { display: block; margin-left: 0 !important; margin-top: 4px; }
+
+    /* brand-detail：品牌信息条内各项可收缩 */
+    .brand-info-bar { padding: 12px 16px !important; gap: 8px 16px !important; }
+    .brand-info-bar .info-item { min-width: 0; flex: 1 1 140px; }
+    .info-text.story { max-width: 100% !important; white-space: normal !important; }
+    .info-link { margin-left: 0 !important; }
+
+    /* affiliate：对比/表单双列改单列，卡片网格 3→2 列 */
+    .compare-grid, .form-row-inline { grid-template-columns: 1fr !important; }
+    .audience-grid, .material-grid, .case-grid {
+        grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important;
+    }
+
+    /* about：团队/优惠券 3→2 列 */
+    .team-grid, .coupon-grid {
+        grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important;
+    }
+
+    /* survey：黑色横幅纵向排列 */
+    .survey-banner {
+        flex-direction: column !important; align-items: flex-start !important;
+        padding: 22px 18px !important; gap: 16px !important;
+    }
+    .survey-banner h2 { font-size: 21px !important; }
+    .survey-banner .benefits { margin-left: 0 !important; flex-wrap: wrap; gap: 12px 20px !important; width: 100%; }
+
+    /* size-chart：尺码计算器输入区 */
+    .calc-tool { padding: 16px !important; }
+    .calc-row label { min-width: 60px !important; }
+    .calc-row select, .calc-row input { min-width: 0; flex: 1 1 120px; }
 }
