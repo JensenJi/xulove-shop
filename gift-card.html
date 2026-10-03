@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -12,38 +12,18 @@
         header { padding: 24px 40px; }
         .header-top { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
         .logo { line-height: 1; }
-        .logo-mark {
-            display: inline-flex;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 6px 16px rgba(207,48,36,0.22), 0 2px 5px rgba(0,0,0,0.1);
-            position: relative;
+        .logo-text {
+            display: inline-block;
+            font-size: 34px; font-weight: 900;
+            color: #000; text-decoration: none;
+            font-family: SimHei, "黑体", "Microsoft Yahei", sans-serif;
+            letter-spacing: 1px; line-height: 1;
         }
-        .logo-mark::after {
-            content: "";
-            position: absolute;
-            left: 50%;
-            top: 12%;
-            bottom: 12%;
-            width: 2px;
-            background: repeating-linear-gradient(to bottom, #fff 0 3px, transparent 3px 5px);
-            transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 2;
-        }
-        .logo-xu {
-            color: #fff;
-            background: linear-gradient(135deg, #7ab0ee 0%, #4a7eb8 100%);
-            font-size: 48px; font-weight: 900;
-            padding: 10px 14px; line-height: 1;
-            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
-        }
-        .logo-le {
-            color: #fff;
-            background: linear-gradient(135deg, #e84a3e 0%, #a52218 100%);
-            font-size: 48px; font-weight: 900;
-            padding: 10px 14px; line-height: 1;
-            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        .logo-text .logo-com {
+            background: #4a7eb8; color: #fff;
+            font-size: 0.6em;
+            padding: 3px 8px; border-radius: 4px;
+            margin-left: 3px;
         }
         .logo .sub {
             display: block;
@@ -53,8 +33,6 @@
             color: #888;
             margin-top: 10px;
         }
-        .logo .sub-url { color: #cf3024; font-weight: 700; }
-        .logo .sub-sep { color: #ccc; margin: 0 5px; }
         .logo .sub-tag { color: #659ee3; font-weight: 600; }
         .search-wrap { flex: 1; display: flex; }
         .search-wrap input { flex: 1; padding: 14px 16px; border: 1px solid #ccc; border-right: none; font-size: 18px; }
@@ -413,16 +391,14 @@
             margin-bottom: 12px;
         }
     </style>
-<link rel="stylesheet" href="mobile.css?v=20261002">
+<link rel="stylesheet" href="mobile.css?v=20261004">
 </head>
 <body>
 <header>
     <div class="header-top">
         <div class="logo">
-            <div class="logo-mark">
-                <span class="logo-xu">许</span><span class="logo-le">乐</span>
-            </div>
-            <span class="sub"><span class="sub-url">https://www.xulove.com</span><span class="sub-sep">·</span><span class="sub-tag">鞋履 服装 箱包 饰品</span></span>
+            <a href="index.html" class="logo-text">xulove<span class="logo-com">.com</span></a>
+            <span class="sub"><span class="sub-tag">鞋履 服装 饰品 箱包</span></span>
         </div>
         <div class="search-wrap">
             <input placeholder="搜索鞋履、服饰、箱包、饰品、品牌…">
@@ -1166,3 +1142,4 @@
 </script>
 </body>
 </html>
+

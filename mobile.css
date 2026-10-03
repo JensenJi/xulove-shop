@@ -11,22 +11,14 @@
     /* 隐藏桌面主导航，显示移动端顶部栏 */
     header nav { display: none !important; }
     .header-top { padding: 10px 14px !important; gap: 8px; flex-wrap: nowrap; }
-    /* 手机端 logo 改为纯文字，不再显示蓝红图标块 */
+    /* 手机端 logo：xulove 黑体 + .com 蓝底，下方品类标语 */
     .logo { font-size: 14px !important; flex: 1 1 auto !important; min-width: 0 !important; overflow: hidden; }
-    .logo-mark { display: none !important; }
+    .logo-text { font-size: 22px !important; white-space: nowrap; }
     .logo .sub {
-        display: flex !important;
-        flex-direction: column;
-        gap: 2px;
-        align-items: flex-start;
+        display: block !important;
+        margin-top: 2px;
         line-height: 1.3;
         min-width: 0; max-width: 100%;
-    }
-    .logo .sub .sub-sep { display: none !important; }
-    .logo .sub-url {
-        display: block; max-width: 100%;
-        font-size: 13px !important; color: #222 !important; font-weight: 700;
-        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .logo .sub-tag {
         display: block; max-width: 100%;
